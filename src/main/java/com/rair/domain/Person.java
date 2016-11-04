@@ -1,4 +1,4 @@
-package com.realdolmen.acaddemict.domain;
+package com.rair.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

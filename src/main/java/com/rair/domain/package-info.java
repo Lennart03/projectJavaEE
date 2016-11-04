@@ -5,4 +5,4 @@
  * @author LVDBB73
  *
  */
-package com.realdolmen.acaddemict.domain;
+package com.rair.domain;
