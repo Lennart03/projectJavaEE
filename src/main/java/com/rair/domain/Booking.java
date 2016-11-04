@@ -1,0 +1,77 @@
+package com.rair.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Booking {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+//	private Customer customer;
+	private Integer numberOfSeats;
+//	private Status status;
+	private Payment paymentChoice;
+	private Double price;
+	
+	public Booking() {
+		super();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+//	public Customer getCustomer() {
+//		return customer;
+//	}
+//
+//	public void setCustomer(Customer customer) {
+//		this.customer = customer;
+//	}
+
+	public Integer getNumberOfSeats() {
+		return numberOfSeats;
+	}
+
+	public void setNumberOfSeats(Integer numberOfSeats) {
+		this.numberOfSeats = numberOfSeats;
+	}
+
+//	public Status getStatus() {
+//		return status;
+//	}
+//
+//	public void setStatus(Status status) {
+//		this.status = status;
+//	}
+
+	public Payment getPaymentChoice() {
+		return paymentChoice;
+	}
+
+	public void setPaymentChoice(Payment paymentChoice) {
+		this.paymentChoice = paymentChoice;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	
+	
+	
+	
+	
+}
