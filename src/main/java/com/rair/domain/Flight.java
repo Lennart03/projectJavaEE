@@ -18,12 +18,12 @@ public class Flight {
 	
 	private Double basePrice;
 	private String flightNumber;
-//	private Airline airline;
+	private Airline airline;
 	private List<Booking> bookings;
 	private HashMap<TravelingClass, Integer> numberOfSeats;
 	private HashMap<TravelingClass, Integer> availableSeats;
-//	private Airport departureDestination;
-//	private Airport arrivalDestination;
+	private Airport departureDestination;
+	private Airport arrivalDestination;
 	private Date departureTime;
 	
 	public Flight() {
@@ -54,13 +54,13 @@ public class Flight {
 		this.flightNumber = flightNumber;
 	}
 
-//	public Airline getAirline() {
-//		return airline;
-//	}
-//
-//	public void setAirline(Airline airline) {
-//		this.airline = airline;
-//	}
+	public Airline getAirline() {
+		return airline;
+	}
+
+	public void setAirline(Airline airline) {
+		this.airline = airline;
+	}
 
 	public List<Booking> getBookings() {
 		return bookings;
@@ -86,21 +86,21 @@ public class Flight {
 		this.availableSeats = availableSeats;
 	}
 
-//	public Airport getDepartureDestination() {
-//		return departureDestination;
-//	}
-//
-//	public void setDepartureDestination(Airport departureDestination) {
-//		this.departureDestination = departureDestination;
-//	}
-//
-//	public Airport getArrivalDestination() {
-//		return arrivalDestination;
-//	}
-//
-//	public void setArrivalDestination(Airport arrivalDestination) {
-//		this.arrivalDestination = arrivalDestination;
-//	}
+	public Airport getDepartureDestination() {
+		return departureDestination;
+	}
+
+	public void setDepartureDestination(Airport departureDestination) {
+		this.departureDestination = departureDestination;
+	}
+
+	public Airport getArrivalDestination() {
+		return arrivalDestination;
+	}
+
+	public void setArrivalDestination(Airport arrivalDestination) {
+		this.arrivalDestination = arrivalDestination;
+	}
 
 	public Date getDepartureTime() {
 		return departureTime;

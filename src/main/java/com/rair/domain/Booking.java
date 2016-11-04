@@ -12,9 +12,9 @@ public class Booking {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-//	private Customer customer;
+	private Customer customer;
 	private Integer numberOfSeats;
-//	private Status status;
+	private BookingStatus status;
 	private Payment paymentChoice;
 	private Double price;
 	
@@ -30,13 +30,13 @@ public class Booking {
 		this.id = id;
 	}
 
-//	public Customer getCustomer() {
-//		return customer;
-//	}
-//
-//	public void setCustomer(Customer customer) {
-//		this.customer = customer;
-//	}
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 
 	public Integer getNumberOfSeats() {
 		return numberOfSeats;
@@ -46,13 +46,13 @@ public class Booking {
 		this.numberOfSeats = numberOfSeats;
 	}
 
-//	public Status getStatus() {
-//		return status;
-//	}
-//
-//	public void setStatus(Status status) {
-//		this.status = status;
-//	}
+	public BookingStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(BookingStatus status) {
+		this.status = status;
+	}
 
 	public Payment getPaymentChoice() {
 		return paymentChoice;
