@@ -8,8 +8,13 @@ import javax.persistence.ManyToOne;
 public class Partner extends Person{
 	
 	@ManyToOne
-	@JoinColumn(name = "Airline ID", nullable = false)
+	@JoinColumn(name = "AirlineID", nullable = false)
 	private Airline airline;
+	
+	public Partner() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public Partner(Airline airline) {
 		super();
@@ -23,6 +28,8 @@ public class Partner extends Person{
 	public void setAirline(Airline airline) {
 		this.airline = airline;
 	}
+
+	
 	
 	
 

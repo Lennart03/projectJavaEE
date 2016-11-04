@@ -26,7 +26,7 @@ public class Airport {
 	@Size(max = 100)
 	private String country;
 
-	@Column(name = "Airport Code")
+	@Column(name = "AirportCode")
 	@NotBlank
 	@Size(max = 100)
 	private String airportCode;

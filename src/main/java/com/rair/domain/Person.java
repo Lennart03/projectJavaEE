@@ -18,12 +18,12 @@ public class Person {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="First name")
+	@Column(name="FirstName")
 	@NotBlank
 	@Size(max = 100)
 	private String firstName;
 	
-	@Column(name = "Last name")
+	@Column(name = "LastName")
 	@NotBlank
 	@Size(max =100)
 	private String lastName;

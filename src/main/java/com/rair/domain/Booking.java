@@ -20,10 +20,10 @@ public class Booking {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "Customer ID", nullable=false)
+	@JoinColumn(name = "CustomerID", nullable=false)
 	private Customer customer;
 	
-	@Column(name = "Number of Seats")
+	@Column(name = "NumberofSeats")
 	@NotBlank
 	private Integer numberOfSeats;
 	
@@ -33,7 +33,7 @@ public class Booking {
 	@Enumerated(EnumType.STRING)
 	private Payment paymentChoice;
 	
-	@Column(name = "Booking Price")
+	@Column(name = "BookingPrice")
 	@NotBlank
 	private Double price;
 	

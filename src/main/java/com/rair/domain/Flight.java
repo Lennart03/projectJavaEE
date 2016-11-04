@@ -3,11 +3,13 @@ package com.rair.domain;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToOne;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -27,16 +30,16 @@ public class Flight {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name = "Base Price")
+	@Column(name = "BasePrice")
 	@NotBlank
 	private Double basePrice;
 
-	@Column(name = "Flight Number")
+	@Column(name = "FlightNumber")
 	@NotBlank
 	private String flightNumber;
 
 	@ManyToOne
-	@JoinColumn(name = "Airline ID", nullable=false)
+	@JoinColumn(name = "AirlineID", nullable=false)
 	private Airline airline;
 
 	@ManyToMany
@@ -46,21 +49,23 @@ public class Flight {
 	@ElementCollection
 	@CollectionTable(name = "number_of_seats")
 	@MapKeyColumn(name = "traveling_class")
+	@MapKeyEnumerated(EnumType.STRING)
 	@Column(name = "number_of_seats")
-	private HashMap<TravelingClass, Integer> numberOfSeats;
+	private Map<TravelingClass, Integer> numberOfSeats;
 	
 	@ElementCollection
 	@CollectionTable(name = "available_seats")
 	@MapKeyColumn(name = "traveling_class")
 	@Column(name = "available_seats")
-	private HashMap<TravelingClass, Integer> availableSeats;
+	@MapKeyEnumerated(EnumType.STRING)
+	private Map<TravelingClass, Integer> availableSeats;
 	
 	@OneToOne
-	@JoinColumn(name = "Airport Departure", nullable = false)
+	@JoinColumn(name = "AirportDeparture", nullable = false)
 	private Airport departureDestination;
 	
 	@OneToOne
-	@JoinColumn(name = "Airport Arrival", nullable = false)
+	@JoinColumn(name = "AirportArrival", nullable = false)
 	private Airport arrivalDestination;
 	private Date departureTime;
 
@@ -108,19 +113,19 @@ public class Flight {
 		this.bookings = bookings;
 	}
 
-	public HashMap<TravelingClass, Integer> getNumberOfSeats() {
+	public Map<TravelingClass, Integer> getNumberOfSeats() {
 		return numberOfSeats;
 	}
 
-	public void setNumberOfSeats(HashMap<TravelingClass, Integer> numberOfSeats) {
+	public void setNumberOfSeats(Map<TravelingClass, Integer> numberOfSeats) {
 		this.numberOfSeats = numberOfSeats;
 	}
 
-	public HashMap<TravelingClass, Integer> getAvailableSeats() {
+	public Map<TravelingClass, Integer> getAvailableSeats() {
 		return availableSeats;
 	}
 
-	public void setAvailableSeats(HashMap<TravelingClass, Integer> availableSeats) {
+	public void setAvailableSeats(Map<TravelingClass, Integer> availableSeats) {
 		this.availableSeats = availableSeats;
 	}
 
