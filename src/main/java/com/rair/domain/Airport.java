@@ -2,6 +2,8 @@ package com.rair.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +27,9 @@ public class Airport {
 	@NotBlank
 	@Size(max = 100)
 	private String country;
+	
+	@Enumerated(EnumType.STRING)
+	private Region region;
 
 	@Column(name = "AirportCode")
 	@NotBlank
@@ -67,5 +72,15 @@ public class Airport {
 	public void setAirportCode(String airportCode) {
 		this.airportCode = airportCode;
 	}
+
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+	
+	
 
 }
