@@ -8,6 +8,7 @@
 	<persistence-unit name="RairPersistenceUnit"
 		transaction-type="JTA">
 		<jta-data-source>java:/rd/datasources/RealDolmenDataSource</jta-data-source>
+		<class>com.rair.domain.Airport</class>
 		<properties>
 
 			<property name="javax.persistence.schema-generation.database.action"

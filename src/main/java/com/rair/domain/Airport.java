@@ -40,6 +40,18 @@ public class Airport {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	public Airport(String name, String country, Region region, String airportCode) {
+		super();
+		this.name = name;
+		this.country = country;
+		this.region = region;
+		this.airportCode = airportCode;
+	}
+
+
 
 	public Long getId() {
 		return id;
