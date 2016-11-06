@@ -8,14 +8,15 @@ import org.junit.Test;
 import com.rair.domain.Airport;
 import com.rair.domain.Region;
 
-public class AirportServiceTest {
+public class AirportRepoTest {
 
 	@Inject
-	AirportService service;
+	AirportRepository service;
 	
 	@Test
 	public void airportCanBePersisted() throws Exception{
-		Airport airport = service.createAirport("testNaam", "testLand", Region.EUROPE, "testCode");
+		Airport airport = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
+		airport = service.save(airport);
 		Assert.assertNotNull(airport);		
 	}
 	
