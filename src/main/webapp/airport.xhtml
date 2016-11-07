@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:r="http://xmlns.jcp.org/jsf/composite/realdolmen"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<head>
+<meta charset="ISO-8859-1" />
+<title>Airportbeheer</title>
+</head>
+<h:body>
+	<p:panelGrid columns="1" layout="grid">
+		<p:outputLabel>Overzicht van de luchthavens: </p:outputLabel>
+		<br />
+		<br />
+		<p:dataTable id="table1" value="#{airportRetrieveBean.airports}" var="airport"
+			style="margin-left:5px; margin-right:5px;">
+			<p:column headerText="Name" >
+				<h:outputText value="#{airport.name}" />
+			</p:column>
+		</p:dataTable>
+		<br />
+		<br />
+
+	</p:panelGrid>
+</h:body>
+</html>
