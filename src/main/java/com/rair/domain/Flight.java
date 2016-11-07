@@ -1,7 +1,6 @@
 package com.rair.domain;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,15 +30,15 @@ public class Flight {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name = "BasePrice")
+	@Column
 	private Double basePrice;
 
-	@Column(name = "FlightNumber")
+	@Column
 	@NotBlank
 	private String flightNumber;
 
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "AirlineID", nullable=false)
+	@JoinColumn(nullable=false)
 	private Airline airline;
 
 	@ManyToMany
@@ -61,11 +60,11 @@ public class Flight {
 	private Map<TravelingClass, Integer> availableSeats;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "AirportDeparture", nullable = false)
+	@JoinColumn( nullable = false)
 	private Airport departureDestination;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "AirportArrival", nullable = false)
+	@JoinColumn(nullable = false)
 	private Airport arrivalDestination;
 	private Date departureTime;
 

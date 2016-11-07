@@ -18,12 +18,12 @@ public class Airport {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "Name")
+	@Column
 	@NotBlank
 	@Size(max = 100)
 	private String name;
 
-	@Column(name = "Country")
+	@Column
 	@NotBlank
 	@Size(max = 100)
 	private String country;
@@ -31,7 +31,7 @@ public class Airport {
 	@Enumerated(EnumType.STRING)
 	private Region region;
 
-	@Column(name = "AirportCode")
+	@Column
 	@NotBlank
 	@Size(max = 100)
 	private String airportCode;

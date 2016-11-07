@@ -1,6 +1,7 @@
 package com.rair.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +50,7 @@ public class FlightRepoTest extends JpaPersistenceTest {
 		flight.setDepartureDestination(
 				new Airport("Brussels Airport", "Belgium", Region.EUROPE, "Such airport code, WOW"));
 		flight.setArrivalDestination(new Airport("Arrival Airport", "Arrival Country", Region.OCEANIA, "Such arrival"));
+		flight.setDepartureTime(new Date());
 		flightRepositiory.createFlight(flight);
 	}
 

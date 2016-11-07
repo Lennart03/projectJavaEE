@@ -1,5 +1,6 @@
 package com.rair.dao;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 
 import org.junit.Before;
@@ -44,13 +45,12 @@ public class AirlineRepoTest extends JpaPersistenceTest{
 	}
 	
 	@Test
-	public void deleteAirlineSuccesTest() throws Exception{
-		airlineRepository.deleteAirline(new Long(6));
-		airlineRepository.entityManager.find(Airline.class, 6L);
+	public void deleteAirlineSuccesTest() {
+		assertTrue(airlineRepository.deleteAirline(new Long(6)));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void deleteAirlineFailTest() {
+	@Test(expected = EntityNotFoundException.class)
+	public void deleteAirlineFailTest() throws Exception{
 		airlineRepository.deleteAirline(FAIL_AIRLINE_ID);
 		
 	}

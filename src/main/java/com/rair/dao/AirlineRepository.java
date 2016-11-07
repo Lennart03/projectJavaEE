@@ -15,8 +15,9 @@ public class AirlineRepository {
 		entityManager.persist(airline);
 	}
 	
-	public void deleteAirline(Long id) {
+	public boolean deleteAirline(Long id) {
 		entityManager.remove(entityManager.getReference(Airline.class, id));
+		return true;
 	}
 	
 	public Airline retrieveAirline(String name) {

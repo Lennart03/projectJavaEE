@@ -19,7 +19,7 @@ public class Airline {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="Name")
+	@Column
 	private String name;
 
 	@OneToMany
