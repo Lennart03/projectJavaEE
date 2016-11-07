@@ -11,7 +11,7 @@
 		<properties>
 
 			<property name="javax.persistence.schema-generation.database.action"
-				value="drop-and-create" />
+				value="none" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
 			<property name="hibernate.show_sql" value="true" />
 		</properties>
