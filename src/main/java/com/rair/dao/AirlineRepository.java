@@ -5,6 +5,7 @@ import javax.persistence.PersistenceContext;
 
 import com.rair.domain.Airline;
 
+
 public class AirlineRepository {
 
 	@PersistenceContext
