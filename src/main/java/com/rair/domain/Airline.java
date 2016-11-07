@@ -22,6 +22,13 @@ public class Airline {
 		super();
 	}
 
+	public Airline(String name) {
+		super();
+		this.name = name;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}
