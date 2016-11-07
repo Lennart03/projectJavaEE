@@ -17,22 +17,22 @@ public abstract class Person {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="FirstName")
+	@Column
 	@NotBlank
 	@Size(max = 100)
 	private String firstName;
 	
-	@Column(name = "LastName")
+	@Column
 	@NotBlank
 	@Size(max =100)
 	private String lastName;
 	
-	@Column(name = "Email")
+	@Column
 	@Email
 	@NotBlank
 	private String emailAddress;
 	
-	@Column(name = "Password")
+	@Column
 	@NotBlank
 	private String password;
 	

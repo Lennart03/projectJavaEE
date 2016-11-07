@@ -28,6 +28,9 @@ public class Booking {
 	private Integer numberOfSeats;
 	
 	@Enumerated(EnumType.STRING)
+	private TravelingClass travelingClass;
+	
+	@Enumerated(EnumType.STRING)
 	private BookingStatus status;
 	
 	@Enumerated(EnumType.STRING)
