@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 public class Partner extends Person{
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "AirlineID", nullable = false)
+	@JoinColumn(name = "AirlineID")
 	private Airline airline;
 	
 	public Partner() {

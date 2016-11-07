@@ -85,7 +85,7 @@ public class PartnerRepoTest extends JpaPersistenceTest{
 	}
 	
 	@Test
-	public void airportCanBeRemoved() throws Exception{
+	public void partnerCanBeRemoved() throws Exception{
 		Partner partner1 = new Partner("captain","jack","captain@jack.com","blablabla",new Airline("SN Brussels Airlines"));
 		Partner partner2 = new Partner("captain","jack","captain@jack.com","blablabla",new Airline("SN Brussels Airlines"));
 		partnerRepository.save(partner1);
@@ -96,7 +96,7 @@ public class PartnerRepoTest extends JpaPersistenceTest{
 	}
 	
 	@Test
-	public void airportCanBeUpdated() throws Exception{
+	public void partnerCanBeUpdated() throws Exception{
 		Partner partner1 = new Partner("captain","jack","captain@jack.com","blablabla",new Airline("SN Brussels Airlines"));
 		Partner partner2 = new Partner("captain","jack","captain@jack.com","blablabla",new Airline("SN Brussels Airlines"));
 		partnerRepository.save(partner1);

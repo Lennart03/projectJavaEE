@@ -9,5 +9,9 @@ public class Customer extends Person{
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Customer(String firstName, String lastName, String email, String password) {
+		super(firstName, lastName,email,password);
+	}
 
 }
