@@ -1,5 +1,6 @@
 package com.rair.jsfbeans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -15,9 +16,12 @@ public class AirportRetrieveBean{
 	
 	@EJB
 	AirportRepository airportRepo;
+	
+	private List<Airport> airports = new ArrayList<Airport>();
 
-	public List<Airport> findAll() {
-		return airportRepo.findAll();
+	public List<Airport> getAirports() {
+		this.airports = airportRepo.findAll();
+		return airports;
 	}
 	
 
