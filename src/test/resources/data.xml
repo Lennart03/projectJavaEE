@@ -27,37 +27,47 @@
 	<flight id="9" basePrice="79.1325" departureTime="2017-03-06 13:30:15" flightNumber="flightNumber_9" airline_id="4" arrivalDestination_id="6" departureDestination_id="4"/>
 	<flight id="10" basePrice="120" departureTime="2017-03-15 16:23:24" flightNumber="flightNumber_10" airline_id="7" arrivalDestination_id="4" departureDestination_id="5"/>
 
-	
-	<available_seats Flight_id="" available_seats="" traveling_class="BUSSINESS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="BUSSINESS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="BUSSINESS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="BUSSINESS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="BUSSINESS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="BUSSINESS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="BUSSINESS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="BUSSINESS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="BUSSINESS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="BUSSINESS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="ECONOMY"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="ECONOMY"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="ECONOMY"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="ECONOMY"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="ECONOMY"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="ECONOMY"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="ECONOMY"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="ECONOMY"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="ECONOMY"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="ECONOMY"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="FIRST_CLASS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="FIRST_CLASS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="FIRST_CLASS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="FIRST_CLASS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="FIRST_CLASS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="FIRST_CLASS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="FIRST_CLASS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="FIRST_CLASS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="FIRST_CLASS"/>
-	<available_seats Flight_id="" available_seats="" traveling_class="FIRST_CLASS"/>
+	<jnd_airline_flight airline_fk="1" flight_fk="1" />
+	<jnd_airline_flight airline_fk="2" flight_fk="2" />
+	<jnd_airline_flight airline_fk="2" flight_fk="3" />
+	<jnd_airline_flight airline_fk="3" flight_fk="4" />
+	<jnd_airline_flight airline_fk="3" flight_fk="5" />
+	<jnd_airline_flight airline_fk="4" flight_fk="6" />
+	<jnd_airline_flight airline_fk="4" flight_fk="7" />
+	<jnd_airline_flight airline_fk="4" flight_fk="8" />
+	<jnd_airline_flight airline_fk="4" flight_fk="9" />
+	<jnd_airline_flight airline_fk="7" flight_fk="10" />
+
+	<available_seats Flight_id="1" available_seats="20" traveling_class="BUSSINESS"/>
+	<available_seats Flight_id="2" available_seats="30" traveling_class="BUSSINESS"/>
+	<available_seats Flight_id="3" available_seats="10" traveling_class="BUSSINESS"/>
+	<available_seats Flight_id="4" available_seats="20" traveling_class="BUSSINESS"/>
+	<available_seats Flight_id="5" available_seats="25" traveling_class="BUSSINESS"/>
+	<available_seats Flight_id="6" available_seats="50" traveling_class="BUSSINESS"/>
+	<available_seats Flight_id="7" available_seats="20" traveling_class="BUSSINESS"/>
+	<available_seats Flight_id="8" available_seats="25" traveling_class="BUSSINESS"/>
+	<available_seats Flight_id="9" available_seats="45" traveling_class="BUSSINESS"/>
+	<available_seats Flight_id="10" available_seats="30" traveling_class="BUSSINESS"/>
+	<available_seats Flight_id="1" available_seats="100" traveling_class="ECONOMY"/>
+	<available_seats Flight_id="2" available_seats="75" traveling_class="ECONOMY"/>
+	<available_seats Flight_id="3" available_seats="60" traveling_class="ECONOMY"/>
+	<available_seats Flight_id="4" available_seats="80" traveling_class="ECONOMY"/>
+	<available_seats Flight_id="5" available_seats="45" traveling_class="ECONOMY"/>
+	<available_seats Flight_id="6" available_seats="48" traveling_class="ECONOMY"/>
+	<available_seats Flight_id="7" available_seats="120" traveling_class="ECONOMY"/>
+	<available_seats Flight_id="8" available_seats="30" traveling_class="ECONOMY"/>
+	<available_seats Flight_id="9" available_seats="56" traveling_class="ECONOMY"/>
+	<available_seats Flight_id="10" available_seats="90" traveling_class="ECONOMY"/>
+	<available_seats Flight_id="1" available_seats="20" traveling_class="FIRST_CLASS"/>
+	<available_seats Flight_id="2" available_seats="30" traveling_class="FIRST_CLASS"/>
+	<available_seats Flight_id="3" available_seats="15" traveling_class="FIRST_CLASS"/>
+	<available_seats Flight_id="4" available_seats="30" traveling_class="FIRST_CLASS"/>
+	<available_seats Flight_id="5" available_seats="20" traveling_class="FIRST_CLASS"/>
+	<available_seats Flight_id="6" available_seats="10" traveling_class="FIRST_CLASS"/>
+	<available_seats Flight_id="7" available_seats="15" traveling_class="FIRST_CLASS"/>
+	<available_seats Flight_id="8" available_seats="30" traveling_class="FIRST_CLASS"/>
+	<available_seats Flight_id="9" available_seats="15" traveling_class="FIRST_CLASS"/>
+	<available_seats Flight_id="10" available_seats="25" traveling_class="FIRST_CLASS"/>
 	
 	
 	<number_of_seats Flight_id="1" number_of_seats="20" traveling_class="BUSSINESS"/>
@@ -91,17 +101,32 @@
 	<number_of_seats Flight_id="9" number_of_seats="15" traveling_class="FIRST_CLASS"/>
 	<number_of_seats Flight_id="10" number_of_seats="25" traveling_class="FIRST_CLASS"/>
 	
-	<booking id="" numberOfSeats="" paymentChoice="" price="" status="" customer_id=""/>
+<!-- 	<booking id="1" numberOfSeats="2" travelingClass="ECONOMY" paymentChoice="CREDITCARD" price="175" status="PAYMENT_SUCCES" customer_id="1"/> -->
+<!-- 	<booking id="2" numberOfSeats="4" travelingClass="FIRST_CLASS" paymentChoice="360" price="ENDORSMENT" status="PAYMENT_PENDING" customer_id="1"/> -->
+<!-- 	<booking id="3" numberOfSeats="2" travelingClass="BUSSINESS" paymentChoice="CREDITCARD" price="120.50" status="PAYMENT_SUCCES" customer_id="1"/> -->
+<!-- 	<booking id="4" numberOfSeats="3" travelingClass="ECONOMY" paymentChoice="CREDITCARD" price="180" status="COMPLETE" customer_id="1"/> -->
+<!-- 	<booking id="5" numberOfSeats="10" travelingClass="FIRST_CLASS" paymentChoice="CREDITCARD" price="1785" status="PAYMENT_SUCCES" customer_id="1"/> -->
+<!-- 	<booking id="6" numberOfSeats="2" travelingClass="BUSSINESS" paymentChoice="ENDORSMENT" price="180" status="PAYMENT_PENDING" customer_id="2"/> -->
+<!-- 	<booking id="7" numberOfSeats="5" travelingClass="ECONOMY" paymentChoice="" price="0" status="INITIATED" customer_id="2"/> -->
+<!-- 	<booking id="8" numberOfSeats="3" travelingClass="FIRST_CLASS" paymentChoice="ENDORSMENT" price="270" status="PAYMENT_PENDING" customer_id="2"/> -->
+<!-- 	<booking id="9" numberOfSeats="4" travelingClass="BUSSINESS" paymentChoice="CREDITCARD" price="680" status="PAYMENT_SUCCES" customer_id="2"/> -->
+<!-- 	<booking id="10" numberOfSeats="2" travelingClass="ECONOMY" paymentChoice="ENDORSMENT" price="450" status="PAYMENT_PENDING" customer_id="2"/> -->
+<!-- 	<booking id="11" numberOfSeats="2" travelingClass="BUSSINESS" paymentChoice="ENDORSMENT" price="90" status="COMPLETE" customer_id="2"/> -->
 	
-	<jnd_airline_flight airline_fk="" flight_fk="" />
-	<jnd_airline_flight airline_fk="" flight_fk="" />
-	<jnd_airline_flight airline_fk="" flight_fk="" />
-	<jnd_airline_flight airline_fk="" flight_fk="" />
-	<jnd_airline_flight airline_fk="" flight_fk="" />
-	<jnd_airline_flight airline_fk="" flight_fk="" />
-	<jnd_airline_flight airline_fk="" flight_fk="" />
+<!-- 	<jnd_flight_booking flight_fk="2" booking_fk="1"/> -->
+<!-- 	<jnd_flight_booking flight_fk="3" booking_fk="2"/> -->
+<!-- 	<jnd_flight_booking flight_fk="4" booking_fk="3"/> -->
+<!-- 	<jnd_flight_booking flight_fk="6" booking_fk="4"/> -->
+<!-- 	<jnd_flight_booking flight_fk="10" booking_fk="5"/> -->
+<!-- 	<jnd_flight_booking flight_fk="5" booking_fk="6"/> -->
+<!-- 	<jnd_flight_booking flight_fk="1" booking_fk="7"/> -->
+<!-- 	<jnd_flight_booking flight_fk="9" booking_fk="8"/> -->
+<!-- 	<jnd_flight_booking flight_fk="2" booking_fk="9"/> -->
+<!-- 	<jnd_flight_booking flight_fk="7" booking_fk="10"/> -->
+<!-- 	<jnd_flight_booking flight_fk="8" booking_fk="11"/> -->
 	
-	<jnd_flight_booking flight_fk="" booking_fk=""/>
-	
-	<person DTYPE="" id="" Email="" FirstName="" LastName="" Password="" AirlineID=""/>
+	<person DTYPE="Customer" id="1" emailAddress="customer1@rair.com" firstName="Lennart" lastName="Van Damme" password="passLennart" />
+	<person DTYPE="Employee" id="2" emailAddress="employee1@rair.com" firstName="Employee" lastName="Rair" password="passEmpl" />
+	<person DTYPE="Customer" id="3" emailAddress="customer2@rair.com" firstName="Niels" lastName="Stasijns" password="passNiels" />
+	<person DTYPE="Partner" id="4" emailAddress="partner1@rair.com" firstName="Partner" lastName="Rair" password="passPartner" airline_id="5"/>
 </dataset>
