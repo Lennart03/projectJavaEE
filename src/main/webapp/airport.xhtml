@@ -15,7 +15,7 @@
 		<p:outputLabel>Overzicht van de luchthavens: </p:outputLabel>
 		<br />
 		<br />
-		<p:dataTable id="table1" value="#{airportRetrieveBean.findAll()}" var="airport"
+		<p:dataTable id="table1" value="#{airportRetrieveBean.airports}" var="airport"
 			style="margin-left:5px; margin-right:5px;">
 			<p:column headerText="Name" >
 				<h:outputText value="#{airport.name}" />

@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.rair.domain.Airport;
+import com.rair.domain.Flight;
 
 @Stateless
 public class AirportRepository {
@@ -28,6 +29,10 @@ public class AirportRepository {
     }
 
     public void remove(long airportId) {
+    	List<Flight> conflictingFlights = em.createQuery("select f from Flight f where f.departureDestination.id = " + airportId +"or f.arrivalDestination.id = " + airportId + "", Flight.class).getResultList();
+    	for(Flight flight:conflictingFlights){
+    		em.remove(em.getReference(Flight.class, flight.getId()));
+    	}
         em.remove(em.getReference(Airport.class, airportId));
     }
     

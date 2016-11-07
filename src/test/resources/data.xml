@@ -27,17 +27,6 @@
 	<flight id="9" basePrice="79.1325" departureTime="2017-03-06 13:30:15" flightNumber="flightNumber_9" airline_id="4" arrivalDestination_id="6" departureDestination_id="4"/>
 	<flight id="10" basePrice="120" departureTime="2017-03-15 16:23:24" flightNumber="flightNumber_10" airline_id="7" arrivalDestination_id="4" departureDestination_id="5"/>
 
-	<jnd_airline_flight airline_fk="1" flight_fk="1" />
-	<jnd_airline_flight airline_fk="2" flight_fk="2" />
-	<jnd_airline_flight airline_fk="2" flight_fk="3" />
-	<jnd_airline_flight airline_fk="3" flight_fk="4" />
-	<jnd_airline_flight airline_fk="3" flight_fk="5" />
-	<jnd_airline_flight airline_fk="4" flight_fk="6" />
-	<jnd_airline_flight airline_fk="4" flight_fk="7" />
-	<jnd_airline_flight airline_fk="4" flight_fk="8" />
-	<jnd_airline_flight airline_fk="4" flight_fk="9" />
-	<jnd_airline_flight airline_fk="7" flight_fk="10" />
-
 	<available_seats Flight_id="1" available_seats="20" traveling_class="BUSSINESS"/>
 	<available_seats Flight_id="2" available_seats="30" traveling_class="BUSSINESS"/>
 	<available_seats Flight_id="3" available_seats="10" traveling_class="BUSSINESS"/>

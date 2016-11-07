@@ -37,7 +37,7 @@ public class Flight {
 	@NotBlank
 	private String flightNumber;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(nullable=false)
 	private Airline airline;
 
@@ -59,11 +59,11 @@ public class Flight {
 	@MapKeyEnumerated(EnumType.STRING)
 	private Map<TravelingClass, Integer> availableSeats;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinColumn( nullable = false)
 	private Airport departureDestination;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinColumn(nullable = false)
 	private Airport arrivalDestination;
 	private Date departureTime;
