@@ -1,6 +1,7 @@
 package com.rair.dao;
 
-import org.junit.Assert;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,8 +23,32 @@ public class AirportRepoTest extends JpaPersistenceTest{
 	@Test
 	public void airportCanBePersisted() throws Exception{
 		Airport airport = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
+		Airport airport2 = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
 		airport = airportRepository.save(airport);
-		Assert.assertNotNull(airport);		
+		airport = airportRepository.save(airport2);
+		assertNotNull(airport);		
+	}
+	
+	@Test
+	public void airportCanBeRemoved() throws Exception{
+		Airport airport = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
+		Airport airport2 = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
+		airportRepository.save(airport);
+		airportRepository.save(airport2);
+		airportRepository.remove(2);
+		List<Airport> airportList = airportRepository.findAll();
+		assertEquals(1, airportList.size());		
+	}
+	
+	@Test
+	public void airportCanBeUpdated() throws Exception{
+		Airport airport = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
+		Airport airport2 = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
+		airportRepository.save(airport);
+		airportRepository.save(airport2);
+		airport2.setName("testAangepast");
+		airport2 = airportRepository.update(airport2, airport2.getId());
+		assertEquals("testAangepast",airport2.getName());
 	}
 	
 }

@@ -31,6 +31,8 @@ public class Airline {
 	}
 
 	public Airline(String name) {
+
+		super();
 		this.name = name;
 	}
 

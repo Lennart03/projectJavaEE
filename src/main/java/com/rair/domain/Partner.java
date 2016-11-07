@@ -1,5 +1,6 @@
 package com.rair.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -7,7 +8,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Partner extends Person{
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "AirlineID", nullable = false)
 	private Airline airline;
 	
@@ -16,8 +17,8 @@ public class Partner extends Person{
 		// TODO Auto-generated constructor stub
 	}
 
-	public Partner(Airline airline) {
-		super();
+	public Partner(String firstName, String lastName, String email, String password, Airline airline) {
+		super(firstName, lastName,email,password);
 		this.airline = airline;
 	}
 
