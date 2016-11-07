@@ -16,12 +16,16 @@ public class AirlineRepository {
 	}
 	
 	public void deleteAirline(Long id) {
-		entityManager.remove(entityManager.find(Airline.class, id));
+		entityManager.remove(entityManager.getReference(Airline.class, id));
 	}
 	
 	public Airline retrieveAirline(String name) {
-		Airline airline = (Airline) entityManager.createQuery("SELECT a FROM Airline a WHERE a.name= "+ name).getSingleResult();
+		Airline airline = (Airline) entityManager.createQuery("SELECT a FROM Airline a WHERE a.name= '"+ name+"'").getSingleResult();
 		return airline;
+	}
+	
+	public void saveAirline(Airline airline) {
+		entityManager.merge(airline);
 	}
 	
 	

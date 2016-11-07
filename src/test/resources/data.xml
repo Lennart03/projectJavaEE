@@ -1,11 +1,11 @@
 <dataset>
 
-	<airport id="1000" AirportCode="BRU" Country="Belgium" Name="Brussels"/>
-	<airport id="2000" AirportCode="CRL" Country="Belgium" Name="Brussels South Charleroi"/>
-	<airport id="3000" AirportCode="ATL" Country="United States" Name="Hartsfield Jackson Atlanta International"/>
-	<airport id="4000" AirportCode="PEK" Country="China" Name="Beijing Capital International"/>
-	<airport id="5000" AirportCode="HND" Country="Japan" Name="Tokyo International"/>
-	<airport id="6000" AirportCode="HND" Country="Japan" Name="Tokyo International"/>
+	<airport id="1" AirportCode="BRU" Country="Belgium" Name="Brussels"/>
+	<airport id="2" AirportCode="CRL" Country="Belgium" Name="Brussels South Charleroi"/>
+	<airport id="3" AirportCode="ATL" Country="United States" Name="Hartsfield Jackson Atlanta International"/>
+	<airport id="4" AirportCode="PEK" Country="China" Name="Beijing Capital International"/>
+	<airport id="5" AirportCode="HND" Country="Japan" Name="Tokyo International"/>
+	<airport id="6" AirportCode="HND" Country="Japan" Name="Tokyo International"/>
 
 	<airline id="1" Name="Air Botswana"/>
 	<airline id="2" Name="Japan Airlines"/>

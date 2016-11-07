@@ -59,6 +59,13 @@ public class Airline {
 	public void setFlights(List<Flight> flights) {
 		this.flights = flights;
 	}
+
+	@Override
+	public String toString() {
+		return "Airline [id=" + id + ", name=" + name + "]";
+	}
+	
+	
 	
 	
 
