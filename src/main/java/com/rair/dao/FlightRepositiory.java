@@ -10,7 +10,7 @@ import com.rair.domain.Flight;
 public class FlightRepositiory {
 	
 	@PersistenceContext
-	private EntityManager entityManager;
+	EntityManager entityManager;
 
 	
 	public void createFlight(Flight flight) {

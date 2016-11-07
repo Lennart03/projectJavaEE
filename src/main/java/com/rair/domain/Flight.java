@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -31,14 +32,13 @@ public class Flight {
 	private long id;
 
 	@Column(name = "BasePrice")
-	@NotBlank
 	private Double basePrice;
 
 	@Column(name = "FlightNumber")
 	@NotBlank
 	private String flightNumber;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "AirlineID", nullable=false)
 	private Airline airline;
 
@@ -60,11 +60,11 @@ public class Flight {
 	@MapKeyEnumerated(EnumType.STRING)
 	private Map<TravelingClass, Integer> availableSeats;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "AirportDeparture", nullable = false)
 	private Airport departureDestination;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "AirportArrival", nullable = false)
 	private Airport arrivalDestination;
 	private Date departureTime;

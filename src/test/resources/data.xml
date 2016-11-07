@@ -1,1 +1,19 @@
-<dataset></dataset>
+<dataset>
+
+	<airport id="1000" AirportCode="BRU" Country="Belgium" Name="Brussels"/>
+	<airport id="2000" AirportCode="CRL" Country="Belgium" Name="Brussels South Charleroi"/>
+	<airport id="3000" AirportCode="ATL" Country="United States" Name="Hartsfield Jackson Atlanta International"/>
+	<airport id="4000" AirportCode="PEK" Country="China" Name="Beijing Capital International"/>
+	<airport id="5000" AirportCode="HND" Country="Japan" Name="Tokyo International"/>
+	<airport id="6000" AirportCode="HND" Country="Japan" Name="Tokyo International"/>
+
+	<airline id="1" Name="Air Botswana"/>
+	<airline id="2" Name="Japan Airlines"/>
+	<airline id="3" Name="Brussels Airlines"/>
+	<airline id="4" Name="Etihad Airways"/>
+	<airline id="5" Name="Lufthansa"/>
+	<airline id="6" Name="Delta Airlines"/>
+	<airline id="7" Name="Qantas"/>
+	<airline id="8" Name="Sol del Paraguay"/>
+
+</dataset>

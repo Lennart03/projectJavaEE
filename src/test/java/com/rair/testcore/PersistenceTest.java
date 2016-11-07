@@ -92,7 +92,7 @@ public abstract class PersistenceTest extends Assert {
         public final boolean isInMemory;
 
         DatabaseEngine(String driverClass, String urlPrefix, String username, String password, boolean isInMemory) {
-            this.password = "root";
+            this.password = password;
             this.driverClass = driverClass;
             this.username = username;
             this.isInMemory = isInMemory;
