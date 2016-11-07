@@ -1,10 +1,12 @@
 package com.rair.dao;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.rair.domain.Airline;
 
+@Stateless
 public class AirlineRepository {
 
 	@PersistenceContext
