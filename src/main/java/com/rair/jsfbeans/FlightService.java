@@ -1,18 +1,19 @@
 package com.rair.jsfbeans;
 
-import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import com.rair.dao.FlightRepository;
 import com.rair.domain.Flight;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class FlightService {
 
 	@Inject
@@ -21,8 +22,9 @@ public class FlightService {
 	private List<Flight> futurFlightsByAirline;
 
 	@PostConstruct
-	public void init() throws ParseException {
+	public void init(){
 		futurFlightsByAirline = flightRepository.retrieveFutureFlightsByAirline();
+		System.out.println("Size of flights list: " + futurFlightsByAirline.size());
 	}
 
 	public FlightRepository getFlightRepository() {
@@ -35,10 +37,6 @@ public class FlightService {
 
 	public List<Flight> getFuturFlightsByAirline() {
 		return futurFlightsByAirline;
-	}
-
-	public void setFuturFlightsByAirline(List<Flight> futurFlightsByAirline) {
-		this.futurFlightsByAirline = futurFlightsByAirline;
 	}
 
 	
