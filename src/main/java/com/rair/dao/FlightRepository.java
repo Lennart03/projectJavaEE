@@ -1,21 +1,26 @@
 package com.rair.dao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.rair.domain.Flight;
 
-public class FlightRepositiory {
+@Stateless
+public class FlightRepository {
 	
 	@PersistenceContext
 	EntityManager entityManager;
 	
 	private static final String QUERY_START = "SELECT f FROM Flight f ";
-
+	private static final Long AIRLINE_ID = 1L;
 	
 	public void createFlight(Flight flight) {
 		entityManager.persist(flight);
@@ -32,6 +37,29 @@ public class FlightRepositiory {
 	
 	public List<Flight> retrieveAllFlights() {
 		List<Flight> flights = entityManager.createQuery(QUERY_START, Flight.class).getResultList();
+		return flights;
+	}
+	
+	public List<Flight> retrieveFutureFlightsByAirline() throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		Date date2 = sdf.parse(new Date().toString());
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime(date2);
+		List<Flight> flights =  entityManager.createQuery(QUERY_START + "where f.airline.id = " + AIRLINE_ID,Flight.class).getResultList();
+		for(Flight f:flights){
+			
+        	Date date1 = sdf.parse(f.getDepartureTime().toString());
+        	
+        	System.out.println(sdf.format(date1));
+        	System.out.println(sdf.format(date2));
+
+        	Calendar cal1 = Calendar.getInstance();
+        	cal1.setTime(date1);
+        	
+        	if(cal1.before(cal2)){
+        		flights.remove(f);
+        	}
+		}
 		return flights;
 	}
 	
