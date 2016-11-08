@@ -26,6 +26,10 @@
 	<flight id="8" basePrice="40.30" departureTime="2017-02-12 16:45:00" flightNumber="flightNumber_8" airline_id="4" arrivalDestination_id="6" departureDestination_id="5"/>
 	<flight id="9" basePrice="79.1325" departureTime="2017-03-06 13:30:15" flightNumber="flightNumber_9" airline_id="4" arrivalDestination_id="6" departureDestination_id="4"/>
 	<flight id="10" basePrice="120" departureTime="2017-03-15 16:23:24" flightNumber="flightNumber_10" airline_id="7" arrivalDestination_id="4" departureDestination_id="5"/>
+	<flight id="11" basePrice="99.99" departureTime="2016-11-16 12:05:52" flightNumber="flightNumber_11" airline_id="1" arrivalDestination_id="1" departureDestination_id="5"/>
+	<flight id="12" basePrice="79.99" departureTime="2016-11-17 12:05:52" flightNumber="flightNumber_12" airline_id="1" arrivalDestination_id="3" departureDestination_id="6"/>
+	<flight id="13" basePrice="84.99" departureTime="2016-11-18 12:05:52" flightNumber="flightNumber_13" airline_id="1" arrivalDestination_id="1" departureDestination_id="3"/>
+	<flight id="14" basePrice="179.99" departureTime="2016-11-19 12:05:52" flightNumber="flightNumber_14" airline_id="1" arrivalDestination_id="3" departureDestination_id="5"/>
 
 	<available_seats Flight_id="1" available_seats="20" traveling_class="BUSSINESS"/>
 	<available_seats Flight_id="2" available_seats="30" traveling_class="BUSSINESS"/>

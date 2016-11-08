@@ -70,7 +70,7 @@ public class FlightRepoTest extends JpaPersistenceTest {
 	@Test
 	public void retrieveAllFlightsTest() {
 		List<Flight> flights = flightRepositiory.retrieveAllFlights();
-		assertEquals(10, flights.size());
+		assertEquals(14, flights.size());
 	}
 	
 	@Test

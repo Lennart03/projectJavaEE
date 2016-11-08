@@ -112,4 +112,11 @@ public class Airport implements Comparable<Airport>, Serializable {
 		return name.compareTo(o.getName());
 	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
+	
+	
+
 }

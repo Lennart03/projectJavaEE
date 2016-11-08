@@ -108,4 +108,11 @@ public class FlightRepository {
 		});
 		return flights;
 	}
+	
+	public Flight update(Flight flight, Long flightId){
+    	Flight oldFlight = entityManager.find(Flight.class, flightId);
+    	oldFlight = flight;
+    	entityManager.merge(oldFlight);
+    	return oldFlight;
+    }
 }
