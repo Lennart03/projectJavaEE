@@ -23,6 +23,10 @@ public class AirportRepository {
     public Airport findById(Long id) {
         return em.find(Airport.class, id);
     }
+    
+    public Airport findByAirportName(String airportName) {
+    	return em.createQuery("select a from Airport a where a.name = '"+airportName+"'", Airport.class).getSingleResult();
+    }
 
     public List<Airport> findAll() {
         return em.createQuery("select a from Airport a", Airport.class).getResultList();
