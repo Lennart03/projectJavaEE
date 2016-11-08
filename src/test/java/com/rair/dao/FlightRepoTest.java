@@ -23,7 +23,7 @@ public class FlightRepoTest extends JpaPersistenceTest {
 	Map<TravelingClass, Integer> availableSeats = new HashMap<>();
 	Airport departureDestination = new Airport("Brussels Airport", "Belgium", "Brussels", Region.EUROPE, "Such airport code, WOW");
 	Airport arrivalDestination = new Airport("Arrival Airport", "Arrival Country", "Brussels",Region.OCEANIA, "Such arrival");
-
+	
 	@Before
 	public void init() {
 		flightRepositiory = new FlightRepository();
