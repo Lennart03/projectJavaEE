@@ -41,7 +41,7 @@ public class FlightRepository {
 	}
 	
 	public List<Flight> retrieveFlightsByDestination(Airport airport){
-		List<Flight> flights = entityManager.createQuery(QUERY_START + "where f.arrivalDestination.name = " + airport.getName(),Flight.class).getResultList();
+		List<Flight> flights = entityManager.createQuery(QUERY_START + "where f.arrivalDestination.id = " + airport.getId() ,Flight.class).getResultList();
 		return flights;
 	}
 	

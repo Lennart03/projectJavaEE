@@ -11,15 +11,15 @@
 
 <h:body>
 	<h1>Welcome to Rair.</h1>
-	<h:form>
-		<p:growl id="growl" sticky="true" showDetail="true" />
+	<h:form id="form">
+		<p:growl id="msgs" showDetail="true" />
 
 		<p:wizard flowListener="#{flightSearchBean.onFlowProcess}">
 			<p:tab id="arrivalDestination" title="Destination">
-				<p:panel header="Arrival Destination">
+				<p:panel header="Destination">
 					<p:messages />
 					<p:panelGrid columns="2" columnClasses="label, value">
-						<h:outputText value="Arrival destionation: *" />
+						<h:outputText value="Desired Destionation:" />
 						<p:autoComplete id="airportAutoComplete"
 							value="#{flightSearchBean.arrivalAirport}"
 							completeMethod="#{flightSearchBean.completeAirports}"
@@ -42,12 +42,81 @@
 				</p:panel>
 			</p:tab>
 
+			<!-- 			<p:dataTable id="eventsDT" var="car" value="#{dtSelectionView.cars3}" -->
+			<!-- 				selectionMode="single" selection="#{dtSelectionView.selectedCar}" -->
+			<!-- 				rowKey="#{car.id}"> -->
+			<!-- 				<p:ajax event="rowSelect" listener="#{dtSelectionView.onRowSelect}" -->
+			<!-- 					update=":form:msgs" /> -->
+			<!-- 				<p:ajax event="rowUnselect" -->
+			<!-- 					listener="#{dtSelectionView.onRowUnselect}" update=":form:msgs" /> -->
+			<!-- 				<p:column headerText="Id"> -->
+			<!-- 					<h:outputText value="#{car.id}" /> -->
+			<!-- 				</p:column> -->
+			<!-- 				<p:column headerText="Year"> -->
+			<!-- 					<h:outputText value="#{car.year}" /> -->
+			<!-- 				</p:column> -->
+			<!-- 				<p:column headerText="Brand"> -->
+			<!-- 					<h:outputText value="#{car.brand}" /> -->
+			<!-- 				</p:column> -->
+			<!-- 				<p:column headerText="Color"> -->
+			<!-- 					<h:outputText value="#{car.color}" /> -->
+			<!-- 				</p:column> -->
+			<!-- 			</p:dataTable> -->
 
 			<p:tab id="flights" title="Flights">
 
 				<p:panel
 					header="Available flights to #{flightSearchBean.arrivalAirport.name}">
 
+					<p:dataTable id="flightSelectionTable"
+						value="#{flightSearchBean.flightsForArrival}" var="flight"
+						selection="#{flightSearchBean.selectedFlight}"
+						selectionMode="single" rowKey="#{flight.flightNumber}">
+						<p:ajax event="rowSelect"
+							listener="#{flightSearchBean.onRowSelect}" update=":form:msgs" />
+						<p:ajax event="rowUnselect"
+							listener="#{flightSearchBean.onRowUnselect}" update=":form:msgs" />
+						<p:columnGroup type="header">
+							<p:row>
+								<p:column rowspan="2" headerText="Flight number" />
+								<p:column rowspan="2" headerText="Departure" />
+								<p:column rowspan="2" headerText="Arrival" />
+								<p:column rowspan="2" headerText="Departure time" />
+								<p:column colspan="3" headerText="Available Seats" />
+							</p:row>
+							<p:row>
+								<p:column headerText="Economy" />
+								<p:column headerText="Bussiness" />
+								<p:column headerText="First Class" />
+							</p:row>
+
+
+						</p:columnGroup>
+						<p:column>
+							<h:outputText value="#{flight.flightNumber}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{flight.departureDestination.name}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{flight.arrivalDestination.name}" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{flight.departureTime}" />
+						</p:column>
+						<p:column>
+							<h:outputText
+								value="#{flight.checkSeatsForTravelingClass('ECONOMY')}" />
+						</p:column>
+						<p:column>
+							<h:outputText
+								value="#{flight.checkSeatsForTravelingClass('BUSINESS')}" />
+						</p:column>
+						<p:column>
+							<h:outputText
+								value="#{flight.checkSeatsForTravelingClass('FIRST_CLASS')}" />
+						</p:column>
+					</p:dataTable>
 
 				</p:panel>
 			</p:tab>

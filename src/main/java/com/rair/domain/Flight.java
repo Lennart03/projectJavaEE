@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,7 +58,7 @@ public class Flight implements Serializable {
 	@Column(name = "number_of_seats")
 	private Map<TravelingClass, Integer> numberOfSeats;
 
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name = "available_seats")
 	@MapKeyColumn(name = "traveling_class")
 	@Column(name = "available_seats")
@@ -133,6 +134,7 @@ public class Flight implements Serializable {
 	}
 
 	public Integer checkSeatsForTravelingClass(TravelingClass travelingClass) {
+		System.out.println(travelingClass+ ": "+availableSeats.get(travelingClass));
 		return availableSeats.get(travelingClass);
 	}
 
