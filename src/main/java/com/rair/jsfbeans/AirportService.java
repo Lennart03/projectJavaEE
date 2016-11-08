@@ -1,15 +1,16 @@
 package com.rair.jsfbeans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+
 import org.primefaces.event.RowEditEvent;
 
 import com.rair.dao.AirportRepository;
@@ -18,25 +19,35 @@ import com.rair.domain.Region;
 
 @SuppressWarnings("serial")
 @ManagedBean
-@SessionScoped
-public class AirportRetrieveBean implements Serializable{
+@ViewScoped
+public class AirportService implements Serializable{
 	
 	@Inject
-	AirportRepository airportRepo;
+    private AirportRepository airportRepository;
 		
-	private List<Airport> airports = new ArrayList<Airport>();
+	private List<Airport> airports;
+	
+	@PostConstruct
+    public void init() {
+        airports = airportRepository.findAll();
+    }
 
 	public List<Airport> getAirports() {
-		this.airports = airportRepo.findAll();
 		return airports;
 	}
 	
 	public void onRowEdit(RowEditEvent event) {
 		Airport airport = (Airport) event.getObject();
-        FacesMessage msg = new FacesMessage("Airport Edited", airport.getId().toString());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-        System.out.println("Nieuwe id frontend: " + airport.getId());
-        airport = airportRepo.update(airport, airport.getId());
+		if(airport.getId()!=null){
+			airport = airportRepository.update(airport, airport.getId());
+			FacesMessage msg = new FacesMessage("Airport Edited", airport.getId().toString());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+		else{
+			airport = airportRepository.save(airport);
+			FacesMessage msg = new FacesMessage("Added new airport", airport.getId().toString());
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
     }
      
     public void onRowCancel(RowEditEvent event) {
@@ -53,5 +64,17 @@ public class AirportRetrieveBean implements Serializable{
     public Airport getAirport(int index){
 		return airports.get(index);
 	}
+
+	public AirportRepository getAirportRepository() {
+		return airportRepository;
+	}
+
+	public void setAirportRepository(AirportRepository airportRepository) {
+		this.airportRepository = airportRepository;
+	}
+    
+    public void addAction(){
+    	airports.add(new Airport());
+    }
     
 }

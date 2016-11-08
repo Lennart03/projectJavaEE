@@ -28,15 +28,15 @@
 		<p:growl id="msgs" showDetail="true" />
 
 		<p:dataTable id="airports" var="airport"
-			value="#{airportRetrieveBean.airports}" editable="true"
+			value="#{airportService.airports}" editable="true"
 			style="margin-bottom:20px">
 
-			<p:ajax event="rowEdit" listener="#{airportRetrieveBean.onRowEdit}"
+			<p:ajax event="rowEdit" listener="#{airportService.onRowEdit}"
 				update=":form:msgs" />
 			<p:ajax event="rowEditCancel"
-				listener="#{airportRetrieveBean.onRowCancel}" update=":form:msgs" />
+				listener="#{airportService.onRowCancel}" update=":form:msgs" />
 
-			<p:column headerText="Code">
+			<p:column headerText="Code" sortBy="#{airport.airportCode}">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{airport.airportCode}" />
@@ -48,7 +48,7 @@
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Name">
+			<p:column headerText="Name" sortBy="#{airport.name}">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{airport.name}" />
@@ -60,7 +60,7 @@
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Country">
+			<p:column headerText="Country" sortBy="#{airport.country}">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{airport.country}" />
@@ -72,14 +72,14 @@
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Region">
+			<p:column headerText="Region" sortBy="#{airport.region}">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{airport.region}" />
 					</f:facet>
 					<f:facet name="input">
 						<h:selectOneMenu value="#{airport.region}" style="width:100%">
-							<f:selectItems value="#{airportRetrieveBean.regions}"
+							<f:selectItems value="#{airportService.regions}"
 								var="region" itemLabel="#{region}" itemValue="#{region}" />
 						</h:selectOneMenu>
 					</f:facet>
@@ -89,6 +89,10 @@
 			<p:column style="width:32px">
 				<p:rowEditor/>
 			</p:column>
+			
+			<f:facet name="footer">
+				<p:commandButton value="Add Item" action="#{airportService.addAction}" update=":form"/>
+			</f:facet>
 		</p:dataTable>
 
 	</h:form>

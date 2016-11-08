@@ -17,7 +17,7 @@ import com.rair.testcore.JpaPersistenceTest;
 
 public class FlightRepoTest extends JpaPersistenceTest {
 
-	FlightRepositiory flightRepositiory;
+	FlightRepository flightRepositiory;
 	Flight flight;
 	Map<TravelingClass, Integer> numberOfSeats = new HashMap<>();
 	Map<TravelingClass, Integer> availableSeats = new HashMap<>();
@@ -26,7 +26,7 @@ public class FlightRepoTest extends JpaPersistenceTest {
 
 	@Before
 	public void init() {
-		flightRepositiory = new FlightRepositiory();
+		flightRepositiory = new FlightRepository();
 		flightRepositiory.entityManager = entityManager();
 
 		numberOfSeats.put(TravelingClass.ECONOMY, 100);
