@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-public class Airport {
+public class Airport implements Comparable<Airport>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -91,6 +91,13 @@ public class Airport {
 
 	public void setRegion(Region region) {
 		this.region = region;
+	}
+
+
+
+	@Override
+	public int compareTo(Airport o) {
+		return name.compareTo(o.getName());
 	}
 	
 	

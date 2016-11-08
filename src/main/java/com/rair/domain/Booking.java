@@ -24,7 +24,6 @@ public class Booking {
 	private Customer customer;
 	
 	@Column
-	@NotBlank
 	private Integer numberOfSeats;
 	
 	@Enumerated(EnumType.STRING)
@@ -37,7 +36,6 @@ public class Booking {
 	private Payment paymentChoice;
 	
 	@Column
-	@NotBlank
 	private Double price;
 	
 	public Booking() {

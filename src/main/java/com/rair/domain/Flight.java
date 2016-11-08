@@ -1,6 +1,8 @@
 package com.rair.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +39,8 @@ public class Flight {
 	@NotBlank
 	private String flightNumber;
 
-	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(nullable=false)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(nullable = false)
 	private Airline airline;
 
 	@ManyToMany
@@ -51,25 +53,28 @@ public class Flight {
 	@MapKeyEnumerated(EnumType.STRING)
 	@Column(name = "number_of_seats")
 	private Map<TravelingClass, Integer> numberOfSeats;
-	
+
 	@ElementCollection
 	@CollectionTable(name = "available_seats")
 	@MapKeyColumn(name = "traveling_class")
 	@Column(name = "available_seats")
 	@MapKeyEnumerated(EnumType.STRING)
 	private Map<TravelingClass, Integer> availableSeats;
-	
-	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
-	@JoinColumn( nullable = false)
+
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(nullable = false)
 	private Airport departureDestination;
-	
-	@OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
+
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(nullable = false)
 	private Airport arrivalDestination;
 	private Date departureTime;
 
 	public Flight() {
 		super();
+		bookings = new ArrayList<>();
+		numberOfSeats = new HashMap<>();
+		availableSeats = new HashMap<>();
 	}
 
 	public long getId() {
@@ -108,20 +113,24 @@ public class Flight {
 		return bookings;
 	}
 
-	public void setBookings(List<Booking> bookings) {
-		this.bookings = bookings;
+	public void addBooking(Booking booking) {
+		bookings.add(booking);
 	}
 
 	public Map<TravelingClass, Integer> getNumberOfSeats() {
 		return numberOfSeats;
 	}
 
-	public void setNumberOfSeats(Map<TravelingClass, Integer> numberOfSeats) {
-		this.numberOfSeats = numberOfSeats;
+	public void addNumberOfSeatsForClass(TravelingClass travelingClass, Integer nunberOfSeats) {
+		numberOfSeats.put(travelingClass, nunberOfSeats);
 	}
 
 	public Map<TravelingClass, Integer> getAvailableSeats() {
 		return availableSeats;
+	}
+
+	public Integer checkSeatsForTravelingClass(TravelingClass travelingClass) {
+		return availableSeats.get(travelingClass);
 	}
 
 	public void setAvailableSeats(Map<TravelingClass, Integer> availableSeats) {
