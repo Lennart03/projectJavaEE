@@ -42,27 +42,6 @@
 				</p:panel>
 			</p:tab>
 
-			<!-- 			<p:dataTable id="eventsDT" var="car" value="#{dtSelectionView.cars3}" -->
-			<!-- 				selectionMode="single" selection="#{dtSelectionView.selectedCar}" -->
-			<!-- 				rowKey="#{car.id}"> -->
-			<!-- 				<p:ajax event="rowSelect" listener="#{dtSelectionView.onRowSelect}" -->
-			<!-- 					update=":form:msgs" /> -->
-			<!-- 				<p:ajax event="rowUnselect" -->
-			<!-- 					listener="#{dtSelectionView.onRowUnselect}" update=":form:msgs" /> -->
-			<!-- 				<p:column headerText="Id"> -->
-			<!-- 					<h:outputText value="#{car.id}" /> -->
-			<!-- 				</p:column> -->
-			<!-- 				<p:column headerText="Year"> -->
-			<!-- 					<h:outputText value="#{car.year}" /> -->
-			<!-- 				</p:column> -->
-			<!-- 				<p:column headerText="Brand"> -->
-			<!-- 					<h:outputText value="#{car.brand}" /> -->
-			<!-- 				</p:column> -->
-			<!-- 				<p:column headerText="Color"> -->
-			<!-- 					<h:outputText value="#{car.color}" /> -->
-			<!-- 				</p:column> -->
-			<!-- 			</p:dataTable> -->
-
 			<p:tab id="flights" title="Flights">
 
 				<p:panel
@@ -73,54 +52,70 @@
 						selection="#{flightSearchBean.selectedFlight}"
 						selectionMode="single" rowKey="#{flight.flightNumber}">
 						<p:ajax event="rowSelect"
-							listener="#{flightSearchBean.onRowSelect}" update=":form:msgs" />
+							listener="#{flightSearchBean.onRowSelect}"
+							update="#{flightSearchBean.selectedFlight}" />
 						<p:ajax event="rowUnselect"
 							listener="#{flightSearchBean.onRowUnselect}" update=":form:msgs" />
-						<p:columnGroup type="header">
-							<p:row>
-								<p:column rowspan="2" headerText="Flight number" />
-								<p:column rowspan="2" headerText="Departure" />
-								<p:column rowspan="2" headerText="Arrival" />
-								<p:column rowspan="2" headerText="Departure time" />
-								<p:column colspan="3" headerText="Available Seats" />
-							</p:row>
-							<p:row>
-								<p:column headerText="Economy" />
-								<p:column headerText="Bussiness" />
-								<p:column headerText="First Class" />
-							</p:row>
 
-
-						</p:columnGroup>
-						<p:column>
+						<p:column headerText="Flight Number">
 							<h:outputText value="#{flight.flightNumber}" />
 						</p:column>
-						<p:column>
+						<p:column headerText="Departure">
 							<h:outputText value="#{flight.departureDestination.name}" />
 						</p:column>
-						<p:column>
-							<h:outputText value="#{flight.arrivalDestination.name}" />
+						<p:column headerText="Departure Time"
+							sortBy="#{flight.departureTime}">
+							<h:outputText value="#{flight.departureTime}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
 						</p:column>
-						<p:column>
-							<h:outputText value="#{flight.departureTime}" />
+						<p:column headerText="Airline Company"
+							sortBy="#{flight.airline.name}">
+							<h:outputText value="#{flight.airline.name}" />
 						</p:column>
-						<p:column>
-							<h:outputText
-								value="#{flight.checkSeatsForTravelingClass('ECONOMY')}" />
-						</p:column>
-						<p:column>
-							<h:outputText
-								value="#{flight.checkSeatsForTravelingClass('BUSINESS')}" />
-						</p:column>
-						<p:column>
-							<h:outputText
-								value="#{flight.checkSeatsForTravelingClass('FIRST_CLASS')}" />
+						<p:column headerText="Ticket Price" sortBy="#{flight.basePrice}">
+							<h:outputText value="#{flight.basePrice}" />
 						</p:column>
 					</p:dataTable>
-
 				</p:panel>
 			</p:tab>
+			
+			<p:tab id="ticketChoice" title="Tickets">
+				<h:panelGrid columns="2" cellPadding="5" >
+				
+					<h:outputText for="flightClass" value="Flight class:"/>
+					<p:selectOneRadio id="flightClass" value="#{flightSearchBean.selectedTravelClass}">
+						<f:selectItem itemLabel="Economy" itemValue="ECONOMY"/>
+						<f:selectItem itemLabel="Business" itemValue="BUSINESS"/>
+						<f:selectItem itemLabel="First Class" itemValue="FIRST_CLASS"/>
+						<p:ajax update="priceOneTicket" listener="#{flightSearchBean.changePriceOfOneTicket}"/>
+					</p:selectOneRadio>
+					
+					<h:outputText for="numberOfTickets" value="Number of tickets:"/>
+					<p:inputNumber id="numberOfTickets" value="#{flightSearchBean.nSeatsWanted}" minValue="0" maxValue="#{flightSearchBean.maximumSeats()}">
+						<p:ajax update="totalPrice" listener="#{flightSearchBean.calculateTotalPrice}" event="keyup"/>
+					</p:inputNumber>
+					
+					<h:outputText for="priceOneTicket" value="Price for one ticket:"/>
+					<h:outputText id="priceOneTicket" value="#{flightSearchBean.priceOfTicket}"/>
+					
+					<h:outputText for="totalPrice" value="Total price:"/>
+					<h:outputText id="totalPrice" value="#{flightSearchBean.priceOfBooking}"/>
+					
+				</h:panelGrid>
+			</p:tab>
 
+			<p:tab id="flightDetails" title="Flight Details">
+
+				<p:panel
+					header="Details of flight #{flightSearchBean.selectedFlight.flightNumber} to #{flightSearchBean.selectedFlight.arrivalDestination.city} - #{flightSearchBean.selectedFlight.arrivalDestination.country}">
+					<p:panelGrid columns="2" cellPading="5">
+					
+					</p:panelGrid>
+					<p:commandButton value="Book now" actionListener="#{flightSearchBean.bookFlight()}" process="@this"/>
+				</p:panel>
+
+			</p:tab>
 		</p:wizard>
 
 	</h:form>

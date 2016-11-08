@@ -36,6 +36,43 @@ public class FlightSearchBean implements Serializable {
 	private Airport arrivalAirport;
 	private Flight selectedFlight;
 	private List<Flight> flightsForArrival;
+	private TravelingClass selectedTravelClass;
+	private int nSeatsWanted;
+	private double priceOfTicket;
+	private double priceOfBooking;
+
+	public TravelingClass getSelectedTravelClass() {
+		return selectedTravelClass;
+	}
+
+	public double getPriceOfTicket() {
+		return priceOfTicket;
+	}
+
+	public void setPriceOfTicket(double priceOfTicket) {
+		this.priceOfTicket = priceOfTicket;
+	}
+
+	public void setSelectedTravelClass(TravelingClass selectedTravelClass) {
+		System.out.println(selectedTravelClass);
+		this.selectedTravelClass = selectedTravelClass;
+	}
+
+	public int getnSeatsWanted() {
+		return nSeatsWanted;
+	}
+
+	public void setnSeatsWanted(int nSeatsWanted) {
+		this.nSeatsWanted = nSeatsWanted;
+	}
+
+	public double getPriceOfBooking() {
+		return priceOfBooking;
+	}
+
+	public void setPriceOfBooking(double priceOfBooking) {
+		this.priceOfBooking = priceOfBooking;
+	}
 
 	public Airport getArrivalAirport() {
 		return arrivalAirport;
@@ -94,6 +131,9 @@ public class FlightSearchBean implements Serializable {
 
 	public String onFlowProcess(FlowEvent event) {
 		if (event.getNewStep().equals("flights")) {
+			if (event.getOldStep().equals("ticketChoice")) {
+				selectedFlight = null;
+			}
 			flightsForArrival = flightRepository.retrieveFlightsByDestination(arrivalAirport);
 			for (Flight flight : flightsForArrival) {
 				System.out.println(flight.getFlightNumber());
@@ -106,13 +146,44 @@ public class FlightSearchBean implements Serializable {
 	}
 
 	public void onRowSelect(SelectEvent event) {
-		FacesMessage msg = new FacesMessage("Flight Selected", ((Flight) event.getObject()).getFlightNumber());
+		selectedFlight = ((Flight) event.getObject());
+		priceOfTicket = selectedFlight.getBasePrice();
+		selectedTravelClass = TravelingClass.ECONOMY;
+		FacesMessage msg = new FacesMessage("Flight Selected");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void onRowUnselect(UnselectEvent event) {
-		FacesMessage msg = new FacesMessage("Flight Unselected", ((Flight) event.getObject()).getFlightNumber());
+		selectedFlight = null;
+		FacesMessage msg = new FacesMessage("Flight Unselected");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void bookFlight() {
+		System.out.println("Going to book the flight. The customer should login now is not already done.");
+		System.out.println("If the user is not register, register the guy (or girl)");
+	}
+
+	public Integer maximumSeats() {
+		return selectedFlight.checkSeatsForTravelingClass(selectedTravelClass);
+	}
+
+	public void changePriceOfOneTicket() {
+		switch (selectedTravelClass) {
+		case BUSINESS:
+			priceOfTicket = selectedFlight.getTicketPriceBusinessClass();
+			break;
+		case FIRST_CLASS:
+			priceOfTicket = selectedFlight.getTicketPriceFirstClass();
+			break;
+		default:
+			priceOfTicket = selectedFlight.getTicketPriceEconomyClass();
+			break;
+		}
+	}
+	
+	public void calculateTotalPrice(){
+		priceOfBooking = nSeatsWanted * priceOfTicket;
 	}
 
 }

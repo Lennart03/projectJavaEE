@@ -31,6 +31,8 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Flight implements Serializable {
 
 	private static final long serialVersionUID = 9060103451334852487L;
+	private static final double BUSINESSCLASS_MULTIPLIER = 3.75;
+	private static final double FIRSTCLASS_MULTIPLIER = 9.5468;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -164,6 +166,18 @@ public class Flight implements Serializable {
 
 	public void setDepartureTime(Date departureTime) {
 		this.departureTime = departureTime;
+	}
+	
+	public double getTicketPriceEconomyClass() {
+		return basePrice;
+	}
+	
+	public double getTicketPriceBusinessClass() {
+		return basePrice * BUSINESSCLASS_MULTIPLIER;
+	}
+	
+	public double getTicketPriceFirstClass() {
+		return basePrice * FIRSTCLASS_MULTIPLIER;
 	}
 
 }
