@@ -7,20 +7,91 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-<title>Flightbeheer</title>
+	<title>Flightbeheer</title>
 </h:head>
 <h:body>
 	<h:form id="form">
 		<p:growl id="msgs" showDetail="true" />
 
-		<p:dataTable id="flight" var="flight"
-			value="#{flightService.futurFlightsByAirline}" editable="true"
+		<p:dataTable id="flights" var="flight"
+			value="#{flightService.futureFlightsByAirline}" editable="true"
 			style="margin-bottom:20px">
-			<p:column headerText="Number" sortBy="#{flight.flightNumber}">
-				<h:outputText value="#{flight.flightNumber}"/>
 
+			<p:ajax event="rowEdit" listener="#{flightService.onRowEdit}"
+				update=":form:msgs" />
+			<p:ajax event="rowEditCancel" listener="#{flightService.onRowCancel}"
+				update=":form:msgs" />
+
+			<p:column headerText="Flightnumber" sortBy="#{flight.flightNumber}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{flight.flightNumber}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:outputText value="#{flight.flightNumber}" />
+					</f:facet>
+				</p:cellEditor>
 			</p:column>
 
+			<p:column headerText="Departure"
+				sortBy="#{flight.departureDestination.name}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{flight.departureDestination.name}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:outputText value="#{flight.departureDestination.name}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Destination"
+				sortBy="#{flight.arrivalDestination.name}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{flight.arrivalDestination.name}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:outputText value="#{flight.arrivalDestination.name}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Base Price" sortBy="#{flight.basePrice}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{flight.basePrice}€" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{flight.basePrice}" style="width:100%"
+							label="Base Price" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Time of departure"
+				sortBy="#{flight.departureTime}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{flight.departureTime}">
+							<f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+						</h:outputText>
+					</f:facet>
+					<f:facet name="input">
+						<p:calendar id="datetime" value="#{flight.departureTime}"
+							pattern="yyyy-MM-dd HH:mm:ss" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+
+			<f:facet name="footer">
+				<p:commandButton value="Add Item"
+					action="#{airportService.addAction}" update=":form" />
+			</f:facet>
 		</p:dataTable>
 
 	</h:form>

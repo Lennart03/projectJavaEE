@@ -114,4 +114,11 @@ public class Airport implements Comparable<Airport>, Serializable {
 	
 	
 
+	@Override
+	public String toString() {
+		return name;
+	}
+	
+	
+
 }
