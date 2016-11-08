@@ -91,4 +91,10 @@ public class AirportRepoTest extends JpaPersistenceTest{
 		assertEquals("testAangepast",airport2.getName());
 	}
 	
+	@Test
+	public void findAirportByNameTest() {
+		Airport airport = airportRepository.findByAirportName("Brussels Airport");
+		assertEquals("Brussels Airport", airport.getName());
+	}
+	
 }

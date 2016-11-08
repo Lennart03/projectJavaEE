@@ -12,26 +12,48 @@
 <h:body>
 	<h1>Welcome to Rair.</h1>
 	<h:form>
-		<p:outputLabel value="Destination airport: "
-			for="airportAutoComplete" />
-		<p:autoComplete id="airportAutoComplete"
-			value="#{flightSearchBean.arrivalAirport}"
-			completeMethod="#{flightSearchBean.completeAirports}" var="airport"
-			itemLabel="#{airport.name}" itemValue="#{airport}"
-			converter="airportConverter" forceSelection="true">
-					<f:facet name="itemtip">
-						<h:panelGrid columns="2" cellpadding="5">
-							<f:facet name="header">
-								<p:outputLabel value="Destionation"/>
-							</f:facet>
-							<h:outputText value="City: "/>
-							<h:outputText value="#{airport.city}"/>
-							<h:outputText value="Airport: "/>
-							<h:outputText value="#{airport.name}"/>
-						</h:panelGrid>
-					</f:facet>
+		<p:growl id="growl" sticky="true" showDetail="true" />
 
-		</p:autoComplete>
+		<p:wizard flowListener="#{flightSearchBean.onFlowProcess}">
+			<p:tab id="arrivalDestination" title="Destination">
+				<p:panel header="Arrival Destination">
+					<p:messages />
+					<p:panelGrid columns="2" columnClasses="label, value">
+						<h:outputText value="Arrival destionation: *" />
+						<p:autoComplete id="airportAutoComplete"
+							value="#{flightSearchBean.arrivalAirport}"
+							completeMethod="#{flightSearchBean.completeAirports}"
+							var="airport" itemLabel="#{airport.name}" itemValue="#{airport}"
+							converter="airportConverter" forceSelection="true">
+							<f:facet name="itemtip">
+								<h:panelGrid columns="2" cellpadding="5">
+									<f:facet name="header">
+										<p:outputLabel value="Destionation" />
+									</f:facet>
+									<h:outputText value="City: " />
+									<h:outputText value="#{airport.city}" />
+									<h:outputText value="Airport: " />
+									<h:outputText value="#{airport.name}" />
+								</h:panelGrid>
+							</f:facet>
+
+						</p:autoComplete>
+					</p:panelGrid>
+				</p:panel>
+			</p:tab>
+
+
+			<p:tab id="flights" title="Flights">
+
+				<p:panel
+					header="Available flights to #{flightSearchBean.arrivalAirport.name}">
+
+
+				</p:panel>
+			</p:tab>
+
+		</p:wizard>
+
 	</h:form>
 </h:body>
 
