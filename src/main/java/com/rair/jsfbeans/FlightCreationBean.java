@@ -67,6 +67,7 @@ public class FlightCreationBean {
 	}
 
 	public void setAirline(Airline airline) {
+		System.out.println("Airline selected: " +airline.getName());
 		this.airline = airline;
 	}
 

@@ -21,24 +21,12 @@
 		<p:dataTable var="airline" widgetVar="airlineTable"
 			value="#{flightCreationBean.airlines}"
 			emptyMessage="No airlines found with given criteria"
-			filteredValue="#{flightCreationBean.filteredAirlines}">
-
-			<f:facet name="header">
-				<p:outputPanel>
-					<h:outputText value="Search airline:" />
-					<p:inputText id="airlineFilter"
-						onkeyup="PF('airlineTable').filter()"
-						placeholder="Enter keyword" />
-				</p:outputPanel>
-			</f:facet>
-
-			<p:column filterBy="#{airline.name}" headerText="Airline"
-				footerText="contains" filterMatchMode="contains">
-				<f:facet name="filter">
-                <p:selectOneMenu onchange="PF('airlineTable').filter()" >
-                    <f:selectItems value="#{flightCreationBean.regions}" />
-                </p:selectOneMenu>
-            </f:facet>
+			filteredValue="#{flightCreationBean.filteredAirlines}"
+			selection="#{flightCreationBean.airlines}"
+			rowKey="{airline.id}">
+			<p:column selectionMode="single" style="width:16px;text-align:center"/>
+			<p:column filterBy="#{airline.name}" headerText="Airline" filterMatchMode="contains">
+				
 				<p:outputLabel value="#{airline.name}" />
 			</p:column>
 
