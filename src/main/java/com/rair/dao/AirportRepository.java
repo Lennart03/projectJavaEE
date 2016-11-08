@@ -38,7 +38,10 @@ public class AirportRepository {
     
     public Airport update(Airport airport, Long airportId){
     	Airport oldAirport = em.find(Airport.class, airportId);
+    	System.out.println("Oude luchthaven naam: " + oldAirport.getName());
+    	System.out.println("Nieuwe luchthaven naam: " + airport.getName());
     	oldAirport = airport;
+    	System.out.println("Te mergen luchthaven naam: " + oldAirport.getName());
     	em.merge(oldAirport);
     	return oldAirport;
     }
