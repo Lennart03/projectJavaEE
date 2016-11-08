@@ -24,8 +24,8 @@ public class AirportRepoTest extends JpaPersistenceTest{
 	
 	@Test
 	public void airportCanBePersisted() throws Exception{
-		Airport airport = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
-		Airport airport2 = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
+		Airport airport = new Airport("testNaam", "testLand", "testCity",Region.EUROPE, "testCode");
+		Airport airport2 = new Airport("testNaam", "testLand", "testCiry", Region.EUROPE, "testCode");
 		airport = airportRepository.save(airport);
 		airport = airportRepository.save(airport2);
 		assertNotNull(airport);		
@@ -63,8 +63,8 @@ public class AirportRepoTest extends JpaPersistenceTest{
 	
 	@Test
 	public void airportCanBeRemoved() throws Exception{
-		Airport airport = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
-		Airport airport2 = new Airport("testNaam2", "testLand", Region.EUROPE, "testCode");
+		Airport airport = new Airport("testNaam", "testLand", "testCity", Region.EUROPE, "testCode");
+		Airport airport2 = new Airport("testNaam2", "testLand", "testCity" ,Region.EUROPE, "testCode");
 		airportRepository.save(airport);
 		airportRepository.save(airport2);
 		airportRepository.remove(airport2.getId());
@@ -82,8 +82,8 @@ public class AirportRepoTest extends JpaPersistenceTest{
 	
 	@Test
 	public void airportCanBeUpdated() throws Exception{
-		Airport airport = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
-		Airport airport2 = new Airport("testNaam", "testLand", Region.EUROPE, "testCode");
+		Airport airport = new Airport("testNaam", "testLand", "testCity",Region.EUROPE, "testCode");
+		Airport airport2 = new Airport("testNaam", "testLand","testCity", Region.EUROPE, "testCode");
 		airportRepository.save(airport);
 		airportRepository.save(airport2);
 		airport2.setName("testAangepast");

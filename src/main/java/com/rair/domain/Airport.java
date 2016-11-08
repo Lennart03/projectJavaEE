@@ -1,5 +1,7 @@
 package com.rair.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,7 +14,9 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-public class Airport implements Comparable<Airport>{
+public class Airport implements Comparable<Airport>, Serializable {
+	
+	private static final long serialVersionUID = 4933804867200626434L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +31,12 @@ public class Airport implements Comparable<Airport>{
 	@NotBlank
 	@Size(max = 100)
 	private String country;
-	
+
+	@Column
+	@NotBlank
+	@Size(max = 100)
+	private String city;
+
 	@Enumerated(EnumType.STRING)
 	private Region region;
 
@@ -40,18 +49,15 @@ public class Airport implements Comparable<Airport>{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
-	public Airport(String name, String country, Region region, String airportCode) {
+	public Airport(String name, String country, String city, Region region, String airportCode) {
 		super();
 		this.name = name;
 		this.country = country;
+		this.city = city;
 		this.region = region;
 		this.airportCode = airportCode;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -77,6 +83,14 @@ public class Airport implements Comparable<Airport>{
 		this.country = country;
 	}
 
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 	public String getAirportCode() {
 		return airportCode;
 	}
@@ -93,13 +107,9 @@ public class Airport implements Comparable<Airport>{
 		this.region = region;
 	}
 
-
-
 	@Override
 	public int compareTo(Airport o) {
 		return name.compareTo(o.getName());
 	}
-	
-	
 
 }

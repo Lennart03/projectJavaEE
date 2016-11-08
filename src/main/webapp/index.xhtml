@@ -2,16 +2,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-   Test page
+   Flight Search page
    </h:head>
-   
-   <h:body>
-   <h1>Test page</h1>
-   <p:outputLabel value="#{testBean.strings}"/>
-   </h:body>
-   
-   
+
+<h:body>
+	<h1>Welcome to Rair.</h1>
+	<h:form>
+		<p:outputLabel value="Destination airport: "
+			for="airportAutoComplete" />
+		<p:autoComplete id="airportAutoComplete"
+			value="#{flightSearchBean.arrivalAirport}"
+			completeMethod="#{flightSearchBean.completeAirports}" var="airport"
+			itemLabel="#{airport.name}" itemValue="#{airport}"
+			converter="airportConverter" forceSelection="true">
+					<f:facet name="itemtip">
+						<h:panelGrid columns="2" cellpadding="5">
+							<f:facet name="header">
+								<p:outputLabel value="Destionation"/>
+							</f:facet>
+							<h:outputText value="City: "/>
+							<h:outputText value="#{airport.city}"/>
+							<h:outputText value="Airport: "/>
+							<h:outputText value="#{airport.name}"/>
+						</h:panelGrid>
+					</f:facet>
+
+		</p:autoComplete>
+	</h:form>
+</h:body>
+
+
 </html>

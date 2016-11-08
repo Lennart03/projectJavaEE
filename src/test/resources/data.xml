@@ -1,11 +1,11 @@
 <dataset>
 
-	<airport id="1" airportCode="BRU" country="Belgium" name="Brussels"/>
-	<airport id="2" airportCode="CRL" country="Belgium" name="Brussels South Charleroi"/>
-	<airport id="3" airportCode="ATL" country="United States" name="Hartsfield Jackson Atlanta International"/>
-	<airport id="4" airportCode="PEK" country="China" name="Beijing Capital International"/>
-	<airport id="5" airportCode="HND" country="Japan" name="Tokyo International"/>
-	<airport id="6" airportCode="FRA" country="Germany" name="Frankfurt am Main International Airport"/>
+	<airport id="1" airportCode="BRU" country="Belgium" name="Brussels Airport" city="Brussels" region="EUROPE"/>
+	<airport id="2" airportCode="CRL" country="Belgium" name="Brussels South Charleroi" city="Charleroi" region="EUROPE"/>
+	<airport id="3" airportCode="ATL" country="United States" name="Hartsfield Jackson Atlanta International" city="Atlanta" region="NORTH_AMERICA"/>
+	<airport id="4" airportCode="PEK" country="China" name="Beijing Capital International" city="Beijing" region="ASIA"/>
+	<airport id="5" airportCode="HND" country="Japan" name="Tokyo International" city="Tokyo" region="ASIA"/>
+	<airport id="6" airportCode="FRA" country="Germany" name="Frankfurt am Main International Airport" city="Frankfurt" region="EUROPE"/>
 
 	<airline id="1" name="Air Botswana"/>
 	<airline id="2" name="Japan Airlines"/>

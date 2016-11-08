@@ -21,8 +21,8 @@ public class FlightRepoTest extends JpaPersistenceTest {
 	Flight flight;
 	Map<TravelingClass, Integer> numberOfSeats = new HashMap<>();
 	Map<TravelingClass, Integer> availableSeats = new HashMap<>();
-	Airport departureDestination = new Airport("Brussels Airport", "Belgium", Region.EUROPE, "Such airport code, WOW");
-	Airport arrivalDestination = new Airport("Arrival Airport", "Arrival Country", Region.OCEANIA, "Such arrival");
+	Airport departureDestination = new Airport("Brussels Airport", "Belgium", "Brussels", Region.EUROPE, "Such airport code, WOW");
+	Airport arrivalDestination = new Airport("Arrival Airport", "Arrival Country", "",Region.OCEANIA, "Such arrival");
 
 	@Before
 	public void init() {

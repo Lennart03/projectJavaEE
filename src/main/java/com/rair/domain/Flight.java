@@ -1,5 +1,6 @@
 package com.rair.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,7 +27,9 @@ import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-public class Flight {
+public class Flight implements Serializable {
+
+	private static final long serialVersionUID = 9060103451334852487L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
