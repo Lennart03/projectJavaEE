@@ -11,7 +11,7 @@
 <title>Airportbeheer</title>
 </head>
 <h:body>
-	<p:panelGrid columns="1" layout="grid">
+	<!-- <p:panelGrid columns="1" layout="grid">
 		<p:outputLabel>Overzicht van de luchthavens: </p:outputLabel>
 		<br />
 		<br />
@@ -24,6 +24,74 @@
 		<br />
 		<br />
 
-	</p:panelGrid>
+	</p:panelGrid>-->
+	<h:form id="form">
+		<p:growl id="msgs" showDetail="true" />
+
+		<p:dataTable id="airports" var="airport"
+			value="#{airportRetrieveBean.airports}" editable="true"
+			style="margin-bottom:20px">
+
+			<p:ajax event="rowEdit" listener="#{airportRetrieveBean.onRowEdit}"
+				update=":form:msgs" />
+			<p:ajax event="rowEditCancel"
+				listener="#{airportRetrieveBean.onRowCancel}" update=":form:msgs" />
+
+			<p:column headerText="Code">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{airport.airportCode}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="modelInput" value="#{airport.airportCode}"
+							style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Name">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{airport.name}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{airport.name}" style="width:100%"
+							label="Name" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Country">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{airport.country}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{airport.country}" style="width:100%"
+							label="Country" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Region">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{airport.region}" />
+					</f:facet>
+					<f:facet name="input">
+						<h:selectOneMenu value="#{airport.region}" style="width:100%">
+							<f:selectItems value="#{airportRetrieveBean.regions}"
+								var="region" itemLabel="#{region}" itemValue="#{region}" />
+						</h:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:rowEditor/>
+			</p:column>
+		</p:dataTable>
+
+	</h:form>
 </h:body>
 </html>
