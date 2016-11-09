@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+        http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+
+	<!-- ################ -->
+	<!-- Navigation rules -->
+	<!-- ################ -->
+
+	<navigation-rule>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>toLogin</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/login.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>toRegister</from-outcome>
+			<to-view-id>/register.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>loginFailed</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>toBooking</from-outcome>
+			<to-view-id>/booking.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/booking.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>cancelBooking</from-outcome>
+			<to-view-id>/index.html</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<!-- ######################### -->
+	<!-- Application configuration -->
+	<!-- ######################### -->
+	
+	<application>
+		<locale-config>
+			<default-locale>en</default-locale>
+			<supported-locale>nl</supported-locale>
+		</locale-config>
+		<resource-bundle>
+			<base-name>Messages</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+	</application>
+
+
+</faces-config>

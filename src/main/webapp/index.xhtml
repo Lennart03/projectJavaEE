@@ -11,6 +11,9 @@
 
 <h:body>
 	<h1>Welcome to Rair.</h1>
+	<p:panelGrid columns="2" cellPadding="5">
+		<p:button value="Login" outcome="login"/>
+	</p:panelGrid>
 	<h:form id="form">
 		<p:growl id="msgs" showDetail="true" />
 
@@ -115,7 +118,7 @@
 			<p:tab id="flightDetails" title="Flight Details">
 
 				<p:panel
-					header="Details of your selected flight>
+					header="Details of your selected flight">
 					<p:panelGrid columns="2" cellPading="5">
 					
 					<h:outputText for="detailTabflightNumber" value="Flight number:"/>
@@ -146,8 +149,7 @@
 					<h:outputText id="detailTabtotalPrice" value="#{flightSearchBean.priceOfBooking}"/>
 					
 					</p:panelGrid>
-					<p:commandButton value="Book now"
-						actionListener="#{flightSearchBean.bookFlight()}"/>
+					<p:commandButton value="Book now" action="#{flightSearchBean}"/>
 				</p:panel>
 
 			</p:tab>

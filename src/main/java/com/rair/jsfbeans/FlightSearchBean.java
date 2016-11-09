@@ -29,7 +29,7 @@ public class FlightSearchBean implements Serializable {
 
 	@ManagedProperty("#{airportServiceBean}")
 	private AirportServiceBean airportServiceBean;
-	
+
 	@ManagedProperty("#{bookingServiceBean}")
 	private BookingServiceBean bookingServiceBean;
 
@@ -104,6 +104,14 @@ public class FlightSearchBean implements Serializable {
 		this.airportServiceBean = airportServiceBean;
 	}
 
+	public BookingServiceBean getBookingServiceBean() {
+		return bookingServiceBean;
+	}
+
+	public void setBookingServiceBean(BookingServiceBean bookingServiceBean) {
+		this.bookingServiceBean = bookingServiceBean;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -163,9 +171,8 @@ public class FlightSearchBean implements Serializable {
 	}
 
 	public String bookFlight() {
-		System.out.println("Going to book the flight. The customer should login now is not already done.");
-		System.out.println("If the user is not register, register the guy (or girl)");
-		return null;
+		bookingServiceBean.setFlight(selectedFlight);
+		return "toLogin";
 	}
 
 	public Integer maximumSeats() {
@@ -185,8 +192,8 @@ public class FlightSearchBean implements Serializable {
 			break;
 		}
 	}
-	
-	public void calculateTotalPrice(){
+
+	public void calculateTotalPrice() {
 		priceOfBooking = nSeatsWanted * priceOfTicket;
 	}
 
