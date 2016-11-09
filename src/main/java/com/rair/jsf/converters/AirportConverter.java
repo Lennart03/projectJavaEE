@@ -6,7 +6,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 
+import com.rair.dao.AirportRepository;
 import com.rair.domain.Airport;
 import com.rair.jsfbeans.AirportServiceBean;
 
@@ -20,6 +22,8 @@ public class AirportConverter implements Converter {
 			try {
 				AirportServiceBean airportServiceBean = (AirportServiceBean)fc.getExternalContext().getApplicationMap().get("airportServiceBean");
 				System.out.println(airportServiceBean);
+				Airport airport = airportServiceBean.findAirportByName(value);
+				System.out.println(airport);
 				return airportServiceBean.findAirportByName(value);
 			} catch (NumberFormatException e) {
 				throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion error", "Not a valid airport"));

@@ -42,6 +42,7 @@ This page is for logging in.
 				<p:column>
 					<p:commandButton ajax="false" value="Login"
 						action="#{loginBean.doLogin()}" />
+						<f:param name="personID" value="#{loginBean.person.id}"/>
 				</p:column>
 				<p:column>
 					<p:commandButton ajax="false" value="Register"
