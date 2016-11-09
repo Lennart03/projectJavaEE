@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.rair.domain.Airline;
-import com.rair.domain.Airport;
 
 @Stateless
 public class AirlineRepository {
@@ -15,9 +14,10 @@ public class AirlineRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 	
-	public void createAirline(String name) {
+	public Airline createAirline(String name) {
 		Airline airline = new Airline(name);
 		entityManager.persist(airline);
+		return airline;
 	}
 	
 	public boolean deleteAirline(Long id) {

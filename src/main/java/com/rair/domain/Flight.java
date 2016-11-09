@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -41,7 +40,7 @@ public class Flight implements Serializable {
 	@NotBlank
 	private String flightNumber;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Airline airline;
 
@@ -59,11 +58,11 @@ public class Flight implements Serializable {
 	@MapKeyEnumerated(EnumType.STRING)
 	private Map<TravelingClass, Integer> availableSeats;
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToOne
 	@JoinColumn(nullable = false)
 	private Airport departureDestination;
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToOne
 	@JoinColumn(nullable = false)
 	private Airport arrivalDestination;
 	private Date departureTime;

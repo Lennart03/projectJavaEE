@@ -18,16 +18,28 @@ import com.rair.testcore.JpaPersistenceTest;
 public class FlightRepoTest extends JpaPersistenceTest {
 
 	FlightRepository flightRepositiory;
+	AirlineRepository airlineRepository;
+	AirportRepository airportRepository;
 	Flight flight;
 	Map<TravelingClass, Integer> numberOfSeats = new HashMap<>();
 	Map<TravelingClass, Integer> availableSeats = new HashMap<>();
-	Airport departureDestination = new Airport("Brussels Airport", "Belgium", "Brussels", Region.EUROPE, "Such airport code, WOW");
-	Airport arrivalDestination = new Airport("Arrival Airport", "Arrival Country", "Brussels",Region.OCEANIA, "Such arrival");
+	Airport departureDestination = new Airport("Cairo International Airport", "Egypt", "Cairo", Region.AFRICA, "CAI");
+	Airport arrivalDestination = new Airport("Adolfo Suárez Madrid–Barajas Airport", "Spain", "Madrid",Region.EUROPE, "MAD");
 	
 	@Before
 	public void init() {
 		flightRepositiory = new FlightRepository();
 		flightRepositiory.entityManager = entityManager();
+		
+		airlineRepository = new AirlineRepository();
+		airlineRepository.entityManager = entityManager();
+		
+		airportRepository = new AirportRepository();
+		airportRepository.em = entityManager();
+		
+		airportRepository.save(departureDestination);
+		airportRepository.save(arrivalDestination);
+		
 
 		numberOfSeats.put(TravelingClass.ECONOMY, 100);
 		numberOfSeats.put(TravelingClass.BUSINESS, 100);
@@ -48,7 +60,9 @@ public class FlightRepoTest extends JpaPersistenceTest {
 
 	@Test
 	public void persitFlightTest() {
-		flight.setAirline(new Airline());
+		Airline a = airlineRepository.createAirline("KLM");
+		flight.setAirline(a);
+		flight.setFlightNumber("testflight");
 		flight.setDepartureDestination(departureDestination);
 		flight.setArrivalDestination(arrivalDestination);
 		flight.setDepartureTime(new Date());

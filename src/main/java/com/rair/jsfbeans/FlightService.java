@@ -12,8 +12,10 @@ import javax.inject.Inject;
 
 import org.primefaces.event.RowEditEvent;
 
+import com.rair.dao.AirlineRepository;
 import com.rair.dao.AirportRepository;
 import com.rair.dao.FlightRepository;
+import com.rair.domain.Airline;
 import com.rair.domain.Airport;
 import com.rair.domain.Flight;
 
@@ -26,6 +28,9 @@ public class FlightService {
 	
 	@Inject
 	private AirportRepository airportRepository;
+	
+	@Inject
+	private AirlineRepository airlineRepository;
 
 	@ManagedProperty("#{airportServiceBean}")
 	private AirportServiceBean airportServiceBean;
@@ -78,8 +83,11 @@ public class FlightService {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 		else{
+			Airline airline = airlineRepository.retrieveAirline("Air Botswana");
+			System.out.println("Airline ID = " + airline.getId());
+			flight.setAirline(airlineRepository.retrieveAirline("Air Botswana"));
 			flightRepository.createFlight(flight);
-			FacesMessage msg = new FacesMessage("Added new airport", flight.getId().toString());
+			FacesMessage msg = new FacesMessage("Added new flight", flight.getId().toString());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
     }
