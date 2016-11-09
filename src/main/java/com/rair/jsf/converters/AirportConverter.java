@@ -17,9 +17,11 @@ public class AirportConverter implements Converter {
 	
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
+		System.out.println("De converteerwaarde is: " + value);
 		if (value != null && value.trim().length() > 0) {
 			try {
 				AirportServiceBean airportServiceBean = (AirportServiceBean)fc.getExternalContext().getApplicationMap().get("airportServiceBean");
+				System.out.println(airportServiceBean);
 				return airportServiceBean.findAirportByName(value);
 			} catch (NumberFormatException e) {
 				throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion error", "Not a valid airport"));

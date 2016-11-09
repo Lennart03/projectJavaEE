@@ -163,4 +163,12 @@ public class Flight implements Serializable {
 		return basePrice * FIRSTCLASS_MULTIPLIER;
 	}
 
+	@Override
+	public String toString() {
+		return "Flight with number: " + flightNumber + ", from: " + departureDestination
+				+ " to: " + arrivalDestination;
+	}
+	
+	
+
 }

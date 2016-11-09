@@ -7,10 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.rair.domain.Airport;
+import com.rair.domain.Booking;
 import com.rair.domain.Flight;
 
 @Stateless
@@ -19,9 +21,22 @@ public class FlightRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 	
+	@Inject
+	BookingRepository bookingRepository;
+	
 	private static final String QUERY_START = "SELECT f FROM Flight f ";
 	private static final Long AIRLINE_ID = 1L;
 	
+	
+	
+	public BookingRepository getBookingRepository() {
+		return bookingRepository;
+	}
+
+	public void setBookingRepository(BookingRepository bookingRepository) {
+		this.bookingRepository = bookingRepository;
+	}
+
 	public void createFlight(Flight flight) {
 		entityManager.persist(flight);
 	}
@@ -114,5 +129,13 @@ public class FlightRepository {
     	oldFlight = flight;
     	entityManager.merge(oldFlight);
     	return oldFlight;
+    }
+	
+	public void remove(long flightId) {
+    	List<Booking> conflictingBookings = bookingRepository.retrieveBookingFromFlightId(flightId);
+    	for(Booking b:conflictingBookings){
+    		entityManager.remove(entityManager.getReference(Booking.class, b.getId()));
+    	}
+        entityManager.remove(entityManager.getReference(Flight.class, flightId));
     }
 }
