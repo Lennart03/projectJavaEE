@@ -25,9 +25,11 @@ public class FlightService {
 	
 	@Inject
 	private AirportRepository airportRepository;
+
 	
 	private List<Flight> futureFlightsByAirline;
 	private List<Airport> airports;
+
 
 	@PostConstruct
 	public void init(){
@@ -83,6 +85,5 @@ public class FlightService {
         FacesMessage msg = new FacesMessage("Edit Cancelled", flight.toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-	
 	
 }

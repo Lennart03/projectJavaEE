@@ -98,19 +98,19 @@
 	<person DTYPE="Customer" id="3" emailAddress="customer2@rair.com" firstName="Niels" lastName="Stasijns" password="passNiels" />
 	<person DTYPE="Partner" id="4" emailAddress="partner1@rair.com" firstName="Partner" lastName="Rair" password="passPartner"/>
 	
-	<booking id="1" numberOfSeats="2" travelingClass="ECONOMY" paymentChoice="CREDITCARD" price="175" status="PAYMENT_SUCCES" customer_id="1"/>
-	<booking id="2" numberOfSeats="4" travelingClass="FIRST_CLASS" paymentChoice="ENDORSMENT" price="360" status="PAYMENT_PENDING" customer_id="1"/>
-	<booking id="3" numberOfSeats="2" travelingClass="BUSINESS" paymentChoice="CREDITCARD" price="120.50" status="PAYMENT_SUCCES" customer_id="1"/>
-	<booking id="4" numberOfSeats="3" travelingClass="ECONOMY" paymentChoice="CREDITCARD" price="180" status="COMPLETE" customer_id="1"/>
-	<booking id="5" numberOfSeats="10" travelingClass="FIRST_CLASS" paymentChoice="CREDITCARD" price="1785" status="PAYMENT_SUCCES" customer_id="1"/>
-	<booking id="6" numberOfSeats="2" travelingClass="BUSINESS" paymentChoice="ENDORSMENT" price="180" status="PAYMENT_PENDING" customer_id="3"/>
-	<booking id="7" numberOfSeats="5" travelingClass="ECONOMY" paymentChoice="CREDITCARD" price="0" status="INITIATED" customer_id="3"/>
-	<booking id="8" numberOfSeats="3" travelingClass="FIRST_CLASS" paymentChoice="ENDORSMENT" price="270" status="PAYMENT_PENDING" customer_id="3"/>
-	<booking id="9" numberOfSeats="4" travelingClass="BUSINESS" paymentChoice="CREDITCARD" price="680" status="PAYMENT_SUCCES" customer_id="3"/>
-	<booking id="10" numberOfSeats="2" travelingClass="ECONOMY" paymentChoice="ENDORSMENT" price="450" status="PAYMENT_PENDING" customer_id="3"/>
-	<booking id="11" numberOfSeats="2" travelingClass="BUSINESS" paymentChoice="ENDORSMENT" price="90" status="COMPLETE" customer_id="3"/>
+	<booking id="1" numberOfSeats="2" travelingClass="ECONOMY" paymentChoice="CREDITCARD" price="175" status="PAYMENT_SUCCES" customer_id="1" flight_id="3"/>
+	<booking id="2" numberOfSeats="4" travelingClass="FIRST_CLASS" paymentChoice="ENDORSMENT" price="360" status="PAYMENT_PENDING" customer_id="1" flight_id="5"/>
+	<booking id="3" numberOfSeats="2" travelingClass="BUSINESS" paymentChoice="CREDITCARD" price="120.50" status="PAYMENT_SUCCES" customer_id="1" flight_id="3"/>
+	<booking id="4" numberOfSeats="3" travelingClass="ECONOMY" paymentChoice="CREDITCARD" price="180" status="COMPLETE" customer_id="1" flight_id="7"/>
+	<booking id="5" numberOfSeats="10" travelingClass="FIRST_CLASS" paymentChoice="CREDITCARD" price="1785" status="PAYMENT_SUCCES" customer_id="1" flight_id="4"/>
+	<booking id="6" numberOfSeats="2" travelingClass="BUSINESS" paymentChoice="ENDORSMENT" price="180" status="PAYMENT_PENDING" customer_id="3" flight_id="3"/>
+	<booking id="7" numberOfSeats="5" travelingClass="ECONOMY" paymentChoice="CREDITCARD" price="0" status="INITIATED" customer_id="3" flight_id="8"/>
+	<booking id="8" numberOfSeats="3" travelingClass="FIRST_CLASS" paymentChoice="ENDORSMENT" price="270" status="PAYMENT_PENDING" customer_id="3" flight_id="11"/>
+	<booking id="9" numberOfSeats="4" travelingClass="BUSINESS" paymentChoice="CREDITCARD" price="680" status="PAYMENT_SUCCES" customer_id="3" flight_id="9"/>
+	<booking id="10" numberOfSeats="2" travelingClass="ECONOMY" paymentChoice="ENDORSMENT" price="450" status="PAYMENT_PENDING" customer_id="3" flight_id="7"/>
+	<booking id="11" numberOfSeats="2" travelingClass="BUSINESS" paymentChoice="ENDORSMENT" price="90" status="COMPLETE" customer_id="3" flight_id="3"/>
 	
-	<jnd_flight_booking flight_fk="2" booking_fk="1"/>
+	<!--  <jnd_flight_booking flight_fk="2" booking_fk="1"/>
 	<jnd_flight_booking flight_fk="3" booking_fk="2"/>
 	<jnd_flight_booking flight_fk="4" booking_fk="3"/>
 	<jnd_flight_booking flight_fk="6" booking_fk="4"/>
@@ -120,7 +120,7 @@
 	<jnd_flight_booking flight_fk="9" booking_fk="8"/>
 	<jnd_flight_booking flight_fk="2" booking_fk="9"/>
 	<jnd_flight_booking flight_fk="7" booking_fk="10"/>
-	<jnd_flight_booking flight_fk="8" booking_fk="11"/>
+	<jnd_flight_booking flight_fk="8" booking_fk="11"/>-->
 	
 	
 </dataset>

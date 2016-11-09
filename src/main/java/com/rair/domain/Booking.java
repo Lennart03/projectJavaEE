@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 @Entity
 public class Booking {
 
@@ -22,6 +20,10 @@ public class Booking {
 	@ManyToOne
 	@JoinColumn(nullable=false)
 	private Customer customer;
+	
+	@ManyToOne
+	@JoinColumn(nullable=false)
+	private Flight flight;
 	
 	@Column
 	private Integer numberOfSeats;
@@ -89,9 +91,14 @@ public class Booking {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
-	
-	
+
+	public Flight getFlight() {
+		return flight;
+	}
+
+	public void setFlight(Flight flight) {
+		this.flight = flight;
+	}
 	
 	
 }
