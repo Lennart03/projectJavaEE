@@ -27,6 +27,10 @@ public class AirportRepository {
     public Airport findByAirportName(String airportName) {
     	return em.createQuery("select a from Airport a where a.name = '"+airportName+"'", Airport.class).getSingleResult();
     }
+    
+    public Airport findByAirportCode(String airportCode) {
+    	return em.createQuery("select a from Airport a where a.airportCode = '"+airportCode+"'", Airport.class).getSingleResult();
+    }
 
     public List<Airport> findAll() {
         return em.createQuery("select a from Airport a", Airport.class).getResultList();
