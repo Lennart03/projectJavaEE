@@ -12,6 +12,16 @@
 	<navigation-rule>
 		<from-view-id>/index.xhtml</from-view-id>
 		<navigation-case>
+			<from-outcome>toIndex</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+
+	<navigation-rule>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
 			<from-outcome>toLogin</from-outcome>
 			<to-view-id>/login.xhtml</to-view-id>
 			<redirect />
@@ -36,17 +46,17 @@
 		<navigation-case>
 			<from-outcome>toBooking</from-outcome>
 			<to-view-id>/booking.xhtml</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>toIndex</from-outcome>
 			<to-view-id>/index.xhtml</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>toAdmin</from-outcome>
 			<to-view-id>/admin.xhtml</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<title><ui:insert name="title">RAIR TEMPLATE TITLE</ui:insert></title>
+</h:head>
+<h:body>
+	<h:form id="menubar">
+		<p:menubar>
+
+			<f:facet name="header">
+				<h:outputText value="Rair ticket service" />
+			</f:facet>
+			<f:facet name="options">
+				<p:commandButton style="margin-right:10px" value="Login" action="login?faces-redirect=true" rendered="#{!loginServiceBean.isLoggedIn(loginBean.person.emailAddress)}"/>
+				<p:commandButton value="Logout" rendered="#{loginServiceBean.isLoggedIn(loginBean.person.emailAddress)}" action="#{loginServiceBean.logout(loginBean.person.emailAddress)}"/>
+			</f:facet>
+
+		</p:menubar>
+	</h:form>
+	<main> <ui:insert name="content">RAIR TEMPLATE CONTENT</ui:insert>
+	</main>
+</h:body>
+</html>

@@ -59,11 +59,11 @@ public class Flight implements Serializable {
 	@MapKeyEnumerated(EnumType.STRING)
 	private Map<TravelingClass, Integer> availableSeats;
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval=true)
 	@JoinColumn(nullable = false)
 	private Airport departureDestination;
 
-	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval=true)
 	@JoinColumn(nullable = false)
 	private Airport arrivalDestination;
 	private Date departureTime;

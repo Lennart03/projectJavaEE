@@ -44,6 +44,9 @@ public class FlightSearchBean implements Serializable {
 	private int nSeatsWanted;
 	private double priceOfTicket;
 	private double priceOfBooking;
+	
+	private String customerID;
+	
 
 	public TravelingClass getSelectedTravelClass() {
 		return selectedTravelClass;
@@ -198,5 +201,15 @@ public class FlightSearchBean implements Serializable {
 	public void calculateTotalPrice() {
 		priceOfBooking = nSeatsWanted * priceOfTicket;
 	}
+
+	public String getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(String customerID) {
+		this.customerID = customerID;
+	}
+	
+	
 
 }

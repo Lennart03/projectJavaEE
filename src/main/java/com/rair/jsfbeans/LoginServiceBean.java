@@ -28,15 +28,23 @@ public class LoginServiceBean {
 	public void setLoginMap(Map<String, Boolean> loginMap) {
 		this.loginMap = loginMap;
 	}
+	
+	public Boolean isLoggedIn(String email){
+		if(loginMap.containsKey(email)){
+			return loginMap.get(email);
+		}
+		return false;
+	}
 
 	public void login(String email) {
 		System.out.println("Loggin in: " + email);
 		loginMap.put(email, true);
 	}
 
-	public void logout(Person person) {
-		System.out.println("Logout: " + person.getEmailAddress());
-		loginMap.put(person.getEmailAddress(), false);
+	public String logout(String email) {
+		System.out.println("Logout: " + email);
+		loginMap.put(email, false);
+		return "toIndex";
 	}
 
 }
