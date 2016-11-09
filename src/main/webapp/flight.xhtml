@@ -38,7 +38,7 @@
 				sortBy="#{flight.departureDestination.name}">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{flight.departureDestination.name}" />
+						<h:outputText value="#{flight.departureDestination}" />
 					</f:facet>
 					<f:facet name="input">
 						<h:selectOneMenu value="#{flight.departureDestination}" style="width:100%" converter="airportConverter">
@@ -53,7 +53,7 @@
 				sortBy="#{flight.arrivalDestination.name}">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{flight.arrivalDestination.name}" />
+						<h:outputText value="#{flight.arrivalDestination}" />
 					</f:facet>
 					<f:facet name="input">
 						<h:selectOneMenu value="#{flight.arrivalDestination}" style="width:100%" converter="airportConverter">
