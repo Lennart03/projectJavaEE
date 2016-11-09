@@ -5,18 +5,31 @@ import java.util.Map;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-import com.rair.domain.Customer;
-import com.rair.domain.Employee;
-import com.rair.domain.Partner;
+import com.rair.domain.Person;
 
-@ManagedBean(name="loginBean")
+@ManagedBean(name="loginServiceBean")
 @ApplicationScoped
 public class LoginServiceBean {
 
-	private Map<Customer, Boolean> customerLoginMap;
-	private Map<Employee, Boolean> employeeLoginMap;
-	private Map<Partner, Boolean> partnerLoginMap;
+	private Map<String, Boolean> loginMap;
 	
+	
+	
+	public Map<String, Boolean> getLoginMap() {
+		return loginMap;
+	}
+
+	public void setLoginMap(Map<String, Boolean> loginMap) {
+		this.loginMap = loginMap;
+	}
+
+	public void login(String email) {
+		loginMap.put(email, true);
+	}
+	
+	public void logout(Person person){
+		loginMap.put(person.getEmailAddress(), false);
+	}
 	
 	
 }

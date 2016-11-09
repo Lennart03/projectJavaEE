@@ -33,6 +33,10 @@
 			<from-outcome>toBooking</from-outcome>
 			<to-view-id>/booking.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>toIndex</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
 		<from-view-id>/booking.xhtml</from-view-id>
@@ -45,7 +49,7 @@
 	<!-- ######################### -->
 	<!-- Application configuration -->
 	<!-- ######################### -->
-	
+
 	<application>
 		<locale-config>
 			<default-locale>en</default-locale>
