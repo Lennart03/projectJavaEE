@@ -17,10 +17,11 @@ public class LoginBean {
 
 	private String email;
 	private String password;
-	
+	private Person person;
+
 	@Inject
 	private PersonReposiroty personReposiroty;
-	
+
 	@ManagedProperty("#{loginServiceBean}")
 	private LoginServiceBean loginServiceBean;
 
@@ -39,17 +40,46 @@ public class LoginBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public String doLogin(){
-		Person person = personReposiroty.retrievePerson(email, password);
-		if(person == null) {
-			return "toRegister";
-		} else if (person instanceof Customer){
-			Customer customer = (Customer) person;
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	public PersonReposiroty getPersonReposiroty() {
+		return personReposiroty;
+	}
+
+	public void setPersonReposiroty(PersonReposiroty personReposiroty) {
+		this.personReposiroty = personReposiroty;
+	}
+
+	public LoginServiceBean getLoginServiceBean() {
+		return loginServiceBean;
+	}
+
+	public void setLoginServiceBean(LoginServiceBean loginServiceBean) {
+		this.loginServiceBean = loginServiceBean;
+	}
+
+	public String doLogin() {
+		person = personReposiroty.retrievePerson(email, password);
+		if (person == null) {
+			return "loginFailed";
+		}
+		loginServiceBean.login(person.getEmailAddress());
+		if (person instanceof Customer) {
+			System.out.println("Customer: " + person.getFirstName());
 			return "toIndex";
-		} else if (person instanceof Employee){
+		} else if (person instanceof Employee) {
+			System.out.println("Employee: " + person.getFirstName());
+			return "toAdmin";
 		} else if (person instanceof Partner) {
-			
+			System.out.println("Partner: " + person.getFirstName());
+			return "toFlightPage";
 		}
 		return "toIndex";
 	}

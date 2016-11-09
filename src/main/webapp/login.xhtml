@@ -20,9 +20,13 @@ This page is for logging in.
 			</f:facet>
 			<p:row>
 				<p:column colspan="2">
-					<p:inputMask id="email" mask="a*@a*.a*" value="#{loginBean.email}"
-						placeholder="Email" required="true"
-						requiredMessage="Please enter you email" />
+					<p:inputText id="email" value="#{loginBean.email}"
+						required="true" label="Email"
+						validatorMessage="#{loginBean.email} is not valid">
+						<f:validateRegex
+							pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+					</p:inputText>
+					<p:watermark value="Email" for="email"/>
 					<p:message for="email" />
 				</p:column>
 			</p:row>

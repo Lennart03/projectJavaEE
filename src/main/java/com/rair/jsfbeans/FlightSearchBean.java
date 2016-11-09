@@ -18,6 +18,7 @@ import org.primefaces.event.UnselectEvent;
 
 import com.rair.dao.FlightRepository;
 import com.rair.domain.Airport;
+import com.rair.domain.Employee;
 import com.rair.domain.Flight;
 import com.rair.domain.TravelingClass;
 
@@ -158,7 +159,7 @@ public class FlightSearchBean implements Serializable {
 
 	public void onRowSelect(SelectEvent event) {
 		selectedFlight = ((Flight) event.getObject());
-		priceOfTicket = selectedFlight.getBasePrice();
+		priceOfTicket = selectedFlight.getBasePrice() * Employee.RAIR_PERCENTAGE;
 		selectedTravelClass = TravelingClass.ECONOMY;
 		FacesMessage msg = new FacesMessage("Flight Selected");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -191,6 +192,7 @@ public class FlightSearchBean implements Serializable {
 			priceOfTicket = selectedFlight.getTicketPriceEconomyClass();
 			break;
 		}
+		priceOfTicket *= Employee.RAIR_PERCENTAGE;
 	}
 
 	public void calculateTotalPrice() {
