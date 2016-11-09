@@ -79,40 +79,75 @@
 					</p:dataTable>
 				</p:panel>
 			</p:tab>
-			
+
 			<p:tab id="ticketChoice" title="Tickets">
-				<h:panelGrid columns="2" cellPadding="5" >
-				
-					<h:outputText for="flightClass" value="Flight class:"/>
-					<p:selectOneRadio id="flightClass" value="#{flightSearchBean.selectedTravelClass}">
-						<f:selectItem itemLabel="Economy" itemValue="ECONOMY"/>
-						<f:selectItem itemLabel="Business" itemValue="BUSINESS"/>
-						<f:selectItem itemLabel="First Class" itemValue="FIRST_CLASS"/>
-						<p:ajax update="priceOneTicket" listener="#{flightSearchBean.changePriceOfOneTicket}"/>
+				<h:panelGrid columns="2" cellPadding="5">
+
+					<h:outputText for="flightClass" value="Flight class:" />
+					<p:selectOneRadio id="flightClass"
+						value="#{flightSearchBean.selectedTravelClass}">
+						<f:selectItem itemLabel="Economy" itemValue="ECONOMY" />
+						<f:selectItem itemLabel="Business" itemValue="BUSINESS" />
+						<f:selectItem itemLabel="First Class" itemValue="FIRST_CLASS" />
+						<p:ajax update="priceOneTicket"
+							listener="#{flightSearchBean.changePriceOfOneTicket}" />
+							<p:ajax update="totalPrice" listener="#{flightSearchBean.calculateTotalPrice}" process="@this"/>
 					</p:selectOneRadio>
-					
-					<h:outputText for="numberOfTickets" value="Number of tickets:"/>
-					<p:inputNumber id="numberOfTickets" value="#{flightSearchBean.nSeatsWanted}" minValue="0" maxValue="#{flightSearchBean.maximumSeats()}">
-						<p:ajax update="totalPrice" listener="#{flightSearchBean.calculateTotalPrice}" event="keyup"/>
-					</p:inputNumber>
-					
-					<h:outputText for="priceOneTicket" value="Price for one ticket:"/>
-					<h:outputText id="priceOneTicket" value="#{flightSearchBean.priceOfTicket}"/>
-					
-					<h:outputText for="totalPrice" value="Total price:"/>
-					<h:outputText id="totalPrice" value="#{flightSearchBean.priceOfBooking}"/>
-					
+
+					<h:outputText for="numberOfTickets" value="Number of tickets:" />
+					<p:outputPanel>
+						<p:spinner id="numberOfTickets" value="#{flightSearchBean.nSeatsWanted}">
+							<p:ajax update="totalPrice" listener="#{flightSearchBean.calculateTotalPrice}" process="@this" />
+						</p:spinner>
+					</p:outputPanel>
+
+					<h:outputText for="priceOneTicket" value="Price for one ticket:" />
+					<h:outputText id="priceOneTicket"
+						value="#{flightSearchBean.priceOfTicket}" />
+
+					<h:outputText for="totalPrice" value="Total price:" />
+					<h:outputText id="totalPrice"
+						value="#{flightSearchBean.priceOfBooking}" />
+
 				</h:panelGrid>
 			</p:tab>
 
 			<p:tab id="flightDetails" title="Flight Details">
 
 				<p:panel
-					header="Details of flight #{flightSearchBean.selectedFlight.flightNumber} to #{flightSearchBean.selectedFlight.arrivalDestination.city} - #{flightSearchBean.selectedFlight.arrivalDestination.country}">
+					header="Details of your selected flight>
 					<p:panelGrid columns="2" cellPading="5">
 					
+					<h:outputText for="detailTabflightNumber" value="Flight number:"/>
+					<h:outputText id="detailTabflightNumber" value="#{flightSearchBean.selectedFlight.flightNumber}"/>
+					
+					<h:outputText for="detailTabdeparture" value="Departure:"/>
+					<h:outputText id="detailTabdeparture" value="#{flightSearchBean.selectedFlight.departureDestination.name}"/>
+					
+					<h:outputText for="detailTabarrival" value="Arrival:"/>
+					<h:outputText id="detailTabarrival" value="#{flightSearchBean.selectedFlight.arrivalDestination.name}"/>
+					
+					<h:outputText for="detailTabdepartureTime" value="Departure Time:"/>
+					<h:outputText id="detailTabdepartureTime" value="#{flightSearchBean.selectedFlight.departureTime}"/>
+					
+					<h:outputText for="detailTabairline" value="Airline: "/>
+					<h:outputText id="detailTabairline" value="#{flightSearchBean.selectedFlight.airline.name}"/>
+					
+					<h:outputText for="detailTabtravelingClass" value="Traveling class:"/>
+					<h:outputText id="detailTabtravelingClass" value="#{flightSearchBean.selectedTravelClass}"/>
+					
+					<h:outputText for="detailTabnumberOfTickets" value="Number of Tickets:"/>
+					<h:outputText id="detailTabnumberOfTickets" value="#{flightSearchBean.nSeatsWanted}"/>
+					
+					<h:outputText for="detailTabpriceOneTicket" value="Price of One Ticket:"/>
+					<h:outputText id="detailTabpriceOneTicket" value="#{flightSearchBean.priceOfTicket}"/>
+					
+					<h:outputText for="detailTabtotalPrice" value="Total price for flight:"/>
+					<h:outputText id="detailTabtotalPrice" value="#{flightSearchBean.priceOfBooking}"/>
+					
 					</p:panelGrid>
-					<p:commandButton value="Book now" actionListener="#{flightSearchBean.bookFlight()}" process="@this"/>
+					<p:commandButton value="Book now"
+						actionListener="#{flightSearchBean.bookFlight()}"/>
 				</p:panel>
 
 			</p:tab>

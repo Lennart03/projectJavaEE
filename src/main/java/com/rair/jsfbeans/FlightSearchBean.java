@@ -29,6 +29,9 @@ public class FlightSearchBean implements Serializable {
 
 	@ManagedProperty("#{airportServiceBean}")
 	private AirportServiceBean airportServiceBean;
+	
+	@ManagedProperty("#{bookingServiceBean}")
+	private BookingServiceBean bookingServiceBean;
 
 	@Inject
 	private FlightRepository flightRepository;
@@ -159,9 +162,10 @@ public class FlightSearchBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void bookFlight() {
+	public String bookFlight() {
 		System.out.println("Going to book the flight. The customer should login now is not already done.");
 		System.out.println("If the user is not register, register the guy (or girl)");
+		return null;
 	}
 
 	public Integer maximumSeats() {
