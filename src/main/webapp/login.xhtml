@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 This page is for logging in.
@@ -9,5 +10,45 @@ This page is for logging in.
 
 <h:body>
 	<h1>LOGIN</h1>
+	<h:form>
+		<p:panelGrid>
+
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="2">Login</p:column>
+				</p:row>
+			</f:facet>
+			<p:row>
+				<p:column colspan="2">
+					<p:inputText id="email" value="#{loginBean.email}"
+						required="true" label="Email"
+						validatorMessage="#{loginBean.email} is not valid">
+						<f:validateRegex
+							pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+					</p:inputText>
+					<p:watermark value="Email" for="email"/>
+					<p:message for="email" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column colspan="2">
+					<p:password id="password" value="#{loginBean.password}"
+						placeholder="Password" required="true"
+						requiredMessage="Pleas enter your password" />
+					<p:message for="password" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:commandButton ajax="false" value="Login"
+						action="#{loginBean.doLogin()}" />
+				</p:column>
+				<p:column>
+					<p:commandButton ajax="false" value="Register"
+						action="register?faces-redirect=true" immediate="true" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</h:form>
 </h:body>
 </html>
