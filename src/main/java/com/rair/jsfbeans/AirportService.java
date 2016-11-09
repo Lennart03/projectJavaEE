@@ -33,6 +33,7 @@ public class AirportService implements Serializable{
     }
 
 	public List<Airport> getAirports() {
+		System.out.println("nieuwe lijst opgevraagd");
 		return airports;
 	}
 	
@@ -54,6 +55,16 @@ public class AirportService implements Serializable{
     	Airport airport = (Airport) event.getObject();
         FacesMessage msg = new FacesMessage("Edit Cancelled", airport.toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public void deleteAirport(String airportCode){
+    	if(airportCode!=null && airportCode != ""){
+    	Airport airport = airportRepository.findByAirportCode(airportCode);
+    	airportRepository.remove(airport.getId());
+    	FacesMessage msg = new FacesMessage("Airport deleted", airport.toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    	}
+        init();
     }
     
     public List<Region> getRegions(){

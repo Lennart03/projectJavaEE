@@ -1,10 +1,8 @@
 package com.rair.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
@@ -18,8 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyEnumerated;
@@ -49,10 +45,6 @@ public class Flight implements Serializable {
 	@JoinColumn(nullable = false)
 	private Airline airline;
 
-	@ManyToMany
-	@JoinTable(name = "jnd_flight_booking", joinColumns = @JoinColumn(name = "flight_fk"), inverseJoinColumns = @JoinColumn(name = "booking_fk"))
-	private List<Booking> bookings;
-
 	@ElementCollection
 	@CollectionTable(name = "number_of_seats")
 	@MapKeyColumn(name = "traveling_class")
@@ -78,7 +70,6 @@ public class Flight implements Serializable {
 
 	public Flight() {
 		super();
-		bookings = new ArrayList<>();
 		numberOfSeats = new HashMap<>();
 		availableSeats = new HashMap<>();
 	}
@@ -113,14 +104,6 @@ public class Flight implements Serializable {
 
 	public void setAirline(Airline airline) {
 		this.airline = airline;
-	}
-
-	public List<Booking> getBookings() {
-		return bookings;
-	}
-
-	public void addBooking(Booking booking) {
-		bookings.add(booking);
 	}
 
 	public Map<TravelingClass, Integer> getNumberOfSeats() {

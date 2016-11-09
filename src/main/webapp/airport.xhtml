@@ -7,23 +7,9 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-<title>Airportbeheer</title>
+	<title>Airportbeheer</title>
 </h:head>
 <h:body>
-	<!-- <p:panelGrid columns="1" layout="grid">
-		<p:outputLabel>Overzicht van de luchthavens: </p:outputLabel>
-		<br />
-		<br />
-		<p:dataTable id="table1" value="#{airportRetrieveBean.airports}" var="airport"
-			style="margin-left:5px; margin-right:5px;">
-			<p:column headerText="Name" >
-				<h:outputText value="#{airport.name}" />
-			</p:column>
-		</p:dataTable>
-		<br />
-		<br />
-
-	</p:panelGrid>-->
 	<h:form id="form">
 		<p:growl id="msgs" showDetail="true" />
 
@@ -79,19 +65,34 @@
 					</f:facet>
 					<f:facet name="input">
 						<h:selectOneMenu value="#{airport.region}" style="width:100%">
-							<f:selectItems value="#{airportService.regions}"
-								var="region" itemLabel="#{region}" itemValue="#{region}" />
+							<f:selectItems value="#{airportService.regions}" var="region"
+								itemLabel="#{region}" itemValue="#{region}" />
 						</h:selectOneMenu>
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 
-			<p:column style="width:32px">
-				<p:rowEditor/>
+			<p:column style="width:16px">
+				<p:rowEditor />
+				<c:set var="code" value="#{airport.airportCode}" />
+				<p:commandLink
+					actionListener="#{airportService.deleteAirport(code)}"
+					styleClass="ui-icon ui-icon-circle-minus" update="@form">
+					<p:confirm header="Deleting airport"
+						message="Deleting this airport will delete all existing flights and bookings departing from and arriving at the chosen airport. Are you sure you want to continue?"
+						icon="ui-icon-alert" />
+				</p:commandLink>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
 			</p:column>
-			
+
 			<f:facet name="footer">
-				<p:commandButton value="Add Item" action="#{airportService.addAction}" update=":form"/>
+				<p:commandButton value="Add Item"
+					action="#{airportService.addAction}" update=":form" />
 			</f:facet>
 		</p:dataTable>
 
