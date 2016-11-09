@@ -11,11 +11,11 @@
 </h:head>
 <h:body>
 	<h:form id="form">
-		<p:growl id="msgs" showDetail="true" />
+		<p:growl id="msgs" showDetail="true"/>
 
 		<p:dataTable id="flights" var="flight"
 			value="#{flightService.futureFlightsByAirline}" editable="true"
-			style="margin-bottom:20px">
+			style="margin-bottom:20px" >
 
 			<p:ajax event="rowEdit" listener="#{flightService.onRowEdit}"
 				update=":form:msgs" />

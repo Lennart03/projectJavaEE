@@ -22,6 +22,8 @@ public class AirportConverter implements Converter {
 			try {
 				AirportServiceBean airportServiceBean = (AirportServiceBean)fc.getExternalContext().getApplicationMap().get("airportServiceBean");
 				System.out.println(airportServiceBean);
+				Airport airport = airportServiceBean.findAirportByName(value);
+				System.out.println(airport);
 				return airportServiceBean.findAirportByName(value);
 			} catch (NumberFormatException e) {
 				throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion error", "Not a valid airport"));
