@@ -1,16 +1,63 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:r="http://xmlns.jcp.org/jsf/composite/realdolmen"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-This page is for adding airline companies.
+	<title>Airlinebeheer</title>
 </h:head>
-
 <h:body>
-	<h:form>
-		<p:inputText value="#{airlineBean.airlineName}"/>
-		<p:commandButton ajax="false" value="Submit" action="#{airlineBean.createAirline()}"/>
+	<h:form id="form">
+		<p:growl id="msgs" showDetail="true" />
+
+		<p:dataTable id="airlines" var="airline"
+			value="#{airlineService.airlines}" editable="true"
+			style="margin-bottom:20px">
+
+			<p:ajax event="rowEdit" listener="#{airlineService.onRowEdit}"
+				update=":form:msgs" />
+			<p:ajax event="rowEditCancel"
+				listener="#{airlineService.onRowCancel}" update=":form:msgs" />
+
+			<p:column headerText="Name" sortBy="#{airline.name}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{airline.name}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{airline.name}"
+							style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column style="width:16px">
+				<p:rowEditor />
+				<c:set var="airlineName" value="#{airline.name}" />
+				<p:commandLink
+					actionListener="#{airlineService.deleteAirline(airlineName)}"
+					styleClass="ui-icon ui-icon-circle-minus" update="@form">
+					<p:confirm header="Deleting airline"
+						message="Deleting this airline will delete all existing flights and bookings with the chosen airline. Are you sure you want to continue?"
+						icon="ui-icon-alert" />
+				</p:commandLink>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:column>
+
+			<f:facet name="footer">
+				<p:commandButton value="Add Item"
+					action="#{airlineService.addAction}" update=":form" />
+			</f:facet>
+		</p:dataTable>
+
 	</h:form>
 </h:body>
 </html>

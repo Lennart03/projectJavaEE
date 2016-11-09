@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.rair.domain.Airline;
-import com.rair.domain.Airport;
+import com.rair.domain.Flight;
 
 @Stateless
 public class AirlineRepository {
@@ -15,13 +15,18 @@ public class AirlineRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 	
-	public void createAirline(String name) {
+	public Airline createAirline(String name) {
 		Airline airline = new Airline(name);
 		entityManager.persist(airline);
+		return airline;
 	}
 	
 	public boolean deleteAirline(Long id) {
-		entityManager.remove(entityManager.getReference(Airline.class, id));
+		List<Flight> conflictingFlights = entityManager.createQuery("select f from Flight f where f.airline.id = " + id , Flight.class).getResultList();
+    	for(Flight flight:conflictingFlights){
+    		entityManager.remove(entityManager.getReference(Flight.class, flight.getId()));
+    	}
+    	entityManager.remove(entityManager.getReference(Airline.class, id));
 		return true;
 	}
 	
@@ -30,7 +35,7 @@ public class AirlineRepository {
 		return airline;
 	}
 	
-	public List<Airline> retrieveAllAirports() {
+	public List<Airline> retrieveAllAirlines() {
 		List<Airline> airlines = entityManager.createQuery("Select airline from Airline airline", Airline.class).getResultList();
 		System.out.println(airlines);
 		return airlines;
@@ -40,5 +45,14 @@ public class AirlineRepository {
 		entityManager.merge(airline);
 	}
 	
+	public Airline update(Airline airline, Long airlineId){
+    	Airline oldAirline = entityManager.find(Airline.class, airlineId);
+    	System.out.println("Oude maatschappij naam: " + oldAirline.getName());
+    	System.out.println("Nieuwe maatschappij naam: " + airline.getName());
+    	oldAirline = airline;
+    	System.out.println("Te mergen luchthaven naam: " + oldAirline.getName());
+    	entityManager.merge(oldAirline);
+    	return oldAirline;
+    }
 	
 }
