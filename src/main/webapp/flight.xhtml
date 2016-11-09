@@ -28,7 +28,8 @@
 						<h:outputText value="#{flight.flightNumber}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:outputText value="#{flight.flightNumber}" />
+						<p:inputText value="#{flight.flightNumber}" style="width:100%"
+							label="Flightnumber" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -40,7 +41,10 @@
 						<h:outputText value="#{flight.departureDestination.name}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:outputText value="#{flight.departureDestination.name}" />
+						<h:selectOneMenu value="#{flight.departureDestination}" style="width:100%" converter="airportConverter">
+							<f:selectItems value="#{flightService.airports}" var="airport"
+								itemLabel="#{airport.name}" itemValue="#{airport}" />
+						</h:selectOneMenu>
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -52,7 +56,10 @@
 						<h:outputText value="#{flight.arrivalDestination.name}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:outputText value="#{flight.arrivalDestination.name}" />
+						<h:selectOneMenu value="#{flight.arrivalDestination}" style="width:100%" converter="airportConverter">
+							<f:selectItems value="#{flightService.airports}" var="airport"
+								itemLabel="#{airport.name}" itemValue="#{airport}" />
+						</h:selectOneMenu>
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -60,11 +67,11 @@
 			<p:column headerText="Base Price" sortBy="#{flight.basePrice}">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{flight.basePrice}€" />
+						<h:outputText value="#{flight.basePrice} €" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{flight.basePrice}" style="width:100%"
-							label="Base Price" />
+						<p:inputNumber value="#{flight.basePrice}" symbol=" €" symbolPosition="s" 
+                               decimalSeparator="," thousandSeparator="."/>
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -86,11 +93,25 @@
 
 			<p:column style="width:16px">
 				<p:rowEditor />
+				<c:set var="number" value="#{flight.flightNumber}" />
+				<p:commandLink
+					actionListener="#{flightService.deleteFlight(number)}"
+					styleClass="ui-icon ui-icon-circle-minus" update="@form">
+					<p:confirm header="Deleting flight"
+						message="Deleting this flight will delete all existing bookings on this flight. Are you sure you want to continue?"
+						icon="ui-icon-alert" />
+				</p:commandLink>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
 			</p:column>
 
 			<f:facet name="footer">
 				<p:commandButton value="Add Item"
-					action="#{airportService.addAction}" update=":form" />
+					action="#{flightService.addAction}" update=":form" />
 			</f:facet>
 		</p:dataTable>
 
