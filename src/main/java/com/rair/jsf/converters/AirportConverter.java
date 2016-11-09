@@ -6,7 +6,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 
+import com.rair.dao.AirportRepository;
 import com.rair.domain.Airport;
 import com.rair.jsfbeans.AirportServiceBean;
 
@@ -15,7 +17,6 @@ public class AirportConverter implements Converter {
 	
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
-		System.out.println(value);
 		if (value != null && value.trim().length() > 0) {
 			try {
 				AirportServiceBean airportServiceBean = (AirportServiceBean)fc.getExternalContext().getApplicationMap().get("airportServiceBean");

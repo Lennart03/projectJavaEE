@@ -14,6 +14,10 @@ public class AirportRepository {
 
 	@PersistenceContext
     EntityManager em;
+	
+	public AirportRepository() {
+		// TODO Auto-generated constructor stub
+	}
 
     public Airport save(Airport airport) {
         em.persist(airport);
