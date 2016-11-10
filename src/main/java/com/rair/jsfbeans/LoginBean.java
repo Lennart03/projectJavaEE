@@ -25,6 +25,9 @@ public class LoginBean {
 	@ManagedProperty("#{loginServiceBean}")
 	private LoginServiceBean loginServiceBean;
 
+	@ManagedProperty("#{bookingServiceBean}")
+	private BookingServiceBean bookingServiceBean;
+
 	public String getEmail() {
 		return email;
 	}
@@ -65,6 +68,14 @@ public class LoginBean {
 		this.loginServiceBean = loginServiceBean;
 	}
 
+	public BookingServiceBean getBookingServiceBean() {
+		return bookingServiceBean;
+	}
+
+	public void setBookingServiceBean(BookingServiceBean bookingServiceBean) {
+		this.bookingServiceBean = bookingServiceBean;
+	}
+
 	public String doLogin() {
 		person = personReposiroty.retrievePerson(email, password);
 		if (person == null) {
@@ -73,7 +84,12 @@ public class LoginBean {
 		loginServiceBean.login(person.getEmailAddress());
 		if (person instanceof Customer) {
 			System.out.println("Customer: " + person.getFirstName());
-			return "toIndex";
+			bookingServiceBean.setCustomer((Customer) person);
+			if (bookingServiceBean.getFlight() == null) {
+				return "toIndex";
+			} else {
+				return "toBooking";
+			}
 		} else if (person instanceof Employee) {
 			System.out.println("Employee: " + person.getFirstName());
 			return "toAdmin";

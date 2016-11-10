@@ -1,13 +1,94 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-This page is for booking
-</h:head>
 
-<h:body>
-	<h1>BOOKING</h1>
-</h:body>
+<ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="title">Booking details</ui:define>
+	<ui:define name="content">
+
+		<h:outputText
+			value="Payment type: #{bookingServiceBean.paymentChoice}" />
+		<p:panel header="Details of your selected flight">
+			<h:panelGrid columns="4" cellPading="10">
+
+				<h:outputText for="detailTabflightNumber" value="Flight number:" />
+				<h:outputText id="detailTabflightNumber"
+					value="#{bookingServiceBean.flight.flightNumber}" />
+
+				<h:outputText for="detailTabdeparture" value="Departure:" />
+				<h:outputText id="detailTabdeparture"
+					value="#{bookingServiceBean.flight.departureDestination.name}" />
+
+				<h:outputText for="detailTabarrival" value="Arrival:" />
+				<h:outputText id="detailTabarrival"
+					value="#{bookingServiceBean.flight.arrivalDestination.name}" />
+
+				<h:outputText for="detailTabdepartureTime" value="Departure Time:" />
+				<h:outputText id="detailTabdepartureTime"
+					value="#{bookingServiceBean.flight.departureTime}">
+					<f:convertDateTime type="both"
+						timeZone="#{loginServiceBean.timeZone}" />
+				</h:outputText>
+
+				<h:outputText for="detailTabairline" value="Airline: " />
+				<h:outputText id="detailTabairline"
+					value="#{bookingServiceBean.flight.airline.name}" />
+
+				<h:outputText for="detailTabtravelingClass" value="Traveling class:" />
+				<h:outputText id="detailTabtravelingClass"
+					value="#{bookingServiceBean.selectedTravelClass}" />
+
+				<h:outputText for="detailTabnumberOfTickets"
+					value="Number of Tickets:" />
+				<h:outputText id="detailTabnumberOfTickets"
+					value="#{bookingServiceBean.nSeatsWanted}" />
+
+				<h:outputText for="detailTabtotalPrice"
+					value="Total price for flight:" />
+				<h:outputText id="detailTabtotalPrice"
+					value="€#{bookingServiceBean.priceOfBooking}">
+					<f:convertNumber type="currency" maxFractionDigits="2" />
+				</h:outputText>
+
+			</h:panelGrid>
+			<h:form id="paymentForm">
+				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+					<p:outputLabel value="How do you want to pay your flight?" />
+					<p:selectOneRadio value="#{bookingServiceBean.paymentChoice}">
+						<f:selectItem itemLabel="Credit Card" itemValue="CREDITCARD" />
+						<f:selectItem itemLabel="Endorsment" itemValue="ENDORSMENT" />
+						<p:ajax update="@form"/>
+					</p:selectOneRadio>
+					<p:row>
+						<p:column colspan="2">
+							<p:inputText id="creditCardNumber"
+								rendered="#{bookingServiceBean.isCreditCardPayment()}">
+<!-- 								<f:validateRegex pattern="^(?:4[0-9]{12}(?:[0-9]{3})? " /> -->
+							</p:inputText>
+							<p:watermark value="Credit card number"
+								rendered="#{bookingServiceBean.isCreditCardPayment()}"
+								for="creditCardNumber" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="2">
+							<p:inputText
+								rendered="#{bookingServiceBean.isCreditCardPayment()}"
+								id="creditCardOwner" />
+							<p:watermark value="Owner name"
+								rendered="#{bookingServiceBean.isCreditCardPayment()}"
+								for="creditCardOwner" />
+						</p:column>
+					</p:row>
+				</h:panelGrid>
+				<p:commandButton value="Pay Flight" action="#{bookingServiceBean.makeBooking()}" ajax="false"/>
+			</h:form>
+		</p:panel>
+
+	</ui:define>
+</ui:composition>
+
 </html>

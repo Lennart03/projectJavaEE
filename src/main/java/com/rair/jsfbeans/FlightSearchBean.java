@@ -41,18 +41,15 @@ public class FlightSearchBean implements Serializable {
 	private FlightRepository flightRepository;
 
 	private Airport arrivalAirport;
-	private Flight selectedFlight;
 	private List<Flight> flightsForArrival;
-	private TravelingClass selectedTravelClass;
-	private int nSeatsWanted;
+	
+	
 	private double priceOfTicket;
-	private double priceOfBooking;
+	
 
 	private String customerID;
 
-	public TravelingClass getSelectedTravelClass() {
-		return selectedTravelClass;
-	}
+	
 
 	public double getPriceOfTicket() {
 		return priceOfTicket;
@@ -60,27 +57,6 @@ public class FlightSearchBean implements Serializable {
 
 	public void setPriceOfTicket(double priceOfTicket) {
 		this.priceOfTicket = priceOfTicket;
-	}
-
-	public void setSelectedTravelClass(TravelingClass selectedTravelClass) {
-		System.out.println(selectedTravelClass);
-		this.selectedTravelClass = selectedTravelClass;
-	}
-
-	public int getnSeatsWanted() {
-		return nSeatsWanted;
-	}
-
-	public void setnSeatsWanted(int nSeatsWanted) {
-		this.nSeatsWanted = nSeatsWanted;
-	}
-
-	public double getPriceOfBooking() {
-		return priceOfBooking;
-	}
-
-	public void setPriceOfBooking(double priceOfBooking) {
-		this.priceOfBooking = priceOfBooking;
 	}
 
 	public Airport getArrivalAirport() {
@@ -146,18 +122,13 @@ public class FlightSearchBean implements Serializable {
 		this.flightsForArrival = flightsForArrival;
 	}
 
-	public Flight getSelectedFlight() {
-		return selectedFlight;
-	}
-
-	public void setSelectedFlight(Flight selectedFlight) {
-		this.selectedFlight = selectedFlight;
-	}
-
 	public String onFlowProcess(FlowEvent event) {
 		if (event.getNewStep().equals("flights")) {
 			if (event.getOldStep().equals("ticketChoice")) {
-				selectedFlight = null;
+				bookingServiceBean.setFlight(null);
+				bookingServiceBean.setnSeatsWanted(0);
+				bookingServiceBean.setPriceOfBooking(0);
+				bookingServiceBean.setSelectedTravelClass(TravelingClass.ECONOMY);
 			}
 			flightsForArrival = flightRepository.retrieveFlightsByDestination(arrivalAirport);
 			for (Flight flight : flightsForArrival) {
@@ -171,15 +142,15 @@ public class FlightSearchBean implements Serializable {
 	}
 
 	public void onRowSelect(SelectEvent event) {
-		selectedFlight = ((Flight) event.getObject());
-		priceOfTicket = selectedFlight.getBasePrice() * Employee.RAIR_PERCENTAGE;
-		selectedTravelClass = TravelingClass.ECONOMY;
+		bookingServiceBean.setFlight((Flight) event.getObject());
+		priceOfTicket = bookingServiceBean.getFlight().getBasePrice() * Employee.RAIR_PERCENTAGE;
+		bookingServiceBean.setSelectedTravelClass(TravelingClass.ECONOMY);
 		FacesMessage msg = new FacesMessage("Flight Selected");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void onRowUnselect(UnselectEvent event) {
-		selectedFlight = null;
+		bookingServiceBean.setFlight(null);
 		FacesMessage msg = new FacesMessage("Flight Unselected");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
@@ -191,32 +162,24 @@ public class FlightSearchBean implements Serializable {
 			return "toLogin";
 		}
 		
-		bookingServiceBean.setFlight(selectedFlight);
 		return "toLogin";
 	}
 
-	public Integer maximumSeats() {
-		return selectedFlight.checkSeatsForTravelingClass(selectedTravelClass);
-	}
-
 	public void changePriceOfOneTicket() {
-		switch (selectedTravelClass) {
+		switch (bookingServiceBean.getSelectedTravelClass()) {
 		case BUSINESS:
-			priceOfTicket = selectedFlight.getTicketPriceBusinessClass();
+			priceOfTicket = bookingServiceBean.getFlight().getTicketPriceBusinessClass();
 			break;
 		case FIRST_CLASS:
-			priceOfTicket = selectedFlight.getTicketPriceFirstClass();
+			priceOfTicket = bookingServiceBean.getFlight().getTicketPriceFirstClass();
 			break;
 		default:
-			priceOfTicket = selectedFlight.getTicketPriceEconomyClass();
+			priceOfTicket = bookingServiceBean.getFlight().getTicketPriceEconomyClass();
 			break;
 		}
 		priceOfTicket *= Employee.RAIR_PERCENTAGE;
 	}
 
-	public void calculateTotalPrice() {
-		priceOfBooking = nSeatsWanted * priceOfTicket;
-	}
 
 	public String getCustomerID() {
 		return customerID;

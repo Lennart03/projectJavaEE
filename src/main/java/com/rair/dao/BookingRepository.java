@@ -2,6 +2,7 @@ package com.rair.dao;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -9,6 +10,7 @@ import com.rair.domain.Booking;
 import com.rair.domain.Customer;
 import com.rair.domain.Payment;
 
+@Stateless
 public class BookingRepository {
 
 	@PersistenceContext
