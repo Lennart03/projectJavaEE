@@ -2,11 +2,13 @@ package com.rair.dao;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.rair.domain.Customer;
 
+@Stateless
 public class CustomerRepository {
 	
 	@PersistenceContext
@@ -36,5 +38,8 @@ public class CustomerRepository {
     	return oldCustomer;
     }
 
-
+    public Customer findByEmail(String email){
+    	Customer customer = em.createQuery("select c from Customer c where c.emailAddress = '" + email + "'",Customer.class).getSingleResult();
+    	return customer;
+    }
 }

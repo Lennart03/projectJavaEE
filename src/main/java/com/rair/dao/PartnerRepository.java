@@ -24,7 +24,7 @@ public class PartnerRepository {
     }
     
     public Partner findByEmail(String email){
-    	Partner partner = em.createQuery("selet p from Partner p where p.email = " + email,Partner.class).getSingleResult();
+    	Partner partner = em.createQuery("select p from Partner p where p.emailAddress = '" + email + "'",Partner.class).getSingleResult();
     	return partner;
     }
 
