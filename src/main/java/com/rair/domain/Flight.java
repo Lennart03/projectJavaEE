@@ -1,7 +1,6 @@
 package com.rair.domain;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,15 +26,15 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Flight implements Serializable {
 
 	private static final long serialVersionUID = 9060103451334852487L;
-	private static final BigDecimal BUSINESSCLASS_MULTIPLIER = new BigDecimal(3.75);
-	private static final BigDecimal FIRSTCLASS_MULTIPLIER = new BigDecimal(9.5468);
+	private static final double BUSINESSCLASS_MULTIPLIER = 3.75;
+	private static final double FIRSTCLASS_MULTIPLIER = 9.5468;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column
-	private BigDecimal basePrice;
+	private Double basePrice;
 
 	@Column
 	@NotBlank
@@ -82,11 +81,11 @@ public class Flight implements Serializable {
 		this.id = id;
 	}
 
-	public BigDecimal getBasePrice() {
+	public Double getBasePrice() {
 		return basePrice;
 	}
 
-	public void setBasePrice(BigDecimal basePrice) {
+	public void setBasePrice(Double basePrice) {
 		this.basePrice = basePrice;
 	}
 
@@ -151,16 +150,16 @@ public class Flight implements Serializable {
 		this.departureTime = departureTime;
 	}
 	
-	public BigDecimal getTicketPriceEconomyClass() {
+	public double getTicketPriceEconomyClass() {
 		return basePrice;
 	}
 	
-	public BigDecimal getTicketPriceBusinessClass() {
-		return basePrice.multiply(BUSINESSCLASS_MULTIPLIER);
+	public double getTicketPriceBusinessClass() {
+		return basePrice * BUSINESSCLASS_MULTIPLIER;
 	}
 	
-	public BigDecimal getTicketPriceFirstClass() {
-		return basePrice.multiply(FIRSTCLASS_MULTIPLIER);
+	public double getTicketPriceFirstClass() {
+		return basePrice * FIRSTCLASS_MULTIPLIER;
 	}
 
 	@Override

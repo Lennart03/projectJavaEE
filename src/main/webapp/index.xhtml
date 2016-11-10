@@ -78,7 +78,7 @@
 							</p:column>
 							<p:column headerText="Ticket Price" sortBy="#{flight.basePrice}">
 								<h:outputText value="€ #{flight.basePrice}">
-									<f:convertNumber type="currency" />
+									<f:convertNumber type="currency" maxFractionDigits="2"/>
 								</h:outputText>
 							</p:column>
 						</p:dataTable>
@@ -114,13 +114,12 @@
 						<h:outputText for="priceOneTicket" value="Price for one ticket:" />
 						<h:outputText id="priceOneTicket"
 							value="€#{flightSearchBean.priceOfTicket}">
-							<f:convertNumber type="currency" />
 						</h:outputText>
 
 						<h:outputText for="totalPrice" value="Total price:" />
 						<h:outputText id="totalPrice"
-							value="€#{flightSearchBean.priceOfBooking}">
-							<f:convertNumber type="currency" />
+							value="€ #{flightSearchBean.priceOfBooking}">
+							<f:convertNumber type="currency" maxFractionDigits="2"/>
 						</h:outputText>
 
 					</h:panelGrid>
@@ -168,14 +167,14 @@
 								value="Price of One Ticket:" />
 							<h:outputText id="detailTabpriceOneTicket"
 								value="€#{flightSearchBean.priceOfTicket}">
-								<f:convertNumber type="currency" />
+								<f:convertNumber type="currency" maxFractionDigits="2"/>
 							</h:outputText>
 
 							<h:outputText for="detailTabtotalPrice"
 								value="Total price for flight:" />
 							<h:outputText id="detailTabtotalPrice"
 								value="€#{flightSearchBean.priceOfBooking}">
-								<f:convertNumber type="currency" />
+								<f:convertNumber type="currency" maxFractionDigits="2"/>
 							</h:outputText>
 
 						</p:panelGrid>
