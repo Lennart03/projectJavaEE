@@ -1,12 +1,13 @@
 package com.rair.jsfbeans;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -16,9 +17,10 @@ import com.rair.dao.AirlineRepository;
 import com.rair.domain.Airline;
 import com.rair.domain.Region;
 
-@ManagedBean
-@ViewScoped
-public class AirlineService {
+@ManagedBean(name="airlineService")
+@ApplicationScoped
+public class AirlineService{
+
 
 	@Inject
     private AirlineRepository airlineRepository;
@@ -86,6 +88,8 @@ public class AirlineService {
     	airlines.add(new Airline());
     }
 	
-	
+    public Airline findAirlineByName(String airlineName) {
+		return airlineRepository.retrieveAirline(airlineName);
+	}
 	
 }

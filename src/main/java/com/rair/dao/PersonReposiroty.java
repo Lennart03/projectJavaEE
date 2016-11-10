@@ -1,10 +1,13 @@
 package com.rair.dao;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import com.rair.domain.Partner;
 import com.rair.domain.Person;
 
 @Stateless
@@ -22,6 +25,11 @@ public class PersonReposiroty {
 			person = null;
 		}
 		return person;
+	}
+	
+	public List<Partner> retrieveAllPartners(){
+		List<Partner> partners = entityManager.createQuery("select partner from Person partner where partner.DTYPE = 'partner'", Partner.class).getResultList();
+		return partners;
 	}
 	
 	

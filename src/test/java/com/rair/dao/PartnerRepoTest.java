@@ -105,5 +105,10 @@ public class PartnerRepoTest extends JpaPersistenceTest{
 		partner2 = partnerRepository.update(partner2, partner2.getId());
 		assertEquals("Jane",partner2.getLastName());
 	}
+	
+	@Test
+	public void partnersCanBeRetrieved() throws Exception{
+		
+	}
 
 }

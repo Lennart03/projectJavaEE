@@ -96,7 +96,7 @@
 	<person DTYPE="Customer" id="1" emailAddress="customer1@rair.com" firstName="Lennart" lastName="Van Damme" password="passLennart" />
 	<person DTYPE="Employee" id="2" emailAddress="employee1@rair.com" firstName="Employee" lastName="Rair" password="passEmpl" />
 	<person DTYPE="Customer" id="3" emailAddress="customer2@rair.com" firstName="Niels" lastName="Stasijns" password="passNiels" />
-	<person DTYPE="Partner" id="4" emailAddress="partner1@rair.com" firstName="Partner" lastName="Rair" password="passPartner"/>
+	<person DTYPE="Partner" id="4" emailAddress="partner1@rair.com" firstName="Partner" lastName="Rair" password="passPartner" airline_id="1"/>
 	
 	<booking id="1" numberOfSeats="2" travelingClass="ECONOMY" paymentChoice="CREDITCARD" price="175" status="PAYMENT_SUCCES" customer_id="1" flight_id="3"/>
 	<booking id="2" numberOfSeats="4" travelingClass="FIRST_CLASS" paymentChoice="ENDORSMENT" price="360" status="PAYMENT_PENDING" customer_id="1" flight_id="5"/>

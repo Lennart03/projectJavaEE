@@ -1,13 +1,12 @@
 package com.rair.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class Partner extends Person{
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	private Airline airline;
 	
 	public Partner() {

@@ -45,7 +45,7 @@ public class Airline {
 
 	@Override
 	public String toString() {
-		return "Airline [id=" + id + ", name=" + name + "]";
+		return name;
 	}
 
 	@Override

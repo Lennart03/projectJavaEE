@@ -57,6 +57,18 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
+			
+			<p:column headerText="City" sortBy="#{airport.city}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{airport.city}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{airport.city}" style="width:100%"
+							label="City" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
 
 			<p:column headerText="Region" sortBy="#{airport.region}">
 				<p:cellEditor>
