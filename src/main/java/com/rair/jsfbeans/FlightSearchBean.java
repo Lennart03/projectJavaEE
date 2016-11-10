@@ -1,6 +1,7 @@
 package com.rair.jsfbeans;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -42,8 +43,8 @@ public class FlightSearchBean implements Serializable {
 	private List<Flight> flightsForArrival;
 	private TravelingClass selectedTravelClass;
 	private int nSeatsWanted;
-	private double priceOfTicket;
-	private double priceOfBooking;
+	private BigDecimal priceOfTicket;
+	private BigDecimal priceOfBooking;
 	
 	private String customerID;
 	
@@ -52,11 +53,11 @@ public class FlightSearchBean implements Serializable {
 		return selectedTravelClass;
 	}
 
-	public double getPriceOfTicket() {
+	public BigDecimal getPriceOfTicket() {
 		return priceOfTicket;
 	}
 
-	public void setPriceOfTicket(double priceOfTicket) {
+	public void setPriceOfTicket(BigDecimal priceOfTicket) {
 		this.priceOfTicket = priceOfTicket;
 	}
 
@@ -73,11 +74,11 @@ public class FlightSearchBean implements Serializable {
 		this.nSeatsWanted = nSeatsWanted;
 	}
 
-	public double getPriceOfBooking() {
+	public BigDecimal getPriceOfBooking() {
 		return priceOfBooking;
 	}
 
-	public void setPriceOfBooking(double priceOfBooking) {
+	public void setPriceOfBooking(BigDecimal priceOfBooking) {
 		this.priceOfBooking = priceOfBooking;
 	}
 
@@ -162,7 +163,7 @@ public class FlightSearchBean implements Serializable {
 
 	public void onRowSelect(SelectEvent event) {
 		selectedFlight = ((Flight) event.getObject());
-		priceOfTicket = selectedFlight.getBasePrice() * Employee.RAIR_PERCENTAGE;
+		priceOfTicket = selectedFlight.getBasePrice().multiply(new BigDecimal(Employee.RAIR_PERCENTAGE));
 		selectedTravelClass = TravelingClass.ECONOMY;
 		FacesMessage msg = new FacesMessage("Flight Selected");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -195,11 +196,11 @@ public class FlightSearchBean implements Serializable {
 			priceOfTicket = selectedFlight.getTicketPriceEconomyClass();
 			break;
 		}
-		priceOfTicket *= Employee.RAIR_PERCENTAGE;
+		priceOfTicket = priceOfTicket.multiply(new BigDecimal(Employee.RAIR_PERCENTAGE));
 	}
 
 	public void calculateTotalPrice() {
-		priceOfBooking = nSeatsWanted * priceOfTicket;
+		priceOfBooking = priceOfTicket.multiply(new BigDecimal(nSeatsWanted));
 	}
 
 	public String getCustomerID() {
