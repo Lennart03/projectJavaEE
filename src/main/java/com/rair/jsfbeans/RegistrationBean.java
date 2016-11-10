@@ -2,6 +2,7 @@ package com.rair.jsfbeans;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -9,6 +10,7 @@ import javax.inject.Inject;
 
 import com.rair.dao.CustomerRepository;
 import com.rair.domain.Customer;
+import com.rair.jsf.converters.PasswordConverter;
 
 @ManagedBean(name = "registrationBean")
 @ViewScoped
@@ -22,10 +24,40 @@ public class RegistrationBean implements Serializable {
 	@ManagedProperty("#{loginServiceBean}")
 	private LoginServiceBean loginServiceBean;
 
+	@ManagedProperty("#{bookingServiceBean}")
+	private BookingServiceBean bookingServiceBean;
+	private PasswordConverter passwordConverter;
+
 	private String firstName;
 	private String lastName;
 	private String emailAddress;
 	private String passWord;
+
+	@PostConstruct
+	public void init() {
+		try {
+			passwordConverter = new PasswordConverter();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public BookingServiceBean getBookingServiceBean() {
+		return bookingServiceBean;
+	}
+
+	public void setBookingServiceBean(BookingServiceBean bookingServiceBean) {
+		this.bookingServiceBean = bookingServiceBean;
+	}
+
+	public PasswordConverter getPasswordConverter() {
+		return passwordConverter;
+	}
+
+	public void setPasswordConverter(PasswordConverter passwordConverter) {
+		this.passwordConverter = passwordConverter;
+	}
 
 	public CustomerRepository getCustomerRepository() {
 		return customerRepository;
@@ -76,10 +108,15 @@ public class RegistrationBean implements Serializable {
 	}
 
 	public String register() {
-		Customer customer = new Customer(firstName, lastName, emailAddress, passWord);
+		Customer customer = new Customer(firstName, lastName, emailAddress, passwordConverter.encrypt(passWord));
 		customerRepository.save(customer);
 		loginServiceBean.login(emailAddress);
-		return "toBooking";
+		if (bookingServiceBean.getFlight() == null) {
+			return "toIndex";
+		} else {
+			return "toBooking";
+		}
+
 	}
 
 }

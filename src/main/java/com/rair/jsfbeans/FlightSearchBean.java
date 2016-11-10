@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -23,7 +25,7 @@ import com.rair.domain.Flight;
 import com.rair.domain.TravelingClass;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class FlightSearchBean implements Serializable {
 
 	private static final long serialVersionUID = 8792693292832076782L;
@@ -48,7 +50,13 @@ public class FlightSearchBean implements Serializable {
 	
 
 	private String customerID;
-
+	
+	@PostConstruct
+	public void init(){
+		arrivalAirport = null;
+		flightsForArrival = new ArrayList<>();
+		bookingServiceBean.setFlight(null);
+	}
 	
 
 	public double getPriceOfTicket() {
@@ -115,6 +123,7 @@ public class FlightSearchBean implements Serializable {
 	}
 
 	public List<Flight> getFlightsForArrival() {
+		flightsForArrival = flightRepository.retrieveFlightsByDestination(arrivalAirport);
 		return flightsForArrival;
 	}
 
@@ -123,6 +132,7 @@ public class FlightSearchBean implements Serializable {
 	}
 
 	public String onFlowProcess(FlowEvent event) {
+		System.out.println("Ols Step: " + event.getOldStep());
 		if (event.getNewStep().equals("flights")) {
 			if (event.getOldStep().equals("ticketChoice")) {
 				bookingServiceBean.setFlight(null);

@@ -9,6 +9,8 @@
 <ui:composition template="WEB-INF/templates/template.xhtml">
 	<ui:define name="title">Home page</ui:define>
 	<ui:define name="content">
+	
+	
 
 		<h:form id="form">
 
@@ -31,6 +33,8 @@
 										<f:facet name="header">
 											<p:outputLabel value="Destionation" />
 										</f:facet>
+										<h:outputText value="Country: "/>
+										<h:outputText value="#{airport.country}"/>
 										<h:outputText value="City: " />
 										<h:outputText value="#{airport.city}" />
 										<h:outputText value="Airport: " />
@@ -45,7 +49,7 @@
 
 				<p:tab id="flights" title="Flights">
 
-					<p:panel
+					<p:panel id="flightSelectionPanel"
 						header="Available flights to #{flightSearchBean.arrivalAirport.name}">
 
 						<p:dataTable id="flightSelectionTable"
@@ -178,8 +182,10 @@
 							</h:outputText>
 
 						</p:panelGrid>
+						
+						<p:commandButton value="Book now" rendered="#{loginServiceBean.isLoggedIn(loginBean.email)}" action="booking.xhtml?faces-redirect=true"/>
 
-						<p:commandButton value="Book now" ajax="false">
+						<p:commandButton value="Book now" ajax="false" rendered="#{!(loginServiceBean.isLoggedIn(loginBean.email))}">
 							<p:confirm header="Are you registered?" />
 						</p:commandButton>
 						

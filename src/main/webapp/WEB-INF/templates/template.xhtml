@@ -5,20 +5,30 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<f:view locale="#{loginServiceBean.locale}"/>
+<f:view locale="#{loginServiceBean.locale}" />
 <h:head>
 	<title><ui:insert name="title">RAIR TEMPLATE TITLE</ui:insert></title>
 </h:head>
 <h:body>
+	<h1>
+		<h:outputText
+			rendered="#{loginServiceBean.isLoggedIn(loginBean.email)}"
+			value="Welcome #{loginBean.person.firstName}" />
+	</h1>
 	<h:form id="menubar">
 		<p:menubar>
+
 
 			<f:facet name="header">
 				<h:outputText value="Rair ticket service" />
 			</f:facet>
 			<f:facet name="options">
-				<p:commandButton style="margin-right:10px" value="Login" action="login?faces-redirect=true" rendered="#{!(loginServiceBean.isLoggedIn(loginBean.person.emailAddress))}"/>
-				<p:commandButton value="Logout" rendered="#{loginServiceBean.isLoggedIn(loginBean.person.emailAddress)}" action="#{loginServiceBean.logout(loginBean.person.emailAddress)}"/>
+				<p:commandButton style="margin-right:10px" value="Login"
+					action="login?faces-redirect=true"
+					rendered="#{!(loginServiceBean.isLoggedIn(loginBean.person.emailAddress))}" />
+				<p:commandButton value="Logout"
+					rendered="#{loginServiceBean.isLoggedIn(loginBean.person.emailAddress)}"
+					action="#{loginServiceBean.logout(loginBean.person.emailAddress)}" />
 			</f:facet>
 
 		</p:menubar>
