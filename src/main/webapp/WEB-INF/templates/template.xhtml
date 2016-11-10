@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-
+<f:view locale="#{loginServiceBean.locale}"/>
 <h:head>
 	<title><ui:insert name="title">RAIR TEMPLATE TITLE</ui:insert></title>
 </h:head>
@@ -17,7 +17,7 @@
 				<h:outputText value="Rair ticket service" />
 			</f:facet>
 			<f:facet name="options">
-				<p:commandButton style="margin-right:10px" value="Login" action="login?faces-redirect=true" rendered="#{!loginServiceBean.isLoggedIn(loginBean.person.emailAddress)}"/>
+				<p:commandButton style="margin-right:10px" value="Login" action="login?faces-redirect=true" rendered="#{!(loginServiceBean.isLoggedIn(loginBean.person.emailAddress))}"/>
 				<p:commandButton value="Logout" rendered="#{loginServiceBean.isLoggedIn(loginBean.person.emailAddress)}" action="#{loginServiceBean.logout(loginBean.person.emailAddress)}"/>
 			</f:facet>
 

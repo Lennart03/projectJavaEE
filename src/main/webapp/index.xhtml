@@ -10,7 +10,8 @@
 	<ui:define name="content">
 
 		<h:outputText value="#{loginBean.person.firstName}" />
-		<h:outputText value="#{loginServiceBean.isLoggedIn(loginBean.person.emailAddress)}"/>
+		<h:outputText
+			value="#{loginServiceBean.isLoggedIn(loginBean.person.emailAddress)}" />
 
 		<h:form id="form">
 
@@ -68,7 +69,7 @@
 							<p:column headerText="Departure Time"
 								sortBy="#{flight.departureTime}">
 								<h:outputText value="#{flight.departureTime}">
-									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+									<f:convertDateTime type="both" timeZone="#{loginServiceBean.timeZone}" />
 								</h:outputText>
 							</p:column>
 							<p:column headerText="Airline Company"
@@ -76,7 +77,9 @@
 								<h:outputText value="#{flight.airline.name}" />
 							</p:column>
 							<p:column headerText="Ticket Price" sortBy="#{flight.basePrice}">
-								<h:outputText value="#{flight.basePrice}" />
+								<h:outputText value="€ #{flight.basePrice}">
+									<f:convertNumber type="currency" maxFractionDigits="2"/>
+								</h:outputText>
 							</p:column>
 						</p:dataTable>
 					</p:panel>
@@ -110,11 +113,14 @@
 
 						<h:outputText for="priceOneTicket" value="Price for one ticket:" />
 						<h:outputText id="priceOneTicket"
-							value="#{flightSearchBean.priceOfTicket}" />
+							value="€#{flightSearchBean.priceOfTicket}">
+						</h:outputText>
 
 						<h:outputText for="totalPrice" value="Total price:" />
 						<h:outputText id="totalPrice"
-							value="#{flightSearchBean.priceOfBooking}" />
+							value="€ #{flightSearchBean.priceOfBooking}">
+							<f:convertNumber type="currency" maxFractionDigits="2"/>
+						</h:outputText>
 
 					</h:panelGrid>
 				</p:tab>
@@ -139,7 +145,9 @@
 							<h:outputText for="detailTabdepartureTime"
 								value="Departure Time:" />
 							<h:outputText id="detailTabdepartureTime"
-								value="#{flightSearchBean.selectedFlight.departureTime}" />
+								value="#{flightSearchBean.selectedFlight.departureTime}">
+								<f:convertDateTime type="both" timeZone="#{loginServiceBean.timeZone}" />
+								</h:outputText>
 
 							<h:outputText for="detailTabairline" value="Airline: " />
 							<h:outputText id="detailTabairline"
@@ -158,12 +166,16 @@
 							<h:outputText for="detailTabpriceOneTicket"
 								value="Price of One Ticket:" />
 							<h:outputText id="detailTabpriceOneTicket"
-								value="#{flightSearchBean.priceOfTicket}" />
+								value="€#{flightSearchBean.priceOfTicket}">
+								<f:convertNumber type="currency" maxFractionDigits="2"/>
+							</h:outputText>
 
 							<h:outputText for="detailTabtotalPrice"
 								value="Total price for flight:" />
 							<h:outputText id="detailTabtotalPrice"
-								value="#{flightSearchBean.priceOfBooking}" />
+								value="€#{flightSearchBean.priceOfBooking}">
+								<f:convertNumber type="currency" maxFractionDigits="2"/>
+							</h:outputText>
 
 						</p:panelGrid>
 						<p:commandButton value="Book now" action="#{flightSearchBean}" />

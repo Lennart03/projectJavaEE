@@ -1,19 +1,21 @@
 package com.rair.jsfbeans;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-
-import com.rair.domain.Employee;
-import com.rair.domain.Person;
+import javax.faces.context.FacesContext;
 
 @ManagedBean(name = "loginServiceBean")
 @ApplicationScoped
 public class LoginServiceBean {
-
+	
+	private Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+	private TimeZone timeZone;
 	private Map<String, Boolean> loginMap;
 
 	@PostConstruct
@@ -29,6 +31,16 @@ public class LoginServiceBean {
 		this.loginMap = loginMap;
 	}
 	
+	
+	
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+
 	public Boolean isLoggedIn(String email){
 		if(loginMap.containsKey(email)){
 			return loginMap.get(email);
@@ -45,6 +57,10 @@ public class LoginServiceBean {
 		System.out.println("Logout: " + email);
 		loginMap.put(email, false);
 		return "toIndex";
+	}
+	
+	public TimeZone getTimeZone() {
+	    return TimeZone.getDefault();
 	}
 
 }
