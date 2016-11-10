@@ -1,6 +1,7 @@
 package com.rair.jsfbeans;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -15,6 +16,7 @@ import com.rair.dao.AirlineRepository;
 import com.rair.dao.PartnerRepository;
 import com.rair.domain.Airline;
 import com.rair.domain.Partner;
+import com.rair.jsf.converters.PasswordConverter;
 
 @ManagedBean
 @ViewScoped
@@ -29,10 +31,18 @@ public class PartnerService {
 	private List<Airline> airlines;
 	private List<Partner> partners;
 	
+	private PasswordConverter passwordConverter;
+	
 	@PostConstruct
     public void init() {
         airlines = airlineRepository.retrieveAllAirlines();
         partners = partnerRepository.findAll();
+        try {
+			passwordConverter = new PasswordConverter();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 	public List<Airline> getAirlines() {
@@ -47,10 +57,14 @@ public class PartnerService {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 		else{
-			partner.setPassword("newpassword");
+			String password = getNewRandomPassword();
+			System.out.println("Het oorspronkelijke paswoord is: " + password);
+			partner.setPassword(passwordConverter.encrypt(password));
+			System.out.println("Het encrypted password dat naar de database gaat is: " + partner.getPassword());
 			partner = partnerRepository.save(partner);
 			FacesMessage msg = new FacesMessage("Added new partner", partner.getId().toString());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
+			System.out.println("Het decoded password is: " + passwordConverter.decrypt(partner.getPassword()));;
 		}
     }
      
@@ -107,5 +121,17 @@ public class PartnerService {
 	public void addAction(){
     	partners.add(new Partner());
     }
+	
+	public String getNewRandomPassword(){
+		
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		StringBuilder sb = new StringBuilder(8);
+		Random random = new Random();
+		for(int i = 1 ; i<9 ; i++){
+			int index = random.nextInt(characters.length());
+		    sb.append(characters.charAt(index));
+		}
+		return sb.toString();
+	}
 	
 }
