@@ -1,5 +1,6 @@
 package com.rair.jsfbeans;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -12,8 +13,10 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean(name = "loginServiceBean")
 @ApplicationScoped
-public class LoginServiceBean {
+public class LoginServiceBean implements Serializable {
 	
+
+	private static final long serialVersionUID = -4005917786611179182L;
 	private Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
 	private TimeZone timeZone;
 	private Map<String, Boolean> loginMap;

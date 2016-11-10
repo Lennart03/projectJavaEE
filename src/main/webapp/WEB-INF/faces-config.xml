@@ -67,6 +67,14 @@
 		</navigation-case>
 	</navigation-rule>
 
+	<navigation-rule>
+		<from-view-id>/register.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>toBooking</from-outcome>
+			<to-view-id>/booking.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
 	<!-- ######################### -->
 	<!-- Application configuration -->
 	<!-- ######################### -->
