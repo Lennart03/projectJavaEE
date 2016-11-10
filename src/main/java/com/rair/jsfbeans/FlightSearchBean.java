@@ -34,6 +34,9 @@ public class FlightSearchBean implements Serializable {
 	@ManagedProperty("#{bookingServiceBean}")
 	private BookingServiceBean bookingServiceBean;
 
+	@ManagedProperty("#{loginBean}")
+	private LoginBean loginBean;
+
 	@Inject
 	private FlightRepository flightRepository;
 
@@ -44,9 +47,8 @@ public class FlightSearchBean implements Serializable {
 	private int nSeatsWanted;
 	private double priceOfTicket;
 	private double priceOfBooking;
-	
+
 	private String customerID;
-	
 
 	public TravelingClass getSelectedTravelClass() {
 		return selectedTravelClass;
@@ -112,6 +114,14 @@ public class FlightSearchBean implements Serializable {
 		return bookingServiceBean;
 	}
 
+	public LoginBean getLoginBean() {
+		return loginBean;
+	}
+
+	public void setLoginBean(LoginBean loginBean) {
+		this.loginBean = loginBean;
+	}
+
 	public void setBookingServiceBean(BookingServiceBean bookingServiceBean) {
 		this.bookingServiceBean = bookingServiceBean;
 	}
@@ -175,6 +185,12 @@ public class FlightSearchBean implements Serializable {
 	}
 
 	public String bookFlight() {
+		
+		System.out.println(loginBean.getPerson());
+		if(loginBean.getPerson() == null) {
+			return "toLogin";
+		}
+		
 		bookingServiceBean.setFlight(selectedFlight);
 		return "toLogin";
 	}
@@ -209,7 +225,5 @@ public class FlightSearchBean implements Serializable {
 	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
-	
-	
 
 }
