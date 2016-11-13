@@ -1,14 +1,389 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:r="http://xmlns.jcp.org/jsf/composite/realdolmen"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-	SUCCES
-	</h:head>
+	<title>Administration</title>
+</h:head>
 <h:body>
 
-ADMIN BABY
+	<h:form id="form">
+		<p:growl id="msgs" showDetail="true" />
+
+		<p:tabView>
+			<p:tab title="Airports">
+				<p:dataTable id="airports" var="airport"
+					value="#{airportService.airports}" editable="true"
+					style="margin-bottom:20px">
+
+					<p:ajax event="rowEdit" listener="#{airportService.onRowEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel"
+						listener="#{airportService.onRowCancel}" update=":form:msgs" />
+
+					<p:column headerText="Code" sortBy="#{airport.airportCode}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{airport.airportCode}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="modelInput" value="#{airport.airportCode}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Name" sortBy="#{airport.name}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{airport.name}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{airport.name}" style="width:100%"
+									label="Name" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Country" sortBy="#{airport.country}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{airport.country}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{airport.country}" style="width:100%"
+									label="Country" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="City" sortBy="#{airport.city}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{airport.city}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{airport.city}" style="width:100%"
+									label="City" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Region" sortBy="#{airport.region}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{airport.region}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{airport.region}" style="width:100%">
+									<f:selectItems value="#{airportService.regions}" var="region"
+										itemLabel="#{region}" itemValue="#{region}" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column style="width:16px">
+						<p:rowEditor />
+						<c:set var="code" value="#{airport.airportCode}" />
+						<p:commandLink
+							actionListener="#{airportService.deleteAirport(code)}"
+							styleClass="ui-icon ui-icon-circle-minus" update="@form">
+							<p:confirm header="Deleting airport"
+								message="Deleting this airport will delete all existing flights and bookings departing from and arriving at the chosen airport. Are you sure you want to continue?"
+								icon="ui-icon-alert" />
+						</p:commandLink>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton value="Add Item"
+							action="#{airportService.addAction}" update=":form" />
+					</f:facet>
+				</p:dataTable>
+			</p:tab>
+			<p:tab title="Airlines">
+				<p:dataTable id="airlines" var="airline"
+					value="#{airlineService.airlines}" editable="true"
+					style="margin-bottom:20px">
+
+					<p:ajax event="rowEdit" listener="#{airlineService.onRowEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel"
+						listener="#{airlineService.onRowCancel}" update=":form:msgs" />
+
+					<p:column headerText="Name" sortBy="#{airline.name}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{airline.name}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{airline.name}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column style="width:16px">
+						<p:rowEditor />
+						<c:set var="airlineName" value="#{airline.name}" />
+						<p:commandLink
+							actionListener="#{airlineService.deleteAirline(airlineName)}"
+							styleClass="ui-icon ui-icon-circle-minus" update="@form">
+							<p:confirm header="Deleting airline"
+								message="Deleting this airline will delete all existing flights and bookings with the chosen airline. Are you sure you want to continue?"
+								icon="ui-icon-alert" />
+						</p:commandLink>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton value="Add Item"
+							action="#{airlineService.addAction}" update=":form" />
+					</f:facet>
+				</p:dataTable>
+			</p:tab>
+			<p:tab title="Customers">
+				<p:dataTable id="customers" var="customer"
+					value="#{customerService.customers}" editable="true"
+					style="margin-bottom:20px">
+
+					<p:ajax event="rowEdit" listener="#{customerService.onRowEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel"
+						listener="#{customerService.onRowCancel}" update=":form:msgs" />
+
+					<p:column headerText="Firstname" sortBy="#{customer.firstName}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{customer.firstName}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{customer.firstName}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Lastname" sortBy="#{customer.lastName}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{customer.lastName}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{customer.lastName}" style="width:100%"
+									label="Name" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Email" sortBy="#{customer.emailAddress}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{customer.emailAddress}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{customer.emailAddress}" style="width:100%"
+									label="Email" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column style="width:16px">
+						<p:rowEditor />
+						<c:set var="email" value="#{customer.emailAddress}" />
+						<p:commandLink
+							actionListener="#{customerService.deleteCustomer(email)}"
+							styleClass="ui-icon ui-icon-circle-minus" update="@form">
+							<p:confirm header="Deleting customer"
+								message="Are you sure you want to delete this customer?"
+								icon="ui-icon-alert" />
+						</p:commandLink>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton value="Add Item"
+							action="#{customerService.addAction}" update=":form" />
+					</f:facet>
+				</p:dataTable>
+			</p:tab>
+			<p:tab title="Employees">
+				<p:dataTable id="employees" var="employee"
+					value="#{employeeService.employees}" editable="true"
+					style="margin-bottom:20px">
+
+					<p:ajax event="rowEdit" listener="#{employeeService.onRowEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel"
+						listener="#{employeeService.onRowCancel}" update=":form:msgs" />
+
+					<p:column headerText="Firstname" sortBy="#{employee.firstName}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{employee.firstName}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{employee.firstName}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Lastname" sortBy="#{employee.lastName}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{employee.lastName}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{employee.lastName}" style="width:100%"
+									label="Name" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Email" sortBy="#{employee.emailAddress}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{employee.emailAddress}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{employee.emailAddress}" style="width:100%"
+									label="Email" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column style="width:16px">
+						<p:rowEditor />
+						<c:set var="email" value="#{employee.emailAddress}" />
+						<p:commandLink
+							actionListener="#{employeeService.deleteEmployee(email)}"
+							styleClass="ui-icon ui-icon-circle-minus" update="@form">
+							<p:confirm header="Deleting employee"
+								message="Are you sure you want to delete this employee?"
+								icon="ui-icon-alert" />
+						</p:commandLink>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton value="Add Item"
+							action="#{employeeService.addAction}" update=":form" />
+					</f:facet>
+				</p:dataTable>
+			</p:tab>
+			<p:tab title="Partner employees">
+				<p:dataTable id="partners" var="partner"
+					value="#{partnerService.partners}" editable="true"
+					style="margin-bottom:20px">
+
+					<p:ajax event="rowEdit" listener="#{partnerService.onRowEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel"
+						listener="#{partnerService.onRowCancel}" update=":form:msgs" />
+
+					<p:column headerText="Firstname" sortBy="#{partner.firstName}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{partner.firstName}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{partner.firstName}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Lastname" sortBy="#{partner.lastName}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{partner.lastName}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{partner.lastName}" style="width:100%"
+									label="Name" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Email" sortBy="#{partner.emailAddress}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{partner.emailAddress}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{partner.emailAddress}" style="width:100%"
+									label="Email" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Airline" sortBy="#{partner.airline}">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{partner.airline}" />
+							</f:facet>
+							<f:facet name="input">
+								<h:selectOneMenu value="#{partner.airline}" style="width:100%"
+									converter="airlineConverter">
+									<f:selectItems value="#{airlineService.airlines}" var="airline"
+										itemLabel="#{airline.name}" itemValue="#{airline}" />
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column style="width:16px">
+						<p:rowEditor />
+						<c:set var="email" value="#{partner.emailAddress}" />
+						<p:commandLink
+							actionListener="#{partnerService.deletePartner(email)}"
+							styleClass="ui-icon ui-icon-circle-minus" update="@form">
+							<p:confirm header="Deleting partner"
+								message="Are you sure you want to delete this partner?"
+								icon="ui-icon-alert" />
+						</p:commandLink>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton value="Add Item"
+							action="#{partnerService.addAction}" update=":form" />
+					</f:facet>
+				</p:dataTable>
+			</p:tab>
+
+		</p:tabView>
+
+	</h:form>
+
+
 </h:body>
 </html>

@@ -11,18 +11,44 @@
 </h:head>
 <h:body>
 	<h:form id="form">
-		<p:growl id="msgs" showDetail="true"/>
+		<p:growl id="msgs" showDetail="true" />
 
 		<p:dataTable id="flights" var="flight"
 			value="#{flightService.futureFlightsByAirline}" editable="true"
-			style="margin-bottom:20px" >
+			style="margin-bottom:20px">
+
 
 			<p:ajax event="rowEdit" listener="#{flightService.onRowEdit}"
 				update=":form:msgs" />
 			<p:ajax event="rowEditCancel" listener="#{flightService.onRowCancel}"
 				update=":form:msgs" />
+			<p:ajax event="rowEditInit" listener="#{flightService.initValues}"
+				update=":form:flights:econNumber" />
 
-			<p:column headerText="Flightnumber" sortBy="#{flight.flightNumber}">
+
+			<p:columnGroup type="header">
+				<p:row>
+					<p:column rowspan="2" headerText="Flightnumber"
+						sortBy="#{flight.flightNumber}" />
+					<p:column rowspan="2" headerText="Departure"
+						sortBy="#{flight.departureDestination.name}" />
+					<p:column rowspan="2" headerText="Destination"
+						sortBy="#{flight.arrivalDestination}" />
+					<p:column rowspan="2" headerText="Base Price"
+						sortBy="#{flight.basePrice}" />
+					<p:column rowspan="2" headerText="Time of departure"
+						sortBy="#{flight.departureTime}" />
+					<p:column colspan="3" headerText="Rair saleable seats" />
+					<p:column rowspan="2" style="width:16px" />
+				</p:row>
+				<p:row>
+					<p:column headerText="Economy" />
+					<p:column headerText="Business" />
+					<p:column headerText="First class" />
+				</p:row>
+			</p:columnGroup>
+
+			<p:column>
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{flight.flightNumber}" />
@@ -34,14 +60,14 @@
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Departure"
-				sortBy="#{flight.departureDestination.name}">
+			<p:column>
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{flight.departureDestination}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:selectOneMenu value="#{flight.departureDestination}" style="width:100%" converter="airportConverter">
+						<h:selectOneMenu value="#{flight.departureDestination}"
+							style="width:100%" converter="airportConverter">
 							<f:selectItems value="#{flightService.airports}" var="airport"
 								itemLabel="#{airport.name}" itemValue="#{airport}" />
 						</h:selectOneMenu>
@@ -49,14 +75,14 @@
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Destination"
-				sortBy="#{flight.arrivalDestination.name}">
+			<p:column>
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{flight.arrivalDestination}" />
 					</f:facet>
 					<f:facet name="input">
-						<h:selectOneMenu value="#{flight.arrivalDestination}" style="width:100%" converter="airportConverter">
+						<h:selectOneMenu value="#{flight.arrivalDestination}"
+							style="width:100%" converter="airportConverter">
 							<f:selectItems value="#{flightService.airports}" var="airport"
 								itemLabel="#{airport.name}" itemValue="#{airport}" />
 						</h:selectOneMenu>
@@ -64,20 +90,19 @@
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Base Price" sortBy="#{flight.basePrice}">
+			<p:column>
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{flight.basePrice} €" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputNumber value="#{flight.basePrice}" symbol=" €" symbolPosition="s" 
-                               decimalSeparator="," thousandSeparator="."/>
+						<p:inputNumber value="#{flight.basePrice}" symbol=" €"
+							symbolPosition="s" decimalSeparator="," thousandSeparator="." />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Time of departure"
-				sortBy="#{flight.departureTime}">
+			<p:column>
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{flight.departureTime}">
@@ -90,8 +115,61 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
+			<p:column>
+				<p:cellEditor>
+					<f:facet name="output">
+						<f:event type="preRenderComponent"
+							listener="#{flight.initializeTransientFields}" />
+						<h:outputText value="#{flight.economySeats}" />
+					</f:facet>
+					<f:facet name="input">
+						<f:event type="preRenderComponent"
+							listener="#{flight.initializeTransientFields}" />
+						<p:spinner id="econNumber" value="#{flight.economySeats}"
+							thousandSeparator="" decimalPlaces="0"
+							min="#{flightService.checkNumberOfSoldSeatsForTravelingClass('ECONOMY',flight.id)}"
+							max="500" size="16" style="float:right;"/>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column>
+				<p:cellEditor>
+					<f:facet name="output">
+						<f:event type="preRenderComponent"
+							listener="#{flight.initializeTransientFields}" />
+						<h:outputText
+							value="#{flight.businessSeats}" />
+					</f:facet>
+					<f:facet name="input">
+						<f:event type="preRenderComponent"
+							listener="#{flight.initializeTransientFields}" />
+						<p:spinner value="#{flight.businessSeats}"
+							thousandSeparator="" decimalPlaces="0"
+							min="#{flightService.checkNumberOfSoldSeatsForTravelingClass('BUSINESS',flight.id)}"
+							max="500" size="16" style="float:right;" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column>
+				<p:cellEditor>
+					<f:facet name="output">
+						<f:event type="preRenderComponent"
+							listener="#{flight.initializeTransientFields}" />
+						<h:outputText
+							value="#{flight.firstClassSeats}" />
+					</f:facet>
+					<f:facet name="input">
+						<f:event type="preRenderComponent"
+							listener="#{flight.initializeTransientFields}" />
+						<p:spinner value="#{flight.firstClassSeats}"
+							thousandSeparator="" decimalPlaces="0"
+							min="#{flightService.checkNumberOfSoldSeatsForTravelingClass('FIRST_CLASS',flight.id)}"
+							max="500" size="16" style="float:right;" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
 
-			<p:column style="width:16px">
+			<p:column>
 				<p:rowEditor />
 				<c:set var="number" value="#{flight.flightNumber}" />
 				<p:commandLink

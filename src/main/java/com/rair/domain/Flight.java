@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -44,14 +45,14 @@ public class Flight implements Serializable {
 	@JoinColumn(nullable = false)
 	private Airline airline;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "number_of_seats")
 	@MapKeyColumn(name = "traveling_class")
 	@MapKeyEnumerated(EnumType.STRING)
 	@Column(name = "number_of_seats")
 	private Map<TravelingClass, Integer> numberOfSeats;
 
-	@ElementCollection(fetch=FetchType.EAGER)
+	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "available_seats")
 	@MapKeyColumn(name = "traveling_class")
 	@Column(name = "available_seats")
@@ -66,11 +67,19 @@ public class Flight implements Serializable {
 	@JoinColumn(nullable = false)
 	private Airport arrivalDestination;
 	private Date departureTime;
+	
+	@Transient
+	private int economySeats = 0;
+	@Transient
+	private int businessSeats = 0;
+	@Transient
+	private int firstClassSeats = 0;
 
 	public Flight() {
 		super();
 		numberOfSeats = new HashMap<>();
 		availableSeats = new HashMap<>();
+
 	}
 
 	public Long getId() {
@@ -110,6 +119,7 @@ public class Flight implements Serializable {
 	}
 
 	public void addNumberOfSeatsForClass(TravelingClass travelingClass, Integer nunberOfSeats) {
+		System.out.println("New number of seats for " + travelingClass + " is: " + nunberOfSeats);
 		numberOfSeats.put(travelingClass, nunberOfSeats);
 	}
 
@@ -118,8 +128,17 @@ public class Flight implements Serializable {
 	}
 
 	public Integer checkSeatsForTravelingClass(TravelingClass travelingClass) {
-		System.out.println(travelingClass+ ": "+availableSeats.get(travelingClass));
+		System.out.println(travelingClass + ": " + availableSeats.get(travelingClass));
 		return availableSeats.get(travelingClass);
+	}
+
+	public Integer checkNumberOfSeatsForTravelingClass(String stringClass) {
+		TravelingClass type = TravelingClass.valueOf(stringClass);
+		if (numberOfSeats.get(type) != null && numberOfSeats.get(type) != 0)
+			return numberOfSeats.get(type);
+		else {
+			return 0;
+		}
 	}
 
 	public void setAvailableSeats(Map<TravelingClass, Integer> availableSeats) {
@@ -149,25 +168,65 @@ public class Flight implements Serializable {
 	public void setDepartureTime(Date departureTime) {
 		this.departureTime = departureTime;
 	}
-	
+
 	public double getTicketPriceEconomyClass() {
 		return basePrice;
 	}
-	
+
 	public double getTicketPriceBusinessClass() {
 		return basePrice * BUSINESSCLASS_MULTIPLIER;
 	}
-	
+
 	public double getTicketPriceFirstClass() {
 		return basePrice * FIRSTCLASS_MULTIPLIER;
 	}
 
 	@Override
 	public String toString() {
-		return "Flight with number: " + flightNumber + ", from: " + departureDestination
-				+ " to: " + arrivalDestination;
+		return "Flight with number: " + flightNumber + ", from: " + departureDestination + " to: " + arrivalDestination;
+	}
+
+	public int getEconomySeats() {
+		return economySeats;
+	}
+
+	public void setEconomySeats(int economySeats) {
+		this.economySeats = economySeats;
+	}
+
+	public int getBusinessSeats() {
+		return businessSeats;
+	}
+
+	public void setBusinessSeats(int businessSeats) {
+		this.businessSeats = businessSeats;
+	}
+
+	public int getFirstClassSeats() {
+		return firstClassSeats;
+	}
+
+	public void setFirstClassSeats(int firstClassSeats) {
+		this.firstClassSeats = firstClassSeats;
+	}
+
+	public void initializeTransientFields(){
+		try{
+			economySeats = numberOfSeats.get(TravelingClass.ECONOMY);
+		}catch (NullPointerException e){
+			economySeats = 0;
+		}
+		try{
+			businessSeats = numberOfSeats.get(TravelingClass.BUSINESS);
+		}catch (NullPointerException e){
+			businessSeats = 0;
+		}
+		try{
+			firstClassSeats = numberOfSeats.get(TravelingClass.FIRST_CLASS);
+		}catch (NullPointerException e){
+			firstClassSeats = 0;
+		}
+		
 	}
 	
-	
-
 }

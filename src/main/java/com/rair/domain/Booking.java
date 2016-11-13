@@ -99,6 +99,14 @@ public class Booking {
 	public void setFlight(Flight flight) {
 		this.flight = flight;
 	}
+
+	public TravelingClass getTravelingClass() {
+		return travelingClass;
+	}
+
+	public void setTravelingClass(TravelingClass travelingClass) {
+		this.travelingClass = travelingClass;
+	}
 	
 	
 }

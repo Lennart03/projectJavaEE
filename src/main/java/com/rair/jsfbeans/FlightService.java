@@ -14,10 +14,13 @@ import org.primefaces.event.RowEditEvent;
 
 import com.rair.dao.AirlineRepository;
 import com.rair.dao.AirportRepository;
+import com.rair.dao.BookingRepository;
 import com.rair.dao.FlightRepository;
 import com.rair.domain.Airline;
 import com.rair.domain.Airport;
+import com.rair.domain.Booking;
 import com.rair.domain.Flight;
+import com.rair.domain.TravelingClass;
 
 @ManagedBean
 @ViewScoped
@@ -31,19 +34,25 @@ public class FlightService {
 	
 	@Inject
 	private AirlineRepository airlineRepository;
+	
+	@Inject
+	private BookingRepository bookingRepository;
 
 	@ManagedProperty("#{airportServiceBean}")
 	private AirportServiceBean airportServiceBean;
 	
 	private List<Flight> futureFlightsByAirline;
 	private List<Airport> airports;
+	
+	private int econValue;
+	private int businessValue;
+	private int firstClassValue;
 
 
 	@PostConstruct
 	public void init(){
 		airports = airportRepository.findAll();
 		futureFlightsByAirline = flightRepository.retrieveFutureFlightsByAirline();
-		System.out.println("Size of flights list: " + futureFlightsByAirline.size());
 	}
 
 	public FlightRepository getFlightRepository() {
@@ -77,6 +86,21 @@ public class FlightService {
 	public void onRowEdit(RowEditEvent event) {
 		System.out.println(event.getObject());
 		Flight flight = (Flight) event.getObject();
+		if(checkNumberOfSoldSeatsForTravelingClass("ECONOMY", flight.getId())<flight.getEconomySeats()){
+			flight.addNumberOfSeatsForClass(TravelingClass.ECONOMY, new Integer(flight.getEconomySeats()));
+		}else{
+			flight.addNumberOfSeatsForClass(TravelingClass.ECONOMY, checkNumberOfSoldSeatsForTravelingClass("ECONOMY", flight.getId()));
+		}
+		if(checkNumberOfSoldSeatsForTravelingClass("BUSINESS", flight.getId())<flight.getBusinessSeats()){
+			flight.addNumberOfSeatsForClass(TravelingClass.BUSINESS, new Integer(flight.getBusinessSeats()));
+		}else{
+			flight.addNumberOfSeatsForClass(TravelingClass.BUSINESS, checkNumberOfSoldSeatsForTravelingClass("BUSINESS", flight.getId()));
+		}
+		if(checkNumberOfSoldSeatsForTravelingClass("FIRST_CLASS", flight.getId())<flight.getFirstClassSeats()){
+			flight.addNumberOfSeatsForClass(TravelingClass.FIRST_CLASS, new Integer(flight.getFirstClassSeats()));
+		}else{
+			flight.addNumberOfSeatsForClass(TravelingClass.FIRST_CLASS, checkNumberOfSoldSeatsForTravelingClass("FIRST_CLASS", flight.getId()));
+		}
 		if(flight.getId()!= null){
 			flight = flightRepository.update(flight, flight.getId());
 			FacesMessage msg = new FacesMessage("Flight Edited", flight.getId().toString());
@@ -120,6 +144,44 @@ public class FlightService {
 		this.airportServiceBean = airportServiceBean;
 	}
 
-    
-    
+	public Integer checkNumberOfSoldSeatsForTravelingClass(String stringClass, Long flightID) {
+		List<Booking> bookings = bookingRepository.retrieveBookingFromFlightByTravelingClass(stringClass,flightID);
+		Integer number = 0;
+		for(Booking b:bookings){
+			number = number + b.getNumberOfSeats();
+		}
+		return number;
+	}
+
+	public int getEconValue() {
+		return econValue;
+	}
+
+	public void setEconValue(int econValue) {
+		this.econValue = econValue;
+	}
+
+	public int getBusinessValue() {
+		return businessValue;
+	}
+
+	public void setBusinessValue(int businessValue) {
+		this.businessValue = businessValue;
+	}
+
+	public int getFirstClassValue() {
+		return firstClassValue;
+	}
+
+	public void setFirstClassValue(int firstClassValue) {
+		this.firstClassValue = firstClassValue;
+	}
+	
+	public void initValues(RowEditEvent event){
+		Flight flight = (Flight) event.getObject();
+		econValue = checkNumberOfSoldSeatsForTravelingClass("ECONOMY",flight.getId());
+		businessValue = checkNumberOfSoldSeatsForTravelingClass("BUSINESS",flight.getId());
+		firstClassValue = checkNumberOfSoldSeatsForTravelingClass("FIRST_CLASS",flight.getId());
+	}
+	
 }

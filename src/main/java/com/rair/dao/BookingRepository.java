@@ -50,6 +50,13 @@ public class BookingRepository {
 				.getResultList();
 		return bookings;
 	}
+	
+	public List<Booking> retrieveBookingFromFlightByTravelingClass(String type, Long flightID){
+		List<Booking> bookings = entityManager
+				.createQuery(QUERY_START + " WHERE flight_id = '" + flightID + "' AND travelingClass = '" + type + "'", Booking.class)
+				.getResultList();
+		return bookings;
+	}
 
 	public List<Booking> retrieveAllBookingsByCreditCard() {
 		List<Booking> bookings = entityManager.createQuery(QUERY_START+"WHERE paymentChoice ='"+Payment.CREDITCARD+"'", Booking.class).getResultList();
