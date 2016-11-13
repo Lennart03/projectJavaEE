@@ -1,5 +1,6 @@
 package com.rair.jsfbeans;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -10,6 +11,7 @@ import com.rair.domain.Customer;
 import com.rair.domain.Employee;
 import com.rair.domain.Partner;
 import com.rair.domain.Person;
+import com.rair.jsf.converters.PasswordConverter;
 
 @ManagedBean(name = "loginBean")
 @SessionScoped
@@ -18,6 +20,7 @@ public class LoginBean {
 	private String email;
 	private String password;
 	private Person person;
+	private PasswordConverter passwordConverter;
 
 	@Inject
 	private PersonReposiroty personReposiroty;
@@ -27,6 +30,15 @@ public class LoginBean {
 
 	@ManagedProperty("#{bookingServiceBean}")
 	private BookingServiceBean bookingServiceBean;
+	
+	@PostConstruct
+	public void init(){
+		try{
+			passwordConverter = new PasswordConverter();
+		}catch (Exception e){
+			//nothing
+		}
+	}
 
 	public String getEmail() {
 		return email;
@@ -77,7 +89,14 @@ public class LoginBean {
 	}
 
 	public String doLogin() {
-		person = personReposiroty.retrievePerson(email, password);
+		String encryptedPw;
+		if(passwordConverter !=null){
+			encryptedPw = passwordConverter.encrypt(password);
+		}
+		else{
+			encryptedPw = password;
+		}
+		person = personReposiroty.retrievePerson(email, encryptedPw);
 		if (person == null) {
 			return "loginFailed";
 		}
