@@ -1,13 +1,54 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-This page is for registering
-</h:head>
 
-<h:body>
-	<h1>REGISTER</h1>
-</h:body>
+<ui:composition template="WEB-INF/templates/template.xhtml">
+	<ui:define name="title">Registration</ui:define>
+	<ui:define name="content">
+
+		<p>Please fill in the following field</p>
+		<h:form>
+
+			<p:panel header="Registration">
+				<h:panelGrid columns="1" cellpadding="2">
+
+					<p:inputText id="firstName" value="#{registrationBean.firstName}"
+						required="true" />
+					<p:watermark value="First name" for="firstName" />
+					<p:message for="firstName" />
+
+					<p:inputText id="lastName" value="#{registrationBean.lastName}"
+						required="true" />
+					<p:watermark value="Last name" for="lastName" />
+					<p:message for="lastName" />
+
+					<p:inputText id="emailAddress"
+						value="#{registrationBean.emailAddress}" required="true"
+						validatorMessage="#{registrationBean.emailAddress} is not valid">
+						<f:validateRegex
+							pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+					</p:inputText>
+					<p:watermark value="Email" for="emailAddress" />
+					<p:message for="emailAddress" />
+
+					<p:password id="passWord" value="#{registrationBean.passWord}"
+						placeholder="Password" required="true"
+						requiredMessage="Pleas enter your password" />
+					<p:message for="passWord" />
+					<p:commandButton value="Register"
+						action="#{registrationBean.register()}" />
+
+
+				</h:panelGrid>
+			</p:panel>
+
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
 </html>
