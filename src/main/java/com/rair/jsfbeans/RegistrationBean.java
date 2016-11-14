@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import com.rair.dao.CustomerRepository;
 import com.rair.domain.Customer;
 import com.rair.jsf.converters.PasswordConverter;
+import com.rair.mail.MailSender;
 
 @ManagedBean(name = "registrationBean")
 @ViewScoped
@@ -27,6 +28,7 @@ public class RegistrationBean implements Serializable {
 	@ManagedProperty("#{bookingServiceBean}")
 	private BookingServiceBean bookingServiceBean;
 	private PasswordConverter passwordConverter;
+	private MailSender mailSender = new MailSender();
 
 	private String firstName;
 	private String lastName;
@@ -111,6 +113,7 @@ public class RegistrationBean implements Serializable {
 		Customer customer = new Customer(firstName, lastName, emailAddress, passwordConverter.encrypt(passWord));
 		customerRepository.save(customer);
 		loginServiceBean.login(emailAddress);
+		mailSender.sendMail(emailAddress);
 		if (bookingServiceBean.getFlight() == null) {
 			return "toIndex";
 		} else {
