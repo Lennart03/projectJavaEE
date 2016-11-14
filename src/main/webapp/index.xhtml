@@ -58,7 +58,7 @@
 							selectionMode="single" rowKey="#{flight.flightNumber}">
 							<p:ajax event="rowSelect"
 								listener="#{flightSearchBean.onRowSelect}"
-								update="#{bookingServiceBean.flight}" />
+								update=":form:msgs" />
 							<p:ajax event="rowUnselect"
 								listener="#{flightSearchBean.onRowUnselect}" update=":form:msgs" />
 

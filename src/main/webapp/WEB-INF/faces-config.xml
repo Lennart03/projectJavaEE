@@ -87,8 +87,8 @@
 
 	<application>
 		<locale-config>
-			<default-locale>nl</default-locale>
-			<supported-locale>en</supported-locale>
+			<default-locale>en</default-locale>
+			<supported-locale>nl</supported-locale>
 		</locale-config>
 		<resource-bundle>
 			<base-name>Messages</base-name>
