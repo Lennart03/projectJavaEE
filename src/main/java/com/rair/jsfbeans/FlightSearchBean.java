@@ -45,21 +45,20 @@ public class FlightSearchBean implements Serializable {
 	private FlightRepository flightRepository;
 
 	private Airport arrivalAirport;
+	private Airport departureAirport;
 	private List<Flight> flightsForArrival;
-	
-	
+
+	private boolean singleFlight;
 	private double priceOfTicket;
-	
 
 	private String customerID;
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		// RequestContext.getCurrentInstance().reset("flightsearchWizard");
 		arrivalAirport = airportServiceBean.getAirports().get(0);
 		flightsForArrival = flightRepository.retrieveFlightsByDestination(arrivalAirport);
 	}
-	
 
 	public double getPriceOfTicket() {
 		return priceOfTicket;
@@ -78,6 +77,14 @@ public class FlightSearchBean implements Serializable {
 		this.arrivalAirport = arrivalAirport;
 	}
 
+	public Airport getDepartureAirport() {
+		return departureAirport;
+	}
+
+	public void setDepartureAirport(Airport departureAirport) {
+		this.departureAirport = departureAirport;
+	}
+
 	public List<Airport> completeAirports(String query) {
 		System.out.println("Query for aiports: " + query);
 		List<Airport> filteredAirports = new ArrayList<>();
@@ -92,6 +99,14 @@ public class FlightSearchBean implements Serializable {
 
 	public AirportServiceBean getAirportServiceBean() {
 		return airportServiceBean;
+	}
+
+	public boolean isSingleFlight() {
+		return singleFlight;
+	}
+
+	public void setSingleFlight(boolean singleFlight) {
+		this.singleFlight = singleFlight;
 	}
 
 	public void setAirportServiceBean(AirportServiceBean airportServiceBean) {
@@ -171,12 +186,12 @@ public class FlightSearchBean implements Serializable {
 	}
 
 	public String bookFlight() {
-		
+
 		System.out.println(loginBean.getPerson());
-		if(loginBean.getPerson() == null) {
+		if (loginBean.getPerson() == null) {
 			return "toLogin";
 		}
-		
+
 		return "toLogin";
 	}
 
@@ -195,7 +210,6 @@ public class FlightSearchBean implements Serializable {
 		priceOfTicket *= Employee.RAIR_PERCENTAGE;
 	}
 
-
 	public String getCustomerID() {
 		return customerID;
 	}
@@ -206,14 +220,14 @@ public class FlightSearchBean implements Serializable {
 
 	public void openRegisteredQuestion() {
 		System.out.println("Hello");
-		Map<String,Object> options = new HashMap<String, Object>();
-        options.put("modal", true);
-        RequestContext.getCurrentInstance().openDialog("registerQuestion", options, null);
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("modal", true);
+		RequestContext.getCurrentInstance().openDialog("registerQuestion", options, null);
 	}
-	
+
 	public void onReturnFromRegisterQuestion(SelectEvent event) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Data Returned", event.getObject().toString()));
-    }
-	
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Data Returned", event.getObject().toString()));
+	}
 
 }

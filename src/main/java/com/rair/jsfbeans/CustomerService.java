@@ -9,12 +9,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.primefaces.event.RowEditEvent;
 
 import com.rair.dao.CustomerRepository;
 import com.rair.domain.Customer;
 import com.rair.jsf.converters.PasswordConverter;
+import com.rair.mail.MailSender;
 
 @ManagedBean
 @ViewScoped
@@ -22,6 +25,8 @@ public class CustomerService {
 
 	@Inject
 	CustomerRepository customerRepository;
+	
+	private MailSender mailSender = new MailSender();
 
 	public CustomerRepository getCustomerRepository() {
 		return customerRepository;
@@ -61,7 +66,17 @@ public class CustomerService {
 			customer = customerRepository.save(customer);
 			FacesMessage msg = new FacesMessage("Added new customer", customer.getId().toString());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			System.out.println("Het decoded password is: " + passwordConverter.decrypt(customer.getPassword()));;
+			System.out.println("Het decoded password is: " + passwordConverter.decrypt(customer.getPassword()));
+			mailSender.setTextMessage("registration");
+			try {
+				mailSender.sendMail(customer.getEmailAddress());
+			} catch (AddressException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
     }
      

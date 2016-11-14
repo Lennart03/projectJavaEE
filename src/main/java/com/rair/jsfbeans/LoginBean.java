@@ -1,5 +1,6 @@
 package com.rair.jsfbeans;
 
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class LoginBean {
 	private String password;
 	private Person person;
 	private boolean loggedIn;
+	private PasswordConverter passwordConverter;
 
 	@Inject
 	private PersonReposiroty personReposiroty;
@@ -41,8 +43,6 @@ public class LoginBean {
 
 	@ManagedProperty("#{bookingServiceBean}")
 	private BookingServiceBean bookingServiceBean;
-
-	private PasswordConverter passwordConverter;
 
 	@PostConstruct
 	public void init() {
@@ -128,7 +128,14 @@ public class LoginBean {
 	}
 
 	public String doLogin() {
-		person = personReposiroty.retrievePerson(email, password);
+		String encryptedPw;
+		if(passwordConverter !=null){
+			encryptedPw = passwordConverter.encrypt(password);
+		}
+		else{
+			encryptedPw = password;
+		}
+		person = personReposiroty.retrievePerson(email, encryptedPw);
 		if (person == null) {
 			return "loginFailed";
 		}
