@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.primefaces.event.RowEditEvent;
 
@@ -17,6 +19,7 @@ import com.rair.dao.PartnerRepository;
 import com.rair.domain.Airline;
 import com.rair.domain.Partner;
 import com.rair.jsf.converters.PasswordConverter;
+import com.rair.mail.MailSender;
 
 @ManagedBean
 @ViewScoped
@@ -27,6 +30,8 @@ public class PartnerService {
 	
 	@Inject
 	private AirlineRepository airlineRepository;
+	
+	private MailSender mailSender = new MailSender();
 		
 	private List<Airline> airlines;
 	private List<Partner> partners;
@@ -64,7 +69,17 @@ public class PartnerService {
 			partner = partnerRepository.save(partner);
 			FacesMessage msg = new FacesMessage("Added new partner", partner.getId().toString());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			System.out.println("Het decoded password is: " + passwordConverter.decrypt(partner.getPassword()));;
+			System.out.println("Het decoded password is: " + passwordConverter.decrypt(partner.getPassword()));
+			mailSender.setTextMessage("partnerRegistration");
+			try {
+				mailSender.sendMail(partner.getEmailAddress());
+			} catch (AddressException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
     }
      

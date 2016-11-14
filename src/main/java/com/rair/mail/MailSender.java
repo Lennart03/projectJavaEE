@@ -40,6 +40,11 @@ public class MailSender {
 			this.textMessage = "Dear Sir/Madam,<br/><br/>Thank you for your registration. We hope to sell you lots of tickets!<br/><br/>Kind regards, Rair Ticket Service";
 			this.subject = "New Rair Tickets Registration";
 			break;
+		case "employeeRegistration":
+			this.textMessage = "Dear Sir/Madam,<br/><br/>Your account was created. From now on you can start managing pages at the admin.xhtml page.<br/<br/>Kind regards, Rair Ticket Service";
+			break;
+		case "partnerRegistration":
+			this.textMessage = "Dear Sir/Madam,<br/><br/>Your account was created. From now on you can start managing flights at the flight.xhtml page.<br/><br/>Kind regards, Rair Ticket Service";
 		default:
 			break;
 		}
