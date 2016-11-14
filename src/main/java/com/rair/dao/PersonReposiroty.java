@@ -32,5 +32,9 @@ public class PersonReposiroty {
 		return partners;
 	}
 	
+	public void updatePerson(Person person) {
+		entityManager.merge(person);
+	}
+	
 	
 }

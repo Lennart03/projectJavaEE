@@ -2,18 +2,20 @@ package com.rair.jsfbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -25,7 +27,7 @@ import com.rair.domain.Flight;
 import com.rair.domain.TravelingClass;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class FlightSearchBean implements Serializable {
 
 	private static final long serialVersionUID = 8792693292832076782L;
@@ -53,9 +55,9 @@ public class FlightSearchBean implements Serializable {
 	
 	@PostConstruct
 	public void init(){
-		arrivalAirport = null;
-		flightsForArrival = new ArrayList<>();
-		bookingServiceBean.setFlight(null);
+		// RequestContext.getCurrentInstance().reset("flightsearchWizard");
+		arrivalAirport = airportServiceBean.getAirports().get(0);
+		flightsForArrival = flightRepository.retrieveFlightsByDestination(arrivalAirport);
 	}
 	
 
@@ -68,6 +70,7 @@ public class FlightSearchBean implements Serializable {
 	}
 
 	public Airport getArrivalAirport() {
+		System.out.println("Arrival airport: " + this.arrivalAirport);
 		return arrivalAirport;
 	}
 
@@ -76,6 +79,7 @@ public class FlightSearchBean implements Serializable {
 	}
 
 	public List<Airport> completeAirports(String query) {
+		System.out.println("Query for aiports: " + query);
 		List<Airport> filteredAirports = new ArrayList<>();
 		for (Airport airport : airportServiceBean.getAirports()) {
 			if (airport.getCountry().toLowerCase().contains(query.toLowerCase())
@@ -124,6 +128,7 @@ public class FlightSearchBean implements Serializable {
 
 	public List<Flight> getFlightsForArrival() {
 		flightsForArrival = flightRepository.retrieveFlightsByDestination(arrivalAirport);
+		System.out.println("Flights for the arrival airport: " + this.flightsForArrival);
 		return flightsForArrival;
 	}
 
@@ -198,5 +203,17 @@ public class FlightSearchBean implements Serializable {
 	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
+
+	public void openRegisteredQuestion() {
+		System.out.println("Hello");
+		Map<String,Object> options = new HashMap<String, Object>();
+        options.put("modal", true);
+        RequestContext.getCurrentInstance().openDialog("registerQuestion", options, null);
+	}
+	
+	public void onReturnFromRegisterQuestion(SelectEvent event) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Data Returned", event.getObject().toString()));
+    }
+	
 
 }

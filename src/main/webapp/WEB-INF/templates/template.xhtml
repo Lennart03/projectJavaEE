@@ -5,18 +5,16 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
+
 <f:view locale="#{loginServiceBean.locale}" />
 <h:head>
 	<title><ui:insert name="title">RAIR TEMPLATE TITLE</ui:insert></title>
 </h:head>
 <h:body>
-	<h1>
-		<h:outputText
-			rendered="#{loginServiceBean.isLoggedIn(loginBean.email)}"
-			value="Welcome #{loginBean.person.firstName}" />
-	</h1>
-	<h:form id="menubar">
-		<p:menubar>
+	<h:form id="menuform">
+		<p:growl id="growl" showDetail="true" life="3000" />
+
+		<p:menubar id="menubar">
 
 
 			<f:facet name="header">
@@ -24,16 +22,61 @@
 			</f:facet>
 			<f:facet name="options">
 				<p:commandButton style="margin-right:10px" value="Login"
-					action="login?faces-redirect=true"
-					rendered="#{!(loginServiceBean.isLoggedIn(loginBean.person.emailAddress))}" />
-				<p:commandButton value="Logout"
-					rendered="#{loginServiceBean.isLoggedIn(loginBean.person.emailAddress)}"
-					action="#{loginServiceBean.logout(loginBean.person.emailAddress)}" />
+					onclick="PF('loginDialog').show();"
+					rendered="#{!(loginBean.loggedIn)}" />
+				<p:commandButton style="margin-right:10px" value="Logout"
+					onclick="PF('logoutDialog').show();"
+					rendered="#{loginBean.loggedIn}" />
+
+
+				<h:form>
+				<p:growl id="loginGrowl" showDetail="true" life="2500"/>
+					<p:dialog header="Login" widgetVar="loginDialog" resizable="false"
+						draggable="false">
+						<h:panelGrid columns="1" cellpadding="2">
+							<p:inputText id="userEmail" required="true" label="userEmail"
+								value="#{loginBean.email}"
+								validatorMessage="#{loginBean.email} is not valid">
+								<f:validateRegex
+									pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+							</p:inputText>
+							<p:watermark value="Email" for="userEmail" />
+							<p:message for="userEmail" />
+
+							<p:password id="password" value="#{loginBean.password}"
+								required="true" label="true" placeholder="Password"
+								requiredMessage="Please enter your password" />
+							<p:message for="password" />
+
+							<f:facet name="footer">
+								<p:commandButton value="Login" update="loginGrowl"
+									actionListener="#{loginBean.login}"
+									oncomplete="handleLoginRequest(xhr, status, args)">
+
+								</p:commandButton>
+							</f:facet>
+						</h:panelGrid>
+
+					</p:dialog>
+				</h:form>
+				<p:dialog header="Logout?" widgetVar="logoutDialog"
+					resizable="false">
+					<h:panelGrid columns="2" cellpadding="2">
+						<p:commandButton value="Yes" update="growl menubar"
+							actionListener="#{loginBean.logout}"
+							onclick="PF('logoutDialog').show();" immediate="true" />
+						<p:commandButton value="No" type="button"
+							onclick="PF('logoutDialog').hide();" />
+					</h:panelGrid>
+
+				</p:dialog>
 			</f:facet>
 
 		</p:menubar>
 	</h:form>
+
 	<main> <ui:insert name="content">RAIR TEMPLATE CONTENT</ui:insert>
 	</main>
 </h:body>
+<h:outputScript library="js" name="login.js" />
 </html>

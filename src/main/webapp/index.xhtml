@@ -9,15 +9,15 @@
 <ui:composition template="WEB-INF/templates/template.xhtml">
 	<ui:define name="title">Home page</ui:define>
 	<ui:define name="content">
-	
-	
+
+
 
 		<h:form id="form">
 
 			<p:growl id="msgs" showDetail="true" />
 			<p:growl id="growl" showDetail="true" />
 
-			<p:wizard flowListener="#{flightSearchBean.onFlowProcess}">
+			<p:wizard flowListener="#{flightSearchBean.onFlowProcess}" id="flightsearchWizard">
 				<p:tab id="arrivalDestination" title="Destination">
 					<p:panel header="Destination">
 						<p:messages />
@@ -33,8 +33,8 @@
 										<f:facet name="header">
 											<p:outputLabel value="Destionation" />
 										</f:facet>
-										<h:outputText value="Country: "/>
-										<h:outputText value="#{airport.country}"/>
+										<h:outputText value="Country: " />
+										<h:outputText value="#{airport.country}" />
 										<h:outputText value="City: " />
 										<h:outputText value="#{airport.city}" />
 										<h:outputText value="Airport: " />
@@ -54,8 +54,8 @@
 
 						<p:dataTable id="flightSelectionTable"
 							value="#{flightSearchBean.flightsForArrival}" var="flight"
-							selection="#{bookingServiceBean.flight}"
-							selectionMode="single" rowKey="#{flight.flightNumber}">
+							selection="#{bookingServiceBean.flight}" selectionMode="single"
+							rowKey="#{flight.flightNumber}">
 							<p:ajax event="rowSelect"
 								listener="#{flightSearchBean.onRowSelect}"
 								update="#{bookingServiceBean.flight}" />
@@ -107,7 +107,8 @@
 						<h:outputText for="numberOfTickets" value="Number of tickets:" />
 						<p:outputPanel>
 							<p:spinner id="numberOfTickets"
-								value="#{bookingServiceBean.nSeatsWanted}" min="0" max="#{bookingServiceBean.maximumSeatsForClass()}">
+								value="#{bookingServiceBean.nSeatsWanted}" min="0"
+								max="#{bookingServiceBean.maximumSeatsForClass()}">
 								<p:ajax update="totalPrice"
 									listener="#{bookingServiceBean.calculateTotalPrice(flightSearchBean.priceOfTicket)}"
 									process="@this" />
@@ -182,17 +183,13 @@
 							</h:outputText>
 
 						</p:panelGrid>
-						
-						<p:commandButton value="Book now" rendered="#{loginServiceBean.isLoggedIn(loginBean.email)}" action="booking.xhtml?faces-redirect=true"/>
 
-						<p:commandButton value="Book now" ajax="false" rendered="#{!(loginServiceBean.isLoggedIn(loginBean.email))}">
-							<p:confirm header="Are you registered?" />
-						</p:commandButton>
-						
-						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" message="Did you register for this website in the past?">
-							<p:button value="Yes" outcome="login.xhtml?faces-redirect=true"/>
-							<p:button value="No" outcome="register.xhtml?faces-redirect=true"/>
-						</p:confirmDialog>
+						<p:commandButton value="Book now" rendered="#{loginBean.loggedIn}"
+							action="booking.xhtml?faces-redirect=true" />
+
+						<p:commandButton value="Book now"
+							rendered="#{!(loginBean.loggedIn)}"
+							onclick="PF('loginDialog').show();" />
 
 
 					</p:panel>

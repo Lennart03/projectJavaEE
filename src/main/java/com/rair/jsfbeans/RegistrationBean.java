@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 
 import com.rair.dao.CustomerRepository;
@@ -13,7 +13,7 @@ import com.rair.domain.Customer;
 import com.rair.jsf.converters.PasswordConverter;
 
 @ManagedBean(name = "registrationBean")
-@ViewScoped
+@SessionScoped
 public class RegistrationBean implements Serializable {
 
 	private static final long serialVersionUID = 2979273877443227480L;

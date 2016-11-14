@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+     
+    <h:head>
+        <title>Registered?</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+     
+    <h:body>        
+        <h:form id="level1form">
+            <p class="ui-widget">Are you registered?</p>
+ 
+            <p:commandButton id="yesRegistered" value="Yes" actionListener="#{loginBean.openLoginDialog}">
+                <p:ajax event="dialogReturn" listener="#{loginBean.onReturnFromLogin}" />
+            </p:commandButton>
+            <p:commandButton id="noRegistered" value="No" actionListerner="#{registrationBean.openRegisterDialog}">
+            	<p:ajax event="dialogReturn" listener="#{registrationBean.onReturnFromRegister}"/>
+            </p:commandButton>
+        </h:form>
+    </h:body>
+     
+</html>

@@ -1,23 +1,37 @@
 package com.rair.jsfbeans;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 import com.rair.dao.PersonReposiroty;
 import com.rair.domain.Customer;
 import com.rair.domain.Employee;
 import com.rair.domain.Partner;
 import com.rair.domain.Person;
+import com.rair.jsf.converters.PasswordConverter;
 
 @ManagedBean(name = "loginBean")
 @SessionScoped
 public class LoginBean {
 
 	private String email;
+	private String firstName;
 	private String password;
 	private Person person;
+	private boolean loggedIn;
 
 	@Inject
 	private PersonReposiroty personReposiroty;
@@ -27,6 +41,43 @@ public class LoginBean {
 
 	@ManagedProperty("#{bookingServiceBean}")
 	private BookingServiceBean bookingServiceBean;
+
+	private PasswordConverter passwordConverter;
+
+	@PostConstruct
+	public void init() {
+		loggedIn = false;
+		try {
+			passwordConverter = new PasswordConverter();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
+
+	public void setLoggedIn(boolean loggedIn) {
+		this.loggedIn = loggedIn;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public PasswordConverter getPasswordConverter() {
+		return passwordConverter;
+	}
+
+	public void setPasswordConverter(PasswordConverter passwordConverter) {
+		this.passwordConverter = passwordConverter;
+	}
 
 	public String getEmail() {
 		return email;
@@ -98,6 +149,48 @@ public class LoginBean {
 			return "toFlightPage";
 		}
 		return "toIndex";
+	}
+
+	public void login(ActionEvent event) {
+		RequestContext context = RequestContext.getCurrentInstance();
+		FacesMessage message = null;
+		person = personReposiroty.retrievePerson(email, passwordConverter.encrypt(password));
+		loggedIn = false;
+
+		if (person != null) {
+			loggedIn = true;
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome",
+					person.getFirstName() + " " + person.getLastName());
+			loginServiceBean.login(email);
+		} else {
+			loggedIn = false;
+			message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login error", "Invalid credentials");
+		}
+
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		context.addCallbackParam("loggedIn", loggedIn);
+	}
+
+	public void logout(ActionEvent event) {
+		System.out.println("Loggin out.");
+		loginServiceBean.logout(person.getEmailAddress());
+		loggedIn = false;
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout", "You have been logged out."));
+	}
+	
+	public void openLoginDialog() {
+		Map<String,Object> options = new HashMap<String, Object>();
+        options.put("modal", true);
+        RequestContext.getCurrentInstance().openDialog("login", options, null);
+	}
+	
+	public void closeLoginDialog() {
+        RequestContext.getCurrentInstance().closeDialog(Arrays.asList(firstName, person.getLastName()));
+    }
+	
+	public void onReturnFromLogin(SelectEvent event) {
+		RequestContext.getCurrentInstance().closeDialog(event.getObject());
 	}
 
 }

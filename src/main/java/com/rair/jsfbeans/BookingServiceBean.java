@@ -2,6 +2,7 @@ package com.rair.jsfbeans;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.rair.dao.BookingRepository;
@@ -132,6 +133,7 @@ public class BookingServiceBean {
 			booking.setStatus(BookingStatus.PAYMENT_PENDING);
 		}
 		bookingRepository.createBooking(booking);
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "index.xhtml?faces-redirect=true";
 	}
 

@@ -9,8 +9,6 @@
 	<ui:define name="title">Booking details</ui:define>
 	<ui:define name="content">
 
-		<h:outputText
-			value="Payment type: #{bookingServiceBean.paymentChoice}" />
 		<p:panel header="Details of your selected flight">
 			<h:panelGrid columns="4" cellPading="10">
 
@@ -84,7 +82,12 @@
 						</p:column>
 					</p:row>
 				</h:panelGrid>
-				<p:commandButton value="Pay Flight" action="#{bookingServiceBean.makeBooking()}" ajax="false"/>
+				<p:commandButton value="Pay Flight" action="#{bookingServiceBean.makeBooking()}" ajax="false">
+					<h:link>
+						<f:param name="userEmail" value="#{loginBean.email}"/>
+						<f:param name="userName" value="#{loginBean.person.firstName}"/>
+					</h:link>
+				</p:commandButton>
 			</h:form>
 		</p:panel>
 
