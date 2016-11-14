@@ -7,6 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import com.rair.dao.CustomerRepository;
 import com.rair.domain.Customer;
@@ -113,7 +115,15 @@ public class RegistrationBean implements Serializable {
 		Customer customer = new Customer(firstName, lastName, emailAddress, passwordConverter.encrypt(passWord));
 		customerRepository.save(customer);
 		loginServiceBean.login(emailAddress);
-		mailSender.sendMail(emailAddress);
+		try {
+			mailSender.sendMail(emailAddress);
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (bookingServiceBean.getFlight() == null) {
 			return "toIndex";
 		} else {
