@@ -7,9 +7,10 @@
 
 <f:view locale="#{loginServiceBean.locale}" />
 <h:head>
+	<h:graphicImage value="img/Airplane_airport_plane_ticket-512.png" alt="Rair logo" width="100%" height="215" />
 	<title><ui:insert name="title">RAIR TEMPLATE TITLE</ui:insert></title>
 </h:head>
-<h:body>
+<h:body style="background:url(img/background.svg); no-repeat 0px 0px;">
 	<h1>
 		<h:outputText
 			rendered="#{loginServiceBean.isLoggedIn(loginBean.email)}"
