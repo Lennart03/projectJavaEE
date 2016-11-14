@@ -66,6 +66,14 @@
 			<to-view-id>/index.html</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/admin.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>redirectAdmin</from-outcome>
+			<to-view-id>/admin.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>/register.xhtml</from-view-id>

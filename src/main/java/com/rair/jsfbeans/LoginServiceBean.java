@@ -1,5 +1,6 @@
 package com.rair.jsfbeans;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
@@ -9,7 +10,9 @@ import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 @ManagedBean(name = "loginServiceBean")
 @ApplicationScoped
@@ -20,11 +23,27 @@ public class LoginServiceBean implements Serializable {
 	private Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
 	private TimeZone timeZone;
 	private Map<String, Boolean> loginMap;
+	private String localeString;
 
 	@PostConstruct
 	public void init() {
 		loginMap = new HashMap<>();
 	}
+
+	
+	
+	public String getLocaleString() {
+		return localeString;
+	}
+
+
+
+	public void setLocaleString(String localeString) {
+		this.localeString = localeString;
+		setLocale(new Locale(localeString));
+	}
+
+
 
 	public Map<String, Boolean> getLoginMap() {
 		return loginMap;
@@ -64,6 +83,18 @@ public class LoginServiceBean implements Serializable {
 	
 	public TimeZone getTimeZone() {
 	    return TimeZone.getDefault();
+	}
+	
+	public void change() {
+		System.out.println(localeString);
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+	    try {
+			ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    System.out.println(locale.toString());
 	}
 
 }
