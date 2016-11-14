@@ -17,265 +17,341 @@
 			<p:growl id="msgs" showDetail="true" />
 			<p:growl id="growl" showDetail="true" />
 
+			<p:wizard flowListener="#{flightSearchBean.onFlowProcess}"
+				id="flightsearchWizard">
 
-			<p:selectOneRadio id="flightTypeSelection"
-				value="#{flightSearchBean.singleFlight}">
-				<f:selectItem itemLabel="Single flight" itemValue="true" />
-				<f:selectItem itemLabel="Return flight" itemValue="false" />
-			</p:selectOneRadio>
+				<p:tab id="searchCriteria" title="Search flight">
 
-			<p:panelGrid columns="2" columnClasses="label, value">
-				<p:panelGrid columns="2" columnClasses="label, value">
+					<p:panel header="Destination">
+						<p:messages />
 
-					<p:outputLabel value="From:" for="departureAirportAutocompete" />
-					<p:autoComplete id="departureAirportAutocompete"
-						value="#{flightSearchBean.departureAirport}"
-						completeMethod="#{flightSearchBean.completeAirports}"
-						var="departureAirport" itemLabel="#{departureAirport.name}"
-						itemValue="#{departureAirport}" converter="airportConverter"
-						forceSelection="true">
-						<h:panelGrid columns="2" cellpadding="5">
-							<f:facet name="header">
-								<p:outputLabel value="Destionation" />
-							</f:facet>
-							<h:outputText value="Country: " />
-							<h:outputText value="#{airport.country}" />
-							<h:outputText value="City: " />
-							<h:outputText value="#{airport.city}" />
-							<h:outputText value="Airport: " />
-							<h:outputText value="#{airport.name}" />
-						</h:panelGrid>
-					</p:autoComplete>
 
-					<p:outputLabel value="To:" for="arrivalAirportAutocomplete" />
-					<p:autoComplete id="arrivalAirportAutocomplete"
-						value="#{flightSearchBean.arrivalAirport}"
-						completeMethod="#{flightSearchBean.completeAirports}"
-						var="arrivalAirport" itemLabel="#{arrivalAirport.name}"
-						itemValue="#{arrivalAirport}" converter="airportConverter"
-						forceSelection="true">
-						<f:facet name="itemtip">
-							<h:panelGrid columns="2" cellpadding="5">
-								<f:facet name="header">
-									<p:outputLabel value="Destionation" />
+						<h:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="Flight type:" />
+							<p:selectOneRadio id="flightTypeSelection"
+								value="#{flightSearchBean.singleFlight}">
+								<f:selectItem itemLabel="Single flight" itemValue="#{true}" />
+								<f:selectItem itemLabel="Return flight" itemValue="#{false}" />
+								<f:ajax event="change" render=":form"/>
+							</p:selectOneRadio>
+							<p:outputLabel value="From:" for="departureAirportAutocompete" />
+							<p:autoComplete id="departureAirportAutocompete"
+								value="#{flightSearchBean.departureAirport}"
+								completeMethod="#{flightSearchBean.completeAirports}"
+								var="departureAirport" itemLabel="#{departureAirport.name}"
+								itemValue="#{departureAirport}" converter="airportConverter"
+								forceSelection="true">
+								<h:panelGrid columns="2" cellpadding="5">
+									<f:facet name="header">
+										<p:outputLabel value="Destionation" />
+									</f:facet>
+									<h:outputText value="Country: " />
+									<h:outputText value="#{airport.country}" />
+									<h:outputText value="City: " />
+									<h:outputText value="#{airport.city}" />
+									<h:outputText value="Airport: " />
+									<h:outputText value="#{airport.name}" />
+								</h:panelGrid>
+							</p:autoComplete>
+
+							<p:outputLabel value="To:" for="arrivalAirportAutocomplete" />
+							<p:autoComplete id="arrivalAirportAutocomplete"
+								value="#{flightSearchBean.arrivalAirport}"
+								completeMethod="#{flightSearchBean.completeAirports}"
+								var="arrivalAirport" itemLabel="#{arrivalAirport.name}"
+								itemValue="#{arrivalAirport}" converter="airportConverter"
+								forceSelection="true">
+								<f:facet name="itemtip">
+									<h:panelGrid columns="2" cellpadding="5">
+										<f:facet name="header">
+											<p:outputLabel value="Destionation" />
+										</f:facet>
+										<h:outputText value="Country: " />
+										<h:outputText value="#{airport.country}" />
+										<h:outputText value="City: " />
+										<h:outputText value="#{airport.city}" />
+										<h:outputText value="Airport: " />
+										<h:outputText value="#{airport.name}" />
+									</h:panelGrid>
 								</f:facet>
-								<h:outputText value="Country: " />
-								<h:outputText value="#{airport.country}" />
-								<h:outputText value="City: " />
-								<h:outputText value="#{airport.city}" />
-								<h:outputText value="Airport: " />
-								<h:outputText value="#{airport.name}" />
-							</h:panelGrid>
-						</f:facet>
-
-					</p:autoComplete>
-
-
-				</p:panelGrid>
-
-				<p:wizard flowListener="#{flightSearchBean.onFlowProcess}"
-					id="flightsearchWizard">
-					<p:tab id="arrivalDestination" title="Destination">
-						<p:panel header="Destination">
-							<p:messages />
-			</p:panelGrid>
-			</p:panel>
-			</p:tab>
-
-			<p:tab id="flights" title="Flights">
-
-				<p:panel id="flightSelectionPanel"
-					header="Available flights to #{flightSearchBean.arrivalAirport.name}">
-
-					<p:dataTable id="flightSelectionTable"
-						value="#{flightSearchBean.flightsForArrival}" var="flight"
-						selection="#{bookingServiceBean.flight}" selectionMode="single"
-						rowKey="#{flight.flightNumber}">
-						<p:ajax event="rowSelect"
-							listener="#{flightSearchBean.onRowSelect}"
-							update="#{bookingServiceBean.flight}" />
-						<p:ajax event="rowUnselect"
-							listener="#{flightSearchBean.onRowUnselect}" update=":form:msgs" />
-
-						<p:column headerText="Flight Number">
-							<h:outputText value="#{flight.flightNumber}" />
-						</p:column>
-						<p:column headerText="Departure">
-							<h:outputText value="#{flight.departureDestination.name}" />
-						</p:column>
-						<p:column headerText="Departure Time"
-							sortBy="#{flight.departureTime}">
-							<h:outputText value="#{flight.departureTime}">
-								<f:convertDateTime type="both"
-									timeZone="#{loginServiceBean.timeZone}" />
-							</h:outputText>
-						</p:column>
-						<p:column headerText="Airline Company"
-							sortBy="#{flight.airline.name}">
-							<h:outputText value="#{flight.airline.name}" />
-						</p:column>
-						<p:column headerText="Ticket Price" sortBy="#{flight.basePrice}">
-							<h:outputText value="€ #{flight.basePrice}">
-								<f:convertNumber type="currency" maxFractionDigits="2" />
-							</h:outputText>
-						</p:column>
-					</p:dataTable>
-				</p:panel>
-			</p:tab>
-
-			<p:tab id="ticketChoice" title="Tickets">
-				<h:panelGrid columns="2" cellPadding="5">
-
-					<h:outputText for="flightClass" value="Flight class:" />
-					<p:selectOneRadio id="flightClass"
-						value="#{bookingServiceBean.selectedTravelClass}">
-						<f:selectItem itemLabel="Economy" itemValue="ECONOMY" />
-						<f:selectItem itemLabel="Business" itemValue="BUSINESS" />
-						<f:selectItem itemLabel="First Class" itemValue="FIRST_CLASS" />
-						<p:ajax update="priceOneTicket"
-							listener="#{flightSearchBean.changePriceOfOneTicket}" />
-						<p:ajax update="totalPrice"
-							listener="#{bookingServiceBean.calculateTotalPrice(flightSearchBean.priceOfTicket)}"
-							process="@this" />
-					</p:selectOneRadio>
-
-					<h:outputText for="numberOfTickets" value="Number of tickets:" />
-					<p:outputPanel>
-						<p:spinner id="numberOfTickets"
-							value="#{bookingServiceBean.nSeatsWanted}" min="0"
-							max="#{bookingServiceBean.maximumSeatsForClass()}">
 
 							</p:autoComplete>
-						</p:panelGrid>
+
+
+							<p:outputLabel value="Departure date: " />
+							<p:calendar value="#{flightSearchBean.departureDate}" effect="fold" />
+
+							<p:outputLabel value="Departure date return flight: "
+								rendered="#{!(flightSearchBean.singleFlight)}" />
+							<p:calendar value="#{flightSearchBean.departureDateReturnFlight}"
+								rendered="#{!(flightSearchBean.singleFlight)}" effect="fold"
+								id="departureDateReturnFlight" />
+						</h:panelGrid>
 					</p:panel>
+
 				</p:tab>
 
 				<p:tab id="flights" title="Flights">
+					<p:panel id="outboundFlightSelectionPanel"
+						header="Outbound flights" toggleable="true" toggleSpeed="750">
 
-					<p:panel id="flightSelectionPanel"
-						header="Available flights to #{flightSearchBean.arrivalAirport.name}">
-
-						<p:dataTable id="flightSelectionTable"
-							value="#{flightSearchBean.flightsForArrival}" var="flight"
-							selection="#{bookingServiceBean.flight}"
-							selectionMode="single" rowKey="#{flight.flightNumber}">
+						<p:dataTable id="outboundFlightSelection"
+							value="#{flightSearchBean.singleFlights}" var="singleFlight"
+							selection="#{bookingServiceBean.flight}" selectionMode="single"
+							rowKey="#{singleFlight.flightNumber}">
 							<p:ajax event="rowSelect"
-								listener="#{flightSearchBean.onRowSelect}"
+								listener="#{flightSearchBean.onRowSelectOutboud}"
 								update=":form:msgs" />
 							<p:ajax event="rowUnselect"
-								listener="#{flightSearchBean.onRowUnselect}" update=":form:msgs" />
+								listener="#{flightSearchBean.onRowUnselectOutbound}"
+								update=":form:msgs" />
 
 							<p:column headerText="Flight Number">
-								<h:outputText value="#{flight.flightNumber}" />
+								<h:outputText value="#{singleFlight.flightNumber}" />
 							</p:column>
 							<p:column headerText="Departure">
-								<h:outputText value="#{flight.departureDestination.name}" />
+								<h:outputText value="#{singleFlight.departureDestination.name}" />
 							</p:column>
 							<p:column headerText="Departure Time"
-								sortBy="#{flight.departureTime}">
-								<h:outputText value="#{flight.departureTime}">
+								sortBy="#{singleFlight.departureTime}">
+								<h:outputText value="#{singleFlight.departureTime}">
 									<f:convertDateTime type="both"
 										timeZone="#{loginServiceBean.timeZone}" />
 								</h:outputText>
 							</p:column>
 							<p:column headerText="Airline Company"
-								sortBy="#{flight.airline.name}">
-								<h:outputText value="#{flight.airline.name}" />
+								sortBy="#{singleFlight.airline.name}">
+								<h:outputText value="#{singleFlight.airline.name}" />
 							</p:column>
-							<p:column headerText="Ticket Price" sortBy="#{flight.basePrice}">
-								<h:outputText value="€ #{flight.basePrice}">
-									<f:convertNumber type="currency" maxFractionDigits="2" />
+							<p:column headerText="Ticket Price [€]"
+								sortBy="#{singleFlight.getTicketPriceEconomyClass()}">
+								<h:outputText value="#{singleFlight.getTicketPriceEconomyClass()}">
+									<f:convertNumber pattern="#0.00" />
 								</h:outputText>
 							</p:column>
 						</p:dataTable>
 					</p:panel>
+					
+					<p:panel id="returnFlightSelectionPanel"
+						 toggleable="true"
+						toggleSpeed="750" header="Return flights">
+						<p:dataTable value="#{flightSearchBean.returnFlights}"
+							var="returnFlight" selection="#{bookingServiceBean.returnFlight}"
+							selectionMode="single" rowKey="#{returnFlight.flightNumber}" rendered="#{!(flightSearchBean.singleFlight)}">
+							<p:ajax event="rowSelect"
+								listener="#{flightSearchBean.onRowSelectReturn}"
+								update=":form:msgs" />
+							<p:ajax event="rowUnselect"
+								listener="#{flightSearchBean.onRowUnselectReturn}"
+								update=":form:msgs" />
+						</p:dataTable>
+
+						<p:column headerText="Flight Number">
+							<h:outputText value="#{returnFlight.flightNumber}" />
+						</p:column>
+						<p:column headerText="Departure">
+							<h:outputText value="#{returnFlight.departureDestination.name}" />
+						</p:column>
+						<p:column headerText="Departure Time"
+							sortBy="#{returnFlight.departureTime}">
+							<h:outputText value="#{returnFlight.departureTime}">
+								<f:convertDateTime type="both"
+									timeZone="#{loginServiceBean.timeZone}" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Airline Company"
+							sortBy="#{returnFlight.airline.name}">
+							<h:outputText value="#{returnFlight.airline.name}" />
+						</p:column>
+						<p:column headerText="Ticket Price [€]"
+							sortBy="#{returnFlight.getTicketPriceEconomyClass()}" >
+							<h:outputText
+								value="#{returnFlight.getTicketPriceEconomyClass()}" rendered="#{!(flightSearchBean.singleFlight)}">
+								<f:convertNumber pattern="#0.00"/>
+							</h:outputText>
+						</p:column>
+					</p:panel>
 				</p:tab>
 
 				<p:tab id="ticketChoice" title="Tickets">
-					<h:panelGrid columns="2" cellPadding="5">
+					<p:panel header="Ticket choice outbound flight" toggleable="true"
+						toggleSpeed="750">
+						<p:panelGrid columns="2" cellPadding="5">
 
-						<h:outputText for="flightClass" value="Flight class:" />
-						<p:selectOneRadio id="flightClass"
-							value="#{bookingServiceBean.selectedTravelClass}">
-							<f:selectItem itemLabel="Economy" itemValue="ECONOMY" />
-							<f:selectItem itemLabel="Business" itemValue="BUSINESS" />
-							<f:selectItem itemLabel="First Class" itemValue="FIRST_CLASS" />
-							<p:ajax update="priceOneTicket"
-								listener="#{flightSearchBean.changePriceOfOneTicket}" />
+							<h:outputText for="flightClass" value="Flight class:" />
+							<p:selectOneRadio id="flightClass"
+								value="#{bookingServiceBean.selectedTravelClass}">
+								<f:selectItem itemLabel="Economy" itemValue="ECONOMY" />
+								<f:selectItem itemLabel="Business" itemValue="BUSINESS" />
+								<f:selectItem itemLabel="First Class" itemValue="FIRST_CLASS" />
+								<p:ajax update="priceOneTicket"
+									listener="#{flightSearchBean.changePriceOutboundFlight}" />
+								<p:ajax update="totalPrice"
+									listener="#{bookingServiceBean.updateTotalPrice}"
+									process="@this" />
+							</p:selectOneRadio>
 
-							<p:ajax update="totalPrice"
-								listener="#{bookingServiceBean.calculateTotalPrice(flightSearchBean.priceOfTicket)}"
-								process="@this" />
-						</p:spinner>
-					</p:outputPanel>
+							<h:outputText for="numberOfTickets" value="Number of tickets:" />
+							<p:outputPanel>
+								<p:spinner id="numberOfTickets"
+									value="#{bookingServiceBean.nSeatsWanted}" min="1"
+									max="#{bookingServiceBean.maximumSeatsForClass()}">
+									<p:ajax update="totalPrice"
+										listener="#{bookingServiceBean.updateTotalPrice}" />
+								</p:spinner>
+							</p:outputPanel>
 
-					<h:outputText for="priceOneTicket" value="Price for one ticket:" />
-					<h:outputText id="priceOneTicket"
-						value="€#{flightSearchBean.priceOfTicket}">
-					</h:outputText>
+							<h:outputText value="Price of one ticket:" />
+							<h:outputText id="priceOneTicket"
+								value="€ #{flightSearchBean.priceOfTicket}">
+								<f:convertNumber type="currency" maxFractionDigits="2" />
+							</h:outputText>
+						</p:panelGrid>
+					</p:panel>
+					<p:panel header="Ticket choice return flight" toggleable="true"
+						toggleSpeed="750" rendered="#{!(flightSearchBean.singleFlight)}">
+						<p:panelGrid columns="2" cellPadding="5">
+							<h:outputText value="Flight class:" />
+							<p:selectOneRadio id="flightClassReturn"
+								value="#{bookingServiceBean.selectedReturnTravelClass}">
+								<f:selectItem itemLabel="Economy" itemValue="ECONOMY" />
+								<f:selectItem itemLabel="Business" itemValue="BUSINESS" />
+								<f:selectItem itemLabel="First Class" itemValue="FIRST_CLASS" />
+								<p:ajax update="priceOneTicket"
+									listener="#{flightSearchBean.changePriceReturnFlight}" />
+								<p:ajax update="totalPrice"
+									listener="#{bookingServiceBean.updateTotalPrice}"
+									process="@this" />
+							</p:selectOneRadio>
+							<h:outputText for="numberOfReturTicket"
+								value="Number of tickets:" />
+							<p:outputPanel>
+								<p:spinner id="numberOfReturTicket"
+									value="#{bookingServiceBean.nSeatsWantedReturn}" min="1"
+									max="#{bookingServiceBean.maximumSeatsForClass()}">
+									<p:ajax update="totalPrice"
+										listener="#{bookingServiceBean.updateTotalPrice}" />
+								</p:spinner>
+							</p:outputPanel>
+						</p:panelGrid>
+					</p:panel>
 
-					<h:outputText for="totalPrice" value="Total price:" />
+					<h:outputText value="Total price:" />
 					<h:outputText id="totalPrice"
 						value="€ #{bookingServiceBean.priceOfBooking}">
 						<f:convertNumber type="currency" maxFractionDigits="2" />
 					</h:outputText>
+				</p:tab>
 
-				</h:panelGrid>
-			</p:tab>
+				<p:tab id="flightDetails" title="Flight Details">
 
-			<p:tab id="flightDetails" title="Flight Details">
+					<p:panel header="Details of outbound flight" toggleable="true"
+						toggleSpeed="750">
 
-				<p:panel header="Details of your selected flight">
-					<p:panelGrid columns="2" cellPading="5">
+						<p:panelGrid columns="2" cellPading="5">
 
-						<h:outputText for="detailTabflightNumber" value="Flight number:" />
-						<h:outputText id="detailTabflightNumber"
-							value="#{bookingServiceBean.flight.flightNumber}" />
+							<h:outputText for="detailTabflightNumber" value="Flight number:" />
+							<h:outputText id="detailTabflightNumber"
+								value="#{bookingServiceBean.flight.flightNumber}" />
 
-						<h:outputText for="detailTabdeparture" value="Departure:" />
-						<h:outputText id="detailTabdeparture"
-							value="#{bookingServiceBean.flight.departureDestination.name}" />
+							<h:outputText for="detailTabdeparture" value="Departure:" />
+							<h:outputText id="detailTabdeparture"
+								value="#{bookingServiceBean.flight.departureDestination.name}" />
 
-						<h:outputText for="detailTabarrival" value="Arrival:" />
-						<h:outputText id="detailTabarrival"
-							value="#{bookingServiceBean.flight.arrivalDestination.name}" />
+							<h:outputText for="detailTabarrival" value="Arrival:" />
+							<h:outputText id="detailTabarrival"
+								value="#{bookingServiceBean.flight.arrivalDestination.name}" />
 
-						<h:outputText for="detailTabdepartureTime" value="Departure Time:" />
-						<h:outputText id="detailTabdepartureTime"
-							value="#{bookingServiceBean.flight.departureTime}">
-							<f:convertDateTime type="both"
-								timeZone="#{loginServiceBean.timeZone}" />
-						</h:outputText>
+							<h:outputText for="detailTabdepartureTime"
+								value="Departure Time:" />
+							<h:outputText id="detailTabdepartureTime"
+								value="#{bookingServiceBean.flight.departureTime}">
+								<f:convertDateTime type="both"
+									timeZone="#{loginServiceBean.timeZone}" />
+							</h:outputText>
 
-						<h:outputText for="detailTabairline" value="Airline: " />
-						<h:outputText id="detailTabairline"
-							value="#{bookingServiceBean.flight.airline.name}" />
+							<h:outputText for="detailTabairline" value="Airline: " />
+							<h:outputText id="detailTabairline"
+								value="#{bookingServiceBean.flight.airline.name}" />
 
-						<h:outputText for="detailTabtravelingClass"
-							value="Traveling class:" />
-						<h:outputText id="detailTabtravelingClass"
-							value="#{bookingServiceBean.selectedTravelClass}" />
+							<h:outputText for="detailTabtravelingClass"
+								value="Traveling class:" />
+							<h:outputText id="detailTabtravelingClass"
+								value="#{bookingServiceBean.selectedTravelClass}" />
 
-						<h:outputText for="detailTabnumberOfTickets"
-							value="Number of Tickets:" />
-						<h:outputText id="detailTabnumberOfTickets"
-							value="#{bookingServiceBean.nSeatsWanted}" />
+							<h:outputText for="detailTabnumberOfTickets"
+								value="Number of Tickets:" />
+							<h:outputText id="detailTabnumberOfTickets"
+								value="#{bookingServiceBean.nSeatsWanted}" />
 
-						<h:outputText for="detailTabpriceOneTicket"
-							value="Price of One Ticket:" />
-						<h:outputText id="detailTabpriceOneTicket"
-							value="€#{flightSearchBean.priceOfTicket}">
-							<f:convertNumber type="currency" maxFractionDigits="2" />
-						</h:outputText>
+							<h:outputText for="detailTabpriceOneTicket"
+								value="Price of One Ticket:" />
+							<h:outputText id="detailTabpriceOneTicket"
+								value="€#{flightSearchBean.priceOfTicket}">
+								<f:convertNumber type="currency" maxFractionDigits="2" />
+							</h:outputText>
 
-						<h:outputText for="detailTabtotalPrice"
-							value="Total price for flight:" />
-						<h:outputText id="detailTabtotalPrice"
-							value="€#{bookingServiceBean.priceOfBooking}">
-							<f:convertNumber type="currency" maxFractionDigits="2" />
-						</h:outputText>
+						</p:panelGrid>
 
-					</p:panelGrid>
+					</p:panel>
+
+					<p:panel header="Details of return flight" toggleable="true"
+						toggleSpeed="750" rendered="#{!(flightSearchBean.singleFlight)}">
+
+						<p:panelGrid columns="2" cellPadding="5">
+
+							<h:outputText for="detailTabflightNumberReturn"
+								value="Flight number:" />
+							<h:outputText id="detailTabflightNumberReturn"
+								value="#{bookingServiceBean.returnFlight.flightNumber}" />
+
+							<h:outputText for="detailTabdepartureReturn" value="Departure:" />
+							<h:outputText id="detailTabdepartureReturn"
+								value="#{bookingServiceBean.returnFlight.departureDestination.name}" />
+
+							<h:outputText for="detailTabarrivalReturn" value="Arrival:" />
+							<h:outputText id="detailTabarrivalReturn"
+								value="#{bookingServiceBean.returnFlight.arrivalDestination.name}" />
+
+							<h:outputText for="detailTabdepartureTimeReturn"
+								value="Departure Time:" />
+							<h:outputText id="detailTabdepartureTimeReturn"
+								value="#{bookingServiceBean.returnFlight.departureTime}">
+								<f:convertDateTime type="both"
+									timeZone="#{loginServiceBean.timeZone}" />
+							</h:outputText>
+
+							<h:outputText for="detailTabairlineReturn" value="Airline: " />
+							<h:outputText id="detailTabairlineReturn"
+								value="#{bookingServiceBean.returnFlight.airline.name}" />
+
+							<h:outputText for="detailTabtravelingClassReturn"
+								value="Traveling class:" />
+							<h:outputText id="detailTabtravelingClassReturn"
+								value="#{bookingServiceBean.selectedReturnTravelClass}" />
+
+							<h:outputText for="detailTabnumberOfTicketsReturn"
+								value="Number of Tickets:" />
+							<h:outputText id="detailTabnumberOfTicketsReturn"
+								value="#{bookingServiceBean.nSeatsWantedReturn}" />
+
+							<h:outputText for="detailTabpriceOneTicketReturn"
+								value="Price of One Ticket:" />
+							<h:outputText id="detailTabpriceOneTicketReturn"
+								value="€#{flightSearchBean.priceOfReturnTicket}">
+								<f:convertNumber type="currency" maxFractionDigits="2" />
+							</h:outputText>
+						</p:panelGrid>
+
+
+					</p:panel>
+
+					<h:outputText for="detailTabtotalPrice"
+						value="Total price for flight:" />
+					<h:outputText id="detailTabtotalPrice"
+						value="€#{bookingServiceBean.priceOfBooking}">
+						<f:convertNumber type="currency" maxFractionDigits="2" />
+					</h:outputText>
 
 					<p:commandButton value="Book now" rendered="#{loginBean.loggedIn}"
 						action="booking.xhtml?faces-redirect=true" />
@@ -283,10 +359,7 @@
 					<p:commandButton value="Book now"
 						rendered="#{!(loginBean.loggedIn)}"
 						onclick="PF('loginDialog').show();" />
-
-
-				</p:panel>
-			</p:tab>
+				</p:tab>
 			</p:wizard>
 		</h:form>
 	</ui:define>

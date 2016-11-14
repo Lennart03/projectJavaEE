@@ -170,15 +170,15 @@ public class Flight implements Serializable {
 	}
 
 	public double getTicketPriceEconomyClass() {
-		return basePrice;
+		return basePrice * Employee.RAIR_PERCENTAGE;
 	}
 
 	public double getTicketPriceBusinessClass() {
-		return basePrice * BUSINESSCLASS_MULTIPLIER;
+		return basePrice * BUSINESSCLASS_MULTIPLIER * Employee.RAIR_PERCENTAGE;
 	}
 
 	public double getTicketPriceFirstClass() {
-		return basePrice * FIRSTCLASS_MULTIPLIER;
+		return basePrice * FIRSTCLASS_MULTIPLIER * Employee.RAIR_PERCENTAGE;
 	}
 
 	@Override

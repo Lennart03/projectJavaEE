@@ -18,17 +18,30 @@ import com.rair.domain.TravelingClass;
 public class BookingServiceBean {
 
 	private Flight flight;
+	private Flight returnFlight;
 	private Customer customer;
 	private Payment paymentChoice = Payment.CREDITCARD;
 	private double priceOfBooking;
+	private double priceOfReturnBooking;
 	private int nSeatsWanted;
+	private int nSeatsWantedReturn;
 	private TravelingClass selectedTravelClass;
+	private TravelingClass selectedReturnTravelClass;
+	private double totalPrice;
 
 	@Inject
 	private BookingRepository bookingRepository;
 
 	public Flight getFlight() {
 		return flight;
+	}
+
+	public Flight getReturnFlight() {
+		return returnFlight;
+	}
+
+	public void setReturnFlight(Flight returnFlight) {
+		this.returnFlight = returnFlight;
 	}
 
 	public BookingRepository getBookingRepository() {
@@ -94,8 +107,50 @@ public class BookingServiceBean {
 		this.selectedTravelClass = selectedTravelClass;
 	}
 
+	public TravelingClass getSelectedReturnTravelClass() {
+		return selectedReturnTravelClass;
+	}
+
+	public void setSelectedReturnTravelClass(TravelingClass selectedReturnTravelClass) {
+		this.selectedReturnTravelClass = selectedReturnTravelClass;
+	}
+
 	public void calculatePriceOfBooking(double priceOfTicket) {
 		priceOfBooking = nSeatsWanted * priceOfTicket;
+		updateTotalPrice();
+	}
+
+	private void updateTotalPrice() {
+		totalPrice = priceOfBooking + priceOfReturnBooking;
+	}
+
+	public void calculatePriceOfReturnBooking(double priceOfReturnTicket) {
+		priceOfReturnBooking = nSeatsWantedReturn * priceOfReturnTicket;
+		updateTotalPrice();
+	}
+
+	public int getnSeatsWantedReturn() {
+		return nSeatsWantedReturn;
+	}
+
+	public void setnSeatsWantedReturn(int nSeatsWantedReturn) {
+		this.nSeatsWantedReturn = nSeatsWantedReturn;
+	}
+
+	public double getPriceOfReturnBooking() {
+		return priceOfReturnBooking;
+	}
+
+	public void setPriceOfReturnBooking(double priceOfReturnBooking) {
+		this.priceOfReturnBooking = priceOfReturnBooking;
+	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	public String getTravelingClassAsString() {

@@ -1,11 +1,14 @@
 package com.rair.jsfbeans;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -22,7 +25,6 @@ import org.primefaces.event.UnselectEvent;
 
 import com.rair.dao.FlightRepository;
 import com.rair.domain.Airport;
-import com.rair.domain.Employee;
 import com.rair.domain.Flight;
 import com.rair.domain.TravelingClass;
 
@@ -46,18 +48,43 @@ public class FlightSearchBean implements Serializable {
 
 	private Airport arrivalAirport;
 	private Airport departureAirport;
-	private List<Flight> flightsForArrival;
-
-	private boolean singleFlight;
+	private List<Flight> singleFlights = new ArrayList<>();
+	private List<Flight> returnFlights = new ArrayList<>();
+	private Date departureDate;
+	private Date departureDateReturnFlight;
+	private String mindate;
+	private String mindateReturn;
+	private boolean singleFlight = true;
 	private double priceOfTicket;
+	private double priceOfReturnTicket;
 
 	private String customerID;
 
 	@PostConstruct
 	public void init() {
-		// RequestContext.getCurrentInstance().reset("flightsearchWizard");
-		arrivalAirport = airportServiceBean.getAirports().get(0);
-		flightsForArrival = flightRepository.retrieveFlightsByDestination(arrivalAirport);
+		departureAirport = airportServiceBean.getAirports().get(0);
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		Calendar cal = Calendar.getInstance();
+		departureDate = cal.getTime();
+		departureDateReturnFlight = cal.getTime();
+		mindate = dateFormat.format(cal.getTime());
+		mindateReturn = dateFormat.format(cal.getTime());
+	}
+
+	public Date getDepartureDate() {
+		return departureDate;
+	}
+
+	public void setDepartureDate(Date departureDate) {
+		this.departureDate = departureDate;
+	}
+
+	public Date getDepartureDateReturnFlight() {
+		return departureDateReturnFlight;
+	}
+
+	public void setDepartureDateReturnFlight(Date departureDateReturnFlight) {
+		this.departureDateReturnFlight = departureDateReturnFlight;
 	}
 
 	public double getPriceOfTicket() {
@@ -85,18 +112,6 @@ public class FlightSearchBean implements Serializable {
 		this.departureAirport = departureAirport;
 	}
 
-	public List<Airport> completeAirports(String query) {
-		System.out.println("Query for aiports: " + query);
-		List<Airport> filteredAirports = new ArrayList<>();
-		for (Airport airport : airportServiceBean.getAirports()) {
-			if (airport.getCountry().toLowerCase().contains(query.toLowerCase())
-					|| airport.getCity().toLowerCase().contains(query.toLowerCase())) {
-				filteredAirports.add(airport);
-			}
-		}
-		return filteredAirports;
-	}
-
 	public AirportServiceBean getAirportServiceBean() {
 		return airportServiceBean;
 	}
@@ -105,7 +120,24 @@ public class FlightSearchBean implements Serializable {
 		return singleFlight;
 	}
 
+	public String getMindate() {
+		return mindate;
+	}
+
+	public void setMindate(String mindate) {
+		this.mindate = mindate;
+	}
+
+	public String getMindateReturn() {
+		return mindateReturn;
+	}
+
+	public void setMindateReturn(String mindateReturn) {
+		this.mindateReturn = mindateReturn;
+	}
+
 	public void setSingleFlight(boolean singleFlight) {
+		System.out.println("The flight is a single flight: " + singleFlight);
 		this.singleFlight = singleFlight;
 	}
 
@@ -141,18 +173,44 @@ public class FlightSearchBean implements Serializable {
 		this.flightRepository = flightRepository;
 	}
 
-	public List<Flight> getFlightsForArrival() {
-		flightsForArrival = flightRepository.retrieveFlightsByDestination(arrivalAirport);
-		System.out.println("Flights for the arrival airport: " + this.flightsForArrival);
-		return flightsForArrival;
+	public List<Flight> getSingleFlights() {
+		return singleFlights;
 	}
 
-	public void setFlightsForArrival(List<Flight> flightsForArrival) {
-		this.flightsForArrival = flightsForArrival;
+	public void setSingleFlights(List<Flight> singleFlights) {
+		this.singleFlights = singleFlights;
+	}
+
+	public List<Flight> getReturnFlights() {
+		return returnFlights;
+	}
+
+	public void setReturnFlights(List<Flight> returnFlights) {
+		this.returnFlights = returnFlights;
+	}
+
+	public double getPriceOfReturnTicket() {
+		return priceOfReturnTicket;
+	}
+
+	public void setPriceOfReturnTicket(double priceOfReturnTicket) {
+		this.priceOfReturnTicket = priceOfReturnTicket;
+	}
+
+	public List<Airport> completeAirports(String query) {
+		System.out.println("Query for aiports: " + query);
+		List<Airport> filteredAirports = new ArrayList<>();
+		for (Airport airport : airportServiceBean.getAirports()) {
+			if (airport.getCountry().toLowerCase().contains(query.toLowerCase())
+					|| airport.getCity().toLowerCase().contains(query.toLowerCase())) {
+				filteredAirports.add(airport);
+			}
+		}
+		return filteredAirports;
 	}
 
 	public String onFlowProcess(FlowEvent event) {
-		System.out.println("Ols Step: " + event.getOldStep());
+		System.out.println("Old Step: " + event.getOldStep());
 		if (event.getNewStep().equals("flights")) {
 			if (event.getOldStep().equals("ticketChoice")) {
 				bookingServiceBean.setFlight(null);
@@ -160,28 +218,48 @@ public class FlightSearchBean implements Serializable {
 				bookingServiceBean.setPriceOfBooking(0);
 				bookingServiceBean.setSelectedTravelClass(TravelingClass.ECONOMY);
 			}
-			flightsForArrival = flightRepository.retrieveFlightsByDestination(arrivalAirport);
-			for (Flight flight : flightsForArrival) {
-				System.out.println(flight.getFlightNumber());
-				for (Entry<TravelingClass, Integer> entry : flight.getAvailableSeats().entrySet()) {
-					System.out.println(entry.getKey() + ": " + entry.getValue());
-				}
+			System.out.println("Departure airport: " +departureAirport);
+			System.out.println("Arrival airport: " + arrivalAirport);
+			singleFlights = flightRepository.retrieveFlightsFromAndTo(departureAirport, arrivalAirport);
+			System.out.println(singleFlights);
+			if (!singleFlight) {
+				returnFlights = flightRepository.retrieveFlightsFromAndTo(arrivalAirport, departureAirport);
 			}
 		}
 		return event.getNewStep();
 	}
 
-	public void onRowSelect(SelectEvent event) {
-		bookingServiceBean.setFlight((Flight) event.getObject());
-		priceOfTicket = bookingServiceBean.getFlight().getBasePrice() * Employee.RAIR_PERCENTAGE;
+	public void onRowSelectOutboud(SelectEvent event) {
+		Flight flight = (Flight) event.getObject();
+		bookingServiceBean.setFlight(flight);
+		priceOfTicket = bookingServiceBean.getFlight().getTicketPriceEconomyClass();
 		bookingServiceBean.setSelectedTravelClass(TravelingClass.ECONOMY);
-		FacesMessage msg = new FacesMessage("Flight Selected");
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Outbound flight selected",
+				flight.getFlightNumber());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void onRowUnselect(UnselectEvent event) {
+	public void onRowUnselectOutbound(UnselectEvent event) {
 		bookingServiceBean.setFlight(null);
-		FacesMessage msg = new FacesMessage("Flight Unselected");
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Outbound flight unselected",
+				((Flight) event.getObject()).getFlightNumber());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onRowSelectReturn(SelectEvent event) {
+		Flight returnFlight = (Flight) event.getObject();
+		bookingServiceBean.setReturnFlight(returnFlight);
+		priceOfTicket = bookingServiceBean.getReturnFlight().getTicketPriceEconomyClass();
+		bookingServiceBean.setSelectedReturnTravelClass(TravelingClass.ECONOMY);
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Return flight selected",
+				returnFlight.getFlightNumber());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onRowUnselectReturn(UnselectEvent event) {
+		bookingServiceBean.setReturnFlight(null);
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Return flight unselected",
+				((Flight) event.getObject()).getFlightNumber());
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
@@ -195,7 +273,7 @@ public class FlightSearchBean implements Serializable {
 		return "toLogin";
 	}
 
-	public void changePriceOfOneTicket() {
+	public void changePriceOutboundFlight() {
 		switch (bookingServiceBean.getSelectedTravelClass()) {
 		case BUSINESS:
 			priceOfTicket = bookingServiceBean.getFlight().getTicketPriceBusinessClass();
@@ -207,7 +285,22 @@ public class FlightSearchBean implements Serializable {
 			priceOfTicket = bookingServiceBean.getFlight().getTicketPriceEconomyClass();
 			break;
 		}
-		priceOfTicket *= Employee.RAIR_PERCENTAGE;
+		bookingServiceBean.calculatePriceOfBooking(priceOfTicket);
+	}
+
+	public void changePriceReturnFlight() {
+		switch (bookingServiceBean.getSelectedReturnTravelClass()) {
+		case BUSINESS:
+			priceOfReturnTicket = bookingServiceBean.getReturnFlight().getTicketPriceBusinessClass();
+			break;
+		case FIRST_CLASS:
+			priceOfReturnTicket = bookingServiceBean.getReturnFlight().getTicketPriceFirstClass();
+			break;
+		default:
+			priceOfReturnTicket = bookingServiceBean.getReturnFlight().getTicketPriceEconomyClass();
+			break;
+		}
+		bookingServiceBean.calculatePriceOfReturnBooking(priceOfReturnTicket);
 	}
 
 	public String getCustomerID() {
