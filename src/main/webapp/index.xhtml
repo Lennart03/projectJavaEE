@@ -17,17 +17,6 @@
 			<p:growl id="msgs" showDetail="true" />
 			<p:growl id="growl" showDetail="true" />
 
-			<!-- 			<p:selectOneRadio id="flightClass" -->
-			<!-- 				value="#{bookingServiceBean.selectedTravelClass}"> -->
-			<!-- 				<f:selectItem itemLabel="Economy" itemValue="ECONOMY" /> -->
-			<!-- 				<f:selectItem itemLabel="Business" itemValue="BUSINESS" /> -->
-			<!-- 				<f:selectItem itemLabel="First Class" itemValue="FIRST_CLASS" /> -->
-			<!-- 				<p:ajax update="priceOneTicket" -->
-			<!-- 					listener="#{flightSearchBean.changePriceOfOneTicket}" /> -->
-			<!-- 				<p:ajax update="totalPrice" -->
-			<!-- 					listener="#{bookingServiceBean.calculateTotalPrice(flightSearchBean.priceOfTicket)}" -->
-			<!-- 					process="@this" /> -->
-			<!-- 			</p:selectOneRadio> -->
 
 			<p:selectOneRadio id="flightTypeSelection"
 				value="#{flightSearchBean.singleFlight}">
@@ -155,6 +144,65 @@
 						<p:spinner id="numberOfTickets"
 							value="#{bookingServiceBean.nSeatsWanted}" min="0"
 							max="#{bookingServiceBean.maximumSeatsForClass()}">
+
+							</p:autoComplete>
+						</p:panelGrid>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="flights" title="Flights">
+
+					<p:panel id="flightSelectionPanel"
+						header="Available flights to #{flightSearchBean.arrivalAirport.name}">
+
+						<p:dataTable id="flightSelectionTable"
+							value="#{flightSearchBean.flightsForArrival}" var="flight"
+							selection="#{bookingServiceBean.flight}"
+							selectionMode="single" rowKey="#{flight.flightNumber}">
+							<p:ajax event="rowSelect"
+								listener="#{flightSearchBean.onRowSelect}"
+								update=":form:msgs" />
+							<p:ajax event="rowUnselect"
+								listener="#{flightSearchBean.onRowUnselect}" update=":form:msgs" />
+
+							<p:column headerText="Flight Number">
+								<h:outputText value="#{flight.flightNumber}" />
+							</p:column>
+							<p:column headerText="Departure">
+								<h:outputText value="#{flight.departureDestination.name}" />
+							</p:column>
+							<p:column headerText="Departure Time"
+								sortBy="#{flight.departureTime}">
+								<h:outputText value="#{flight.departureTime}">
+									<f:convertDateTime type="both"
+										timeZone="#{loginServiceBean.timeZone}" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Airline Company"
+								sortBy="#{flight.airline.name}">
+								<h:outputText value="#{flight.airline.name}" />
+							</p:column>
+							<p:column headerText="Ticket Price" sortBy="#{flight.basePrice}">
+								<h:outputText value="€ #{flight.basePrice}">
+									<f:convertNumber type="currency" maxFractionDigits="2" />
+								</h:outputText>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</p:tab>
+
+				<p:tab id="ticketChoice" title="Tickets">
+					<h:panelGrid columns="2" cellPadding="5">
+
+						<h:outputText for="flightClass" value="Flight class:" />
+						<p:selectOneRadio id="flightClass"
+							value="#{bookingServiceBean.selectedTravelClass}">
+							<f:selectItem itemLabel="Economy" itemValue="ECONOMY" />
+							<f:selectItem itemLabel="Business" itemValue="BUSINESS" />
+							<f:selectItem itemLabel="First Class" itemValue="FIRST_CLASS" />
+							<p:ajax update="priceOneTicket"
+								listener="#{flightSearchBean.changePriceOfOneTicket}" />
+
 							<p:ajax update="totalPrice"
 								listener="#{bookingServiceBean.calculateTotalPrice(flightSearchBean.priceOfTicket)}"
 								process="@this" />

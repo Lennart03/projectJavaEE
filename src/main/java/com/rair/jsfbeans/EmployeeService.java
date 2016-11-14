@@ -9,12 +9,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.primefaces.event.RowEditEvent;
 
 import com.rair.dao.EmployeeRepository;
 import com.rair.domain.Employee;
 import com.rair.jsf.converters.PasswordConverter;
+import com.rair.mail.MailSender;
 
 @ManagedBean
 @ViewScoped
@@ -22,6 +25,8 @@ public class EmployeeService {
 	
 	@Inject
 	EmployeeRepository employeeRepository;
+	
+	private MailSender mailSender = new MailSender();
 
 	public EmployeeRepository getEmployeeRepository() {
 		return employeeRepository;
@@ -61,7 +66,17 @@ public class EmployeeService {
 			employee = employeeRepository.save(employee);
 			FacesMessage msg = new FacesMessage("Added new employee", employee.getId().toString());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			System.out.println("Het decoded password is: " + passwordConverter.decrypt(employee.getPassword()));;
+			System.out.println("Het decoded password is: " + passwordConverter.decrypt(employee.getPassword()));
+			mailSender.setTextMessage("employeeRegistration");
+			try {
+				mailSender.sendMail(employee.getEmailAddress());
+			} catch (AddressException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
     }
      
