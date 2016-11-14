@@ -7,7 +7,8 @@
 
 <f:view locale="#{loginServiceBean.locale}" />
 <h:head>
-	<h:graphicImage value="img/Airplane_airport_plane_ticket-512.png" alt="Rair logo" width="100%" height="215" />
+	<h:graphicImage value="img/Airplane_airport_plane_ticket-512.png"
+		alt="Rair logo" width="100%" height="215" />
 	<title><ui:insert name="title">RAIR TEMPLATE TITLE</ui:insert></title>
 </h:head>
 <h:body style="background:url(img/background.svg); no-repeat 0px 0px;">
@@ -24,12 +25,18 @@
 				<h:outputText value="Rair ticket service" />
 			</f:facet>
 			<f:facet name="options">
-				<p:commandButton style="margin-right:10px" value="Login"
+				<p:commandButton style="margin-right:10px"
+					value="#{msgs['template.LoginText']}"
 					action="login?faces-redirect=true"
 					rendered="#{!(loginServiceBean.isLoggedIn(loginBean.person.emailAddress))}" />
-				<p:commandButton value="Logout"
+				<p:commandButton value="#{msgs['template.LogoutText']}"
 					rendered="#{loginServiceBean.isLoggedIn(loginBean.person.emailAddress)}"
 					action="#{loginServiceBean.logout(loginBean.person.emailAddress)}" />
+				<p:selectOneButton value="#{loginServiceBean.localeString}">
+					<p:ajax listener="#{loginServiceBean.change}" />
+					<f:selectItem itemLabel="EN" itemValue="en" />
+					<f:selectItem itemLabel="NL" itemValue="nl" />
+				</p:selectOneButton>
 			</f:facet>
 
 		</p:menubar>

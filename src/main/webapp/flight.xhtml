@@ -27,23 +27,23 @@
 
 				<p:columnGroup type="header">
 					<p:row>
-						<p:column rowspan="2" headerText="Flightnumber"
+						<p:column rowspan="2" headerText="#{msgs['flight.data.flightnumber']}"
 							sortBy="#{flight.flightNumber}" />
-						<p:column rowspan="2" headerText="Departure"
+						<p:column rowspan="2" headerText="#{msgs['flight.data.departure']}"
 							sortBy="#{flight.departureDestination.name}" />
-						<p:column rowspan="2" headerText="Destination"
+						<p:column rowspan="2" headerText="#{msgs['flight.data.destination']}"
 							sortBy="#{flight.arrivalDestination}" />
-						<p:column rowspan="2" headerText="Base Price"
+						<p:column rowspan="2" headerText="#{msgs['flight.data.price']}"
 							sortBy="#{flight.basePrice}" />
-						<p:column rowspan="2" headerText="Time of departure"
+						<p:column rowspan="2" headerText="#{msgs['flight.data.time']}"
 							sortBy="#{flight.departureTime}" />
-						<p:column colspan="3" headerText="Rair saleable seats" />
+						<p:column colspan="3" headerText="#{msgs['flight.data.seats.header']}" />
 						<p:column rowspan="2" style="width:16px" />
 					</p:row>
 					<p:row>
-						<p:column headerText="Economy" />
-						<p:column headerText="Business" />
-						<p:column headerText="First class" />
+						<p:column headerText="#{msgs['flight.data.seats.economy']}" />
+						<p:column headerText="#{msgs['flight.data.seats.business']}" />
+						<p:column headerText="#{msgs['flight.data.seats.firstclass']}" />
 					</p:row>
 				</p:columnGroup>
 
@@ -172,20 +172,20 @@
 					<p:commandLink
 						actionListener="#{flightService.deleteFlight(number)}"
 						styleClass="ui-icon ui-icon-circle-minus" update="@form">
-						<p:confirm header="Deleting flight"
-							message="Deleting this flight will delete all existing bookings on this flight. Are you sure you want to continue?"
+						<p:confirm header="#{msgs['flight.delete.header']}"
+							message="#{msgs['flight.delete.message']}"
 							icon="ui-icon-alert" />
 					</p:commandLink>
 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-						<p:commandButton value="Yes" type="button"
+						<p:commandButton value="#{msgs['popup.confirmPositive']}" type="button"
 							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-						<p:commandButton value="No" type="button"
+						<p:commandButton value="#{msgs['popup.confirmNegative']}" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
 				</p:column>
 
 				<f:facet name="footer">
-					<p:commandButton value="Add Item"
+					<p:commandButton value="#{msgs['flight.data.Add']}"
 						action="#{flightService.addAction}" update=":form" />
 				</f:facet>
 			</p:dataTable>
