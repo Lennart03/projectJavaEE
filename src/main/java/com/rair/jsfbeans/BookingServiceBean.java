@@ -234,7 +234,7 @@ public class BookingServiceBean {
 		} else {
 			booking.setStatus(BookingStatus.PAYMENT_PENDING);
 			MailSender mailSender = new MailSender();
-			mailSender.setTextMessage("endorsment", priceOfBooking);
+			mailSender.setTextMessage("endorsement", priceOfBooking);
 			try {
 				mailSender.sendMail(customer.getEmailAddress());
 			} catch (MessagingException e) {
@@ -266,8 +266,12 @@ public class BookingServiceBean {
 	
 	public void calculateBookingPrice(){
 		this.priceOfBooking = nSeatsWanted * flight.getTicketPriceByTravelclass(selectedTravelClass.toString());
-		this.priceOfReturnBooking = nSeatsWantedReturn * returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
-		this.totalPrice = priceOfBooking + priceOfReturnBooking;
+		if (returnFlight != null){
+			this.priceOfReturnBooking = nSeatsWantedReturn * returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
+			this.totalPrice = priceOfBooking + priceOfReturnBooking;
+		}else{
+			this.totalPrice = priceOfBooking;
+		}
 
 	}
 

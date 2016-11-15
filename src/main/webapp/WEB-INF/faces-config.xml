@@ -31,6 +31,11 @@
 			<to-view-id>/flight.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>toRegisterPage</from-outcome>
+			<to-view-id>/register.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
 	</navigation-rule>
 
 	

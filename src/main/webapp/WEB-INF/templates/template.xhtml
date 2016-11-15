@@ -62,6 +62,7 @@
 							<f:facet name="footer">
 								<p:commandButton value="Login" action="#{loginBean.doLogin}"
 									ajax="false" />
+								<p:commandButton value="#{msgs['index.book.register']}" action="#{loginBean.firstRegister}" ajax="false" immediate="true"/>
 							</f:facet>
 						</h:panelGrid>
 
