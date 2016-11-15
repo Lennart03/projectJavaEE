@@ -405,17 +405,17 @@
 					<h:outputText for="detailTabtotalPrice"
 						value="#{msgs['index.details.totalPriceOfFlight']}" />
 					<h:outputText id="detailTabtotalPrice"
-						value="€#{bookingServiceBean.priceOfBooking}">
-						<f:convertNumber type="currency" maxFractionDigits="2" />
+						value="#{bookingServiceBean.totalPrice}">
+						<f:convertNumber pattern="#0.00" />
 					</h:outputText>
 
 					<p:commandButton
-						value="#{msgs['index.details.totalPriceOfFlight']}"
+						value="#{msgs['index.book.button']}"
 						rendered="#{loginBean.loggedIn}"
 						action="booking.xhtml?faces-redirect=true" />
 
 					<p:commandButton
-						value="#{msgs['index.details.totalPriceOfFlight']}"
+						value="#{msgs['index.book.button']}"
 						rendered="#{!(loginBean.loggedIn)}"
 						onclick="PF('loginDialog').show();" />
 				</p:tab>
