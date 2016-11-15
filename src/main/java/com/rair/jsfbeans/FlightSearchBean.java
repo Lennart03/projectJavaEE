@@ -218,16 +218,33 @@ public class FlightSearchBean implements Serializable {
 				bookingServiceBean.setPriceOfBooking(0);
 				bookingServiceBean.setSelectedTravelClass(TravelingClass.ECONOMY);
 			}
-			System.out.println("Departure airport: " +departureAirport);
+			System.out.println("Departure airport: " + departureAirport);
 			System.out.println("Arrival airport: " + arrivalAirport);
 			singleFlights = flightRepository.retrieveFlightsFromAndTo(departureAirport, arrivalAirport);
+			singleFlights = filterFlights(singleFlights);
 			System.out.println(singleFlights);
 			if (!singleFlight) {
 				returnFlights = flightRepository.retrieveFlightsFromAndTo(arrivalAirport, departureAirport);
-				System.out.println("The returnflight = " + returnFlights.get(0).getFlightNumber());
+				returnFlights = filterFlights(returnFlights);
+
 			}
 		}
 		return event.getNewStep();
+	}
+
+	private List<Flight> filterFlights(List<Flight> flightsToFilter) {
+		List<Flight> flights = new ArrayList<>();
+		Calendar calForDeparture = Calendar.getInstance();
+		calForDeparture.setTime(departureDate);
+		Calendar calForFlight = Calendar.getInstance();
+		for (Flight flight : flightsToFilter) {
+			calForFlight.setTime(flight.getDepartureTime());
+			if ((calForFlight.get(Calendar.DAY_OF_MONTH) == calForDeparture.get(Calendar.DAY_OF_MONTH))
+					&& (calForDeparture.get(Calendar.YEAR) == calForFlight.get(Calendar.YEAR))) {
+				flights.add(flight);
+			}
+		}
+		return flights;
 	}
 
 	public void onRowSelectOutboud(SelectEvent event) {
