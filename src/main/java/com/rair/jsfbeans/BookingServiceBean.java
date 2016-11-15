@@ -207,7 +207,9 @@ public class BookingServiceBean {
 	}
 	
 	public void calculateBookingPrice(){
-		this.totalPrice = nSeatsWanted * flight.getTicketPriceByTravelclass(selectedTravelClass.toString()) + nSeatsWantedReturn * returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
+		this.priceOfBooking = nSeatsWanted * flight.getTicketPriceByTravelclass(selectedTravelClass.toString());
+		this.priceOfReturnBooking = nSeatsWantedReturn * returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
+		this.totalPrice = priceOfBooking + priceOfReturnBooking;
 	}
 	
 	public boolean containsReturnFlight() {

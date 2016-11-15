@@ -338,9 +338,9 @@
 								value="#{bookingServiceBean.nSeatsWanted}" />
 
 							<h:outputText for="detailTabpriceOneTicket"
-								value="#{msgs['index.panel.outboundFlightTicket.priceOneTicket']}" />
+								value="#{msgs['index.details.bookingPrice']}" />
 							<h:outputText id="detailTabpriceOneTicket"
-								value="€#{flightSearchBean.priceOfTicket}">
+								value="€#{bookingServiceBean.priceOfBooking}">
 								<f:convertNumber type="currency" maxFractionDigits="2" />
 							</h:outputText>
 
@@ -392,9 +392,9 @@
 								value="#{bookingServiceBean.nSeatsWantedReturn}" />
 
 							<h:outputText for="detailTabpriceOneTicketReturn"
-								value="#{msgs['index.panel.outboundFlightTicket.priceOneTicket']}" />
+								value="#{msgs['index.details.bookingPrice']}" />
 							<h:outputText id="detailTabpriceOneTicketReturn"
-								value="€#{flightSearchBean.priceOfReturnTicket}">
+								value="€#{bookingServiceBean.priceOfReturnBooking}">
 								<f:convertNumber type="currency" maxFractionDigits="2" />
 							</h:outputText>
 						</p:panelGrid>
@@ -402,22 +402,23 @@
 
 					</p:panel>
 
-					<h:outputText for="detailTabtotalPrice"
-						value="#{msgs['index.details.totalPriceOfFlight']}" />
-					<h:outputText id="detailTabtotalPrice"
-						value="#{bookingServiceBean.totalPrice}">
-						<f:convertNumber pattern="#0.00" />
-					</h:outputText>
+					<p:panel header="#{msgs['index.book.header']}">
+					
+						<h:outputText for="detailTabtotalPrice"
+							value="#{msgs['index.details.totalPriceOfFlight']}" />
+						<h:outputText id="detailTabtotalPrice"
+							value="#{bookingServiceBean.totalPrice}">
+							<f:convertNumber pattern="#0.00" />
+						</h:outputText><br/>
 
-					<p:commandButton
-						value="#{msgs['index.book.button']}"
-						rendered="#{loginBean.loggedIn}"
-						action="booking.xhtml?faces-redirect=true" />
+						<p:commandButton value="#{msgs['index.book.button']}"
+							rendered="#{loginBean.loggedIn}"
+							action="booking.xhtml?faces-redirect=true" />
 
-					<p:commandButton
-						value="#{msgs['index.book.button']}"
-						rendered="#{!(loginBean.loggedIn)}"
-						onclick="PF('loginDialog').show();" />
+						<p:commandButton value="#{msgs['index.book.button']}"
+							rendered="#{!(loginBean.loggedIn)}"
+							onclick="PF('loginDialog').show();" />
+					</p:panel>
 				</p:tab>
 			</p:wizard>
 		</h:form>

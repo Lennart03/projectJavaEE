@@ -122,6 +122,10 @@ public class Flight implements Serializable {
 		System.out.println("New number of seats for " + travelingClass + " is: " + nunberOfSeats);
 		numberOfSeats.put(travelingClass, nunberOfSeats);
 	}
+	
+	public void setAvailableSeatsForClass(TravelingClass travelingClass, Integer numberOfSeats){
+		availableSeats.put(travelingClass, numberOfSeats);
+	}
 
 	public Map<TravelingClass, Integer> getAvailableSeats() {
 		return availableSeats;
