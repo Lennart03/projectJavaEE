@@ -116,7 +116,7 @@ public class RegistrationBean implements Serializable {
 		customerRepository.save(customer);
 		loginServiceBean.login(emailAddress);
 		try {
-			mailSender.setTextMessage("registration");
+			mailSender.setTextMessage("registration",null);
 			mailSender.sendMail(emailAddress);
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block

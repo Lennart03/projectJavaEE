@@ -91,7 +91,7 @@ public class CustomerService {
 			FacesMessage msg = new FacesMessage("Added new customer", customer.getId().toString());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			System.out.println("Het decoded password is: " + passwordConverter.decrypt(customer.getPassword()));
-			mailSender.setTextMessage("registration");
+			mailSender.setTextMessage("registration",null);
 			try {
 				mailSender.sendMail(customer.getEmailAddress());
 			} catch (AddressException e) {
