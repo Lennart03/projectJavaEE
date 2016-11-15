@@ -10,61 +10,110 @@
 	<ui:define name="content">
 
 		<p:panel header="Details of your selected flight">
-			<h:panelGrid columns="4" cellPading="10">
 
-				<h:outputText for="detailTabflightNumber" value="Flight number:" />
-				<h:outputText id="detailTabflightNumber"
-					value="#{bookingServiceBean.flight.flightNumber}" />
+			<p:panel header="Outbound flight">
 
-				<h:outputText for="detailTabdeparture" value="Departure:" />
-				<h:outputText id="detailTabdeparture"
-					value="#{bookingServiceBean.flight.departureDestination.name}" />
+				<h:panelGrid columns="4" cellPading="10">
 
-				<h:outputText for="detailTabarrival" value="Arrival:" />
-				<h:outputText id="detailTabarrival"
-					value="#{bookingServiceBean.flight.arrivalDestination.name}" />
+					<h:outputText for="detailTabflightNumber" value="Flight number:" />
+					<h:outputText id="detailTabflightNumber"
+						value="#{bookingServiceBean.flight.flightNumber}" />
 
-				<h:outputText for="detailTabdepartureTime" value="Departure Time:" />
-				<h:outputText id="detailTabdepartureTime"
-					value="#{bookingServiceBean.flight.departureTime}">
-					<f:convertDateTime type="both"
-						timeZone="#{loginBean.timeZone}" />
-				</h:outputText>
+					<h:outputText for="detailTabdeparture" value="Departure:" />
+					<h:outputText id="detailTabdeparture"
+						value="#{bookingServiceBean.flight.departureDestination.name}" />
 
-				<h:outputText for="detailTabairline" value="Airline: " />
-				<h:outputText id="detailTabairline"
-					value="#{bookingServiceBean.flight.airline.name}" />
+					<h:outputText for="detailTabarrival" value="Arrival:" />
+					<h:outputText id="detailTabarrival"
+						value="#{bookingServiceBean.flight.arrivalDestination.name}" />
 
-				<h:outputText for="detailTabtravelingClass" value="Traveling class:" />
-				<h:outputText id="detailTabtravelingClass"
-					value="#{bookingServiceBean.selectedTravelClass}" />
+					<h:outputText for="detailTabdepartureTime" value="Departure Time:" />
+					<h:outputText id="detailTabdepartureTime"
+						value="#{bookingServiceBean.flight.departureTime}">
+						<f:convertDateTime type="both" timeZone="#{loginBean.timeZone}" />
+					</h:outputText>
 
-				<h:outputText for="detailTabnumberOfTickets"
-					value="Number of Tickets:" />
-				<h:outputText id="detailTabnumberOfTickets"
-					value="#{bookingServiceBean.nSeatsWanted}" />
+					<h:outputText for="detailTabairline" value="Airline: " />
+					<h:outputText id="detailTabairline"
+						value="#{bookingServiceBean.flight.airline.name}" />
 
-				<h:outputText for="detailTabtotalPrice"
-					value="Total price for flight:" />
-				<h:outputText id="detailTabtotalPrice"
-					value="€#{bookingServiceBean.priceOfBooking}">
-					<f:convertNumber type="currency" maxFractionDigits="2" />
-				</h:outputText>
+					<h:outputText for="detailTabtravelingClass"
+						value="Traveling class:" />
+					<h:outputText id="detailTabtravelingClass"
+						value="#{bookingServiceBean.selectedTravelClass}" />
 
-			</h:panelGrid>
+					<h:outputText for="detailTabnumberOfTickets"
+						value="Number of Tickets:" />
+					<h:outputText id="detailTabnumberOfTickets"
+						value="#{bookingServiceBean.nSeatsWanted}" />
+				</h:panelGrid>
+				
+			</p:panel>
+
+			<p:panel header="Return flight" rendered="#{bookingServiceBean.containsReturnFlight()}">
+			
+				<h:panelGrid columns="4" cellPading="10">
+
+					<h:outputText for="detailTabflightNumberReturn"
+						value="Flight number:" />
+					<h:outputText id="detailTabflightNumberReturn"
+						value="#{bookingServiceBean.returnFlight.flightNumber}" />
+
+					<h:outputText for="detailTabdepartureReturn" value="Departure:" />
+					<h:outputText id="detailTabdepartureReturn"
+						value="#{bookingServiceBean.returnFlight.departureDestination.name}" />
+
+					<h:outputText for="detailTabarrivalReturn" value="Arrival:" />
+					<h:outputText id="detailTabarrivalReturn"
+						value="#{bookingServiceBean.returnFlight.arrivalDestination.name}" />
+
+					<h:outputText for="detailTabdepartureTimeReturn"
+						value="Departure Time:" />
+					<h:outputText id="detailTabdepartureTimeReturn"
+						value="#{bookingServiceBean.returnFlight.departureTime}">
+						<f:convertDateTime type="both" timeZone="#{loginBean.timeZone}" />
+					</h:outputText>
+
+					<h:outputText for="detailTabairlineReturn" value="Airline: " />
+					<h:outputText id="detailTabairlineReturn"
+						value="#{bookingServiceBean.returnFlight.airline.name}" />
+
+					<h:outputText for="detailTabtravelingClassReturn"
+						value="Traveling class:" />
+					<h:outputText id="detailTabtravelingClassReturn"
+						value="#{bookingServiceBean.selectedReturnTravelClass}" />
+
+					<h:outputText for="detailTabnumberOfTicketsReturn"
+						value="Number of Tickets:" />
+					<h:outputText id="detailTabnumberOfTicketsReturn"
+						value="#{bookingServiceBean.nSeatsWantedReturn}" />
+				</h:panelGrid>
+				
+			</p:panel>
+
+
+			<h:outputText for="detailTabtotalPrice"
+				value="Total price for flight:" />
+			<h:outputText id="detailTabtotalPrice"
+				value="#{bookingServiceBean.totalPrice}">
+				<f:convertNumber pattern="#0.00" />
+			</h:outputText>
+
+
+
 			<h:form id="paymentForm">
 				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 					<p:outputLabel value="How do you want to pay your flight?" />
 					<p:selectOneRadio value="#{bookingServiceBean.paymentChoice}">
 						<f:selectItem itemLabel="Credit Card" itemValue="CREDITCARD" />
 						<f:selectItem itemLabel="Endorsment" itemValue="ENDORSMENT" />
-						<p:ajax update="@form"/>
+						<p:ajax update="@form" />
 					</p:selectOneRadio>
 					<p:row>
 						<p:column colspan="2">
 							<p:inputText id="creditCardNumber"
 								rendered="#{bookingServiceBean.isCreditCardPayment()}">
-<!-- 								<f:validateRegex pattern="^(?:4[0-9]{12}(?:[0-9]{3})? " /> -->
+								<!-- 								<f:validateRegex pattern="^(?:4[0-9]{12}(?:[0-9]{3})? " /> -->
 							</p:inputText>
 							<p:watermark value="Credit card number"
 								rendered="#{bookingServiceBean.isCreditCardPayment()}"
@@ -82,10 +131,11 @@
 						</p:column>
 					</p:row>
 				</h:panelGrid>
-				<p:commandButton value="Pay Flight" action="#{bookingServiceBean.makeBooking()}" ajax="false">
+				<p:commandButton value="Pay Flight"
+					action="#{bookingServiceBean.makeBooking()}" ajax="false">
 					<h:link>
-						<f:param name="userEmail" value="#{loginBean.email}"/>
-						<f:param name="userName" value="#{loginBean.person.firstName}"/>
+						<f:param name="userEmail" value="#{loginBean.email}" />
+						<f:param name="userName" value="#{loginBean.person.firstName}" />
 					</h:link>
 				</p:commandButton>
 			</h:form>
