@@ -204,4 +204,21 @@ public class LoginBean {
 		RequestContext.getCurrentInstance().closeDialog(event.getObject());
 	}
 
+	public Long getAirlineId() {
+		if (person != null) {
+			if (person instanceof Partner) {
+				Partner partner = (Partner) person;
+				if (partner.getAirline() != null) {
+					return partner.getAirline().getId();
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+
 }

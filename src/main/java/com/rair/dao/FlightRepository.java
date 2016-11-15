@@ -25,7 +25,6 @@ public class FlightRepository {
 	BookingRepository bookingRepository;
 
 	private static final String QUERY_START = "SELECT f FROM Flight f ";
-	private static final Long AIRLINE_ID = 1L;
 
 	public BookingRepository getBookingRepository() {
 		return bookingRepository;
@@ -69,12 +68,12 @@ public class FlightRepository {
 		return flights;
 	}
 
-	public List<Flight> retrieveFutureFlightsByAirline() {
+	public List<Flight> retrieveFutureFlightsByAirline(Long airlineID) {
 		Date date2 = new Date();
 		Calendar cal2 = Calendar.getInstance();
 		cal2.setTime(date2);
 		List<Flight> flights = entityManager
-				.createQuery(QUERY_START + "where f.airline.id = " + AIRLINE_ID, Flight.class).getResultList();
+				.createQuery(QUERY_START + "where f.airline.id = " + airlineID, Flight.class).getResultList();
 		List<Flight> futureFlights = new ArrayList<Flight>();
 		for (Flight f : flights) {
 

@@ -1,5 +1,6 @@
 package com.rair.jsfbeans;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -7,8 +8,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.event.RowEditEvent;
 
@@ -37,6 +40,9 @@ public class FlightService {
 	
 	@Inject
 	private BookingRepository bookingRepository;
+	
+	@ManagedProperty("#{loginBean}")
+	private LoginBean loginBean;
 
 	@ManagedProperty("#{airportServiceBean}")
 	private AirportServiceBean airportServiceBean;
@@ -52,8 +58,33 @@ public class FlightService {
 	@PostConstruct
 	public void init(){
 		airports = airportRepository.findAll();
-		futureFlightsByAirline = flightRepository.retrieveFutureFlightsByAirline();
+		Long id = loginBean.getAirlineId();
+		if (id != null){
+			futureFlightsByAirline = flightRepository.retrieveFutureFlightsByAirline(id);
+		}else{
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			try {
+				ec.redirect(ec.getRequestContextPath() + "/index.xhtml");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
+	
+	
+
+	public LoginBean getLoginBean() {
+		return loginBean;
+	}
+
+
+
+	public void setLoginBean(LoginBean loginBean) {
+		this.loginBean = loginBean;
+	}
+
+
 
 	public FlightRepository getFlightRepository() {
 		return flightRepository;
