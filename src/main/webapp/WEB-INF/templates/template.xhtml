@@ -26,19 +26,26 @@
 				<h:outputText value="Rair ticket service" />
 			</f:facet>
 			<f:facet name="options">
-
-				<p:commandButton style="margin-right:10px" value="Login"
+				<p:commandButton value="#{msgs['template.RegisterButtonText']}"
+					action="register.xhtml?faces-redirect=true" />
+				<p:commandButton style="margin-right:10px"
+					value="#{msgs['template.LoginText']}"
 					onclick="PF('loginDialog').show();"
 					rendered="#{!(loginBean.loggedIn)}" />
-				<p:commandButton style="margin-right:10px" value="Logout"
-					onclick="PF('logoutDialog').show();"
-					rendered="#{loginBean.loggedIn}" />
+				<p:commandButton value="#{msgs['template.LogoutText']}"
+					rendered="#{loginBean.loggedIn}"
+					action="#{loginBean.logout}" ajax="false" immediate="true"/>
+				<p:selectOneButton value="#{loginServiceBean.localeString}">
+					<p:ajax listener="#{loginServiceBean.change}" />
+					<f:selectItem itemLabel="EN" itemValue="en" />
+					<f:selectItem itemLabel="NL" itemValue="nl" />
+				</p:selectOneButton>
 
 
-				<h:form>
-				<p:growl id="loginGrowl" showDetail="true" life="2500"/>
+				<h:form id="loginFrom">
+					<p:growl id="loginGrowl" showDetail="true" life="2500" />
 					<p:dialog header="Login" widgetVar="loginDialog" resizable="false"
-						draggable="false">
+						draggable="false" closable="true">
 						<h:panelGrid columns="1" cellpadding="2">
 							<p:inputText id="userEmail" required="true" label="userEmail"
 								value="#{loginBean.email}"
@@ -55,7 +62,7 @@
 							<p:message for="password" />
 
 							<f:facet name="footer">
-								<p:commandButton value="Login" update="loginGrowl"
+								<p:commandButton value="Login" update="loginGrowl menubar"
 									actionListener="#{loginBean.login}"
 									oncomplete="handleLoginRequest(xhr, status, args)">
 
@@ -65,30 +72,9 @@
 
 					</p:dialog>
 				</h:form>
-				<p:dialog header="Logout?" widgetVar="logoutDialog"
-					resizable="false">
-					<h:panelGrid columns="2" cellpadding="2">
-						<p:commandButton value="Yes" 
-							actionListener="#{loginBean.logout}"
-							onclick="PF('logoutDialog').show();" immediate="true" />
-						<p:commandButton value="No" type="button"
-							onclick="PF('logoutDialog').hide();" />
-					</h:panelGrid>
 
-				</p:dialog>
-				<p:commandButton style="margin-right:10px"
-					value="#{msgs['template.LoginText']}"
-					action="login?faces-redirect=true"
-					rendered="#{!(loginServiceBean.isLoggedIn(loginBean.person.emailAddress))}" />
-				<p:commandButton value="#{msgs['template.LogoutText']}"
-					rendered="#{loginServiceBean.isLoggedIn(loginBean.person.emailAddress)}"
-					action="#{loginServiceBean.logout(loginBean.person.emailAddress)}" />
-				<p:selectOneButton value="#{loginServiceBean.localeString}">
-					<p:ajax listener="#{loginServiceBean.change}" />
-					<f:selectItem itemLabel="EN" itemValue="en" />
-					<f:selectItem itemLabel="NL" itemValue="nl" />
-				</p:selectOneButton>
 			</f:facet>
+
 
 		</p:menubar>
 	</h:form>
