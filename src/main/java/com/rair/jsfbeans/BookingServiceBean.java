@@ -1,5 +1,6 @@
 package com.rair.jsfbeans;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -102,7 +103,7 @@ public class BookingServiceBean {
 		System.out.println(flight.checkNumberOfSeatsForTravelingClass(selectedTravelClass.toString()));
 		return flight.checkNumberOfSeatsForTravelingClass(selectedTravelClass.toString());
 	}
-	
+
 	public Integer maxNumberOfSeatsReturnFlight() {
 		System.out.println("Return flight: " + returnFlight.getFlightNumber());
 		System.out.println("Selected travel class: " + selectedReturnTravelClass);
@@ -147,7 +148,7 @@ public class BookingServiceBean {
 	public void setnSeatsWantedReturn(int nSeatsWantedReturn) {
 		this.nSeatsWantedReturn = nSeatsWantedReturn;
 		calculateBookingPrice();
-		
+
 	}
 
 	public double getPriceOfReturnBooking() {
@@ -204,9 +205,10 @@ public class BookingServiceBean {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "index.xhtml?faces-redirect=true";
 	}
-	
-	public void calculateBookingPrice(){
-		this.totalPrice = nSeatsWanted * flight.getTicketPriceByClass(selectedTravelClass.toString()) + nSeatsWantedReturn * returnFlight.getTicketPriceByClass(selectedReturnTravelClass.toString());
+
+	public void calculateBookingPrice() {
+		this.totalPrice = nSeatsWanted * flight.getTicketPriceByTravelclass(selectedTravelClass.toString())
+				+ nSeatsWantedReturn * returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
 	}
 
 }
