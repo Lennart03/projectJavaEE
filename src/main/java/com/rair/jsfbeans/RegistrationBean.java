@@ -5,10 +5,8 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 
 import com.rair.dao.CustomerRepository;
 import com.rair.domain.Customer;
@@ -16,7 +14,7 @@ import com.rair.jsf.converters.PasswordConverter;
 import com.rair.mail.MailSender;
 
 @ManagedBean(name = "registrationBean")
-@SessionScoped
+@ViewScoped
 public class RegistrationBean implements Serializable {
 
 	private static final long serialVersionUID = 2979273877443227480L;
@@ -27,8 +25,9 @@ public class RegistrationBean implements Serializable {
 	@ManagedProperty("#{loginServiceBean}")
 	private LoginServiceBean loginServiceBean;
 
-	@ManagedProperty("#{bookingServiceBean}")
-	private BookingServiceBean bookingServiceBean;
+	@ManagedProperty("#{loginBean}")
+	private LoginBean loginBean;
+	
 	private PasswordConverter passwordConverter;
 	private MailSender mailSender = new MailSender();
 
@@ -47,12 +46,20 @@ public class RegistrationBean implements Serializable {
 		}
 	}
 
-	public BookingServiceBean getBookingServiceBean() {
-		return bookingServiceBean;
+	public LoginBean getLoginBean() {
+		return loginBean;
 	}
 
-	public void setBookingServiceBean(BookingServiceBean bookingServiceBean) {
-		this.bookingServiceBean = bookingServiceBean;
+	public void setLoginBean(LoginBean loginBean) {
+		this.loginBean = loginBean;
+	}
+
+	public MailSender getMailSender() {
+		return mailSender;
+	}
+
+	public void setMailSender(MailSender mailSender) {
+		this.mailSender = mailSender;
 	}
 
 	public PasswordConverter getPasswordConverter() {
@@ -115,22 +122,9 @@ public class RegistrationBean implements Serializable {
 		Customer customer = new Customer(firstName, lastName, emailAddress, passwordConverter.encrypt(passWord));
 		customerRepository.save(customer);
 		loginServiceBean.login(emailAddress);
-		try {
-			mailSender.setTextMessage("registration",null);
-			mailSender.sendMail(emailAddress);
-		} catch (AddressException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (bookingServiceBean.getFlight() == null) {
-			return "toIndex";
-		} else {
-			return "toBooking";
-		}
-
+		loginBean.setEmail(customer.getEmailAddress());
+		loginBean.setPassword(passWord);
+		return loginBean.doLogin();
 	}
 
 }
