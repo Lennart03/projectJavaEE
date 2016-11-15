@@ -23,7 +23,7 @@ public class LoginServiceBean implements Serializable {
 	private Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
 	private TimeZone timeZone;
 	private Map<String, Boolean> loginMap;
-	private String localeString;
+	private String localeString = "";
 
 	@PostConstruct
 	public void init() {

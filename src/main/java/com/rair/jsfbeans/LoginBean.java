@@ -1,6 +1,5 @@
 package com.rair.jsfbeans;
 
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -129,10 +128,9 @@ public class LoginBean {
 
 	public String doLogin() {
 		String encryptedPw;
-		if(passwordConverter !=null){
+		if (passwordConverter != null) {
 			encryptedPw = passwordConverter.encrypt(password);
-		}
-		else{
+		} else {
 			encryptedPw = password;
 		}
 		person = personReposiroty.retrievePerson(email, encryptedPw);
@@ -185,19 +183,32 @@ public class LoginBean {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout", "You have been logged out."));
 	}
-	
+
 	public void openLoginDialog() {
-		Map<String,Object> options = new HashMap<String, Object>();
-        options.put("modal", true);
-        RequestContext.getCurrentInstance().openDialog("login", options, null);
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("modal", true);
+		RequestContext.getCurrentInstance().openDialog("login", options, null);
 	}
-	
+
 	public void closeLoginDialog() {
-        RequestContext.getCurrentInstance().closeDialog(Arrays.asList(firstName, person.getLastName()));
-    }
-	
+		RequestContext.getCurrentInstance().closeDialog(Arrays.asList(firstName, person.getLastName()));
+	}
+
 	public void onReturnFromLogin(SelectEvent event) {
 		RequestContext.getCurrentInstance().closeDialog(event.getObject());
+	}
+
+	public Long getAirlineId() {
+		if (person != null) {
+			Partner partner = (Partner) person;
+			if (partner.getAirline() != null) {
+				return partner.getAirline().getId();
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
 	}
 
 }
