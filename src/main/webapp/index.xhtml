@@ -195,7 +195,7 @@
 							<p:outputPanel>
 								<p:spinner id="numberOfTickets"
 									value="#{bookingServiceBean.nSeatsWanted}" min="1"
-									max="#{bookingServiceBean.maximumSeatsForClass()}">
+									max="#{bookingServiceBean.maxSeatsOutboundFlight()}">
 									<p:ajax update="totalPrice"
 										listener="#{bookingServiceBean.updateTotalPrice}" />
 								</p:spinner>
@@ -228,7 +228,7 @@
 							<p:outputPanel>
 								<p:spinner id="numberOfReturTicket"
 									value="#{bookingServiceBean.nSeatsWantedReturn}" min="1"
-									max="#{bookingServiceBean.maximumSeatsForClass()}">
+									max="#{bookingServiceBean.maxNumberOfSeatsReturnFlight()}">
 									<p:ajax update="totalPrice"
 										listener="#{bookingServiceBean.updateTotalPrice}" />
 								</p:spinner>

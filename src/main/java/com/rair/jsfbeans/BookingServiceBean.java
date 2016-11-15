@@ -95,8 +95,18 @@ public class BookingServiceBean {
 		priceOfBooking = nSeatsWanted * priceOfTicket;
 	}
 
-	public Integer maximumSeatsForClass() {
+	public Integer maxSeatsOutboundFlight() {
+		System.out.println("Flight: " + flight.getFlightNumber());
+		System.out.println("Selected travel class: " + selectedTravelClass);
+		System.out.println(flight.checkSeatsForTravelingClass(selectedTravelClass));
 		return flight.checkSeatsForTravelingClass(selectedTravelClass);
+	}
+	
+	public Integer maxNumberOfSeatsReturnFlight() {
+		System.out.println("Return flight: " + returnFlight.getFlightNumber());
+		System.out.println("Selected travel class: " + selectedReturnTravelClass);
+		System.out.println(returnFlight.checkSeatsForTravelingClass(selectedReturnTravelClass));
+		return returnFlight.checkSeatsForTravelingClass(selectedReturnTravelClass);
 	}
 
 	public TravelingClass getSelectedTravelClass() {
