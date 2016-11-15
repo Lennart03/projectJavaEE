@@ -263,10 +263,12 @@ public class BookingServiceBean {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "succes.xhtml?faces-redirect=true";
 	}
+	
+	public void calculateBookingPrice(){
+		this.priceOfBooking = nSeatsWanted * flight.getTicketPriceByTravelclass(selectedTravelClass.toString());
+		this.priceOfReturnBooking = nSeatsWantedReturn * returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
+		this.totalPrice = priceOfBooking + priceOfReturnBooking;
 
-	public void calculateBookingPrice() {
-		this.totalPrice = nSeatsWanted * flight.getTicketPriceByTravelclass(selectedTravelClass.toString())
-				+ nSeatsWantedReturn * returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
 	}
 
 	public boolean containsReturnFlight() {

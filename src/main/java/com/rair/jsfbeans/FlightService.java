@@ -119,18 +119,25 @@ public class FlightService {
 		Flight flight = (Flight) event.getObject();
 		if(checkNumberOfSoldSeatsForTravelingClass("ECONOMY", flight.getId())<flight.getEconomySeats()){
 			flight.addNumberOfSeatsForClass(TravelingClass.ECONOMY, new Integer(flight.getEconomySeats()));
+			flight.setAvailableSeatsForClass(TravelingClass.ECONOMY, flight.getNumberOfSeats().get(TravelingClass.ECONOMY)-checkNumberOfSoldSeatsForTravelingClass("ECONOMY", flight.getId()));
 		}else{
 			flight.addNumberOfSeatsForClass(TravelingClass.ECONOMY, checkNumberOfSoldSeatsForTravelingClass("ECONOMY", flight.getId()));
+			flight.setAvailableSeatsForClass(TravelingClass.ECONOMY,0);
 		}
 		if(checkNumberOfSoldSeatsForTravelingClass("BUSINESS", flight.getId())<flight.getBusinessSeats()){
 			flight.addNumberOfSeatsForClass(TravelingClass.BUSINESS, new Integer(flight.getBusinessSeats()));
+			flight.setAvailableSeatsForClass(TravelingClass.BUSINESS, flight.getNumberOfSeats().get(TravelingClass.BUSINESS)-checkNumberOfSoldSeatsForTravelingClass("BUSINESS", flight.getId()));
 		}else{
 			flight.addNumberOfSeatsForClass(TravelingClass.BUSINESS, checkNumberOfSoldSeatsForTravelingClass("BUSINESS", flight.getId()));
+			flight.setAvailableSeatsForClass(TravelingClass.BUSINESS, 0);
 		}
 		if(checkNumberOfSoldSeatsForTravelingClass("FIRST_CLASS", flight.getId())<flight.getFirstClassSeats()){
 			flight.addNumberOfSeatsForClass(TravelingClass.FIRST_CLASS, new Integer(flight.getFirstClassSeats()));
+			flight.setAvailableSeatsForClass(TravelingClass.FIRST_CLASS, flight.getNumberOfSeats().get(TravelingClass.FIRST_CLASS)-checkNumberOfSoldSeatsForTravelingClass("FIRST_CLASS", flight.getId()));
+			
 		}else{
 			flight.addNumberOfSeatsForClass(TravelingClass.FIRST_CLASS, checkNumberOfSoldSeatsForTravelingClass("FIRST_CLASS", flight.getId()));
+			flight.setAvailableSeatsForClass(TravelingClass.FIRST_CLASS, 0);
 		}
 		if(flight.getId()!= null){
 			flight = flightRepository.update(flight, flight.getId());
