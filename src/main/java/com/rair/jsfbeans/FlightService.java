@@ -138,9 +138,9 @@ public class FlightService {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 		else{
-			Airline airline = airlineRepository.retrieveAirline("Air Botswana");
-			System.out.println("Airline ID = " + airline.getId());
-			flight.setAirline(airlineRepository.retrieveAirline("Air Botswana"));
+			Airline airline = airlineRepository.retrieveAirline(loginBean.getAirlineId());
+			System.out.println("Loggedin user is an employee at: " + airline);
+			flight.setAirline(airline);
 			flightRepository.createFlight(flight);
 			FacesMessage msg = new FacesMessage("Added new flight", flight.getId().toString());
 			FacesContext.getCurrentInstance().addMessage(null, msg);

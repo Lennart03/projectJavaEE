@@ -35,6 +35,7 @@ public class FlightRepository {
 	}
 
 	public void createFlight(Flight flight) {
+		System.out.println("Flight airline: " + flight.getAirline());
 		entityManager.persist(flight);
 	}
 

@@ -35,6 +35,11 @@ public class AirlineRepository {
 		return airline;
 	}
 	
+	public Airline retrieveAirline(Long id) {
+		Airline airline = (Airline) entityManager.createQuery("SELECT a FROM Airline a WHERE a.id= '"+ id+"'").getSingleResult();
+		return airline;
+	}
+	
 	public List<Airline> retrieveAllAirlines() {
 		List<Airline> airlines = entityManager.createQuery("Select airline from Airline airline", Airline.class).getResultList();
 		System.out.println(airlines);

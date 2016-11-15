@@ -28,7 +28,7 @@
 				<h:outputText id="detailTabdepartureTime"
 					value="#{bookingServiceBean.flight.departureTime}">
 					<f:convertDateTime type="both"
-						timeZone="#{loginServiceBean.timeZone}" />
+						timeZone="#{loginBean.timeZone}" />
 				</h:outputText>
 
 				<h:outputText for="detailTabairline" value="Airline: " />
