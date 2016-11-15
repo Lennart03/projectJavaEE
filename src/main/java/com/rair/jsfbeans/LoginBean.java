@@ -176,12 +176,13 @@ public class LoginBean {
 		context.addCallbackParam("loggedIn", loggedIn);
 	}
 
-	public void logout(ActionEvent event) {
+	public String logout() {
 		System.out.println("Loggin out.");
 		loginServiceBean.logout(person.getEmailAddress());
 		loggedIn = false;
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout", "You have been logged out."));
+		return "index.xhtml?faces-redirect=true";
 	}
 
 	public void openLoginDialog() {
