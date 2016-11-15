@@ -6,11 +6,14 @@
 <ui:composition template="WEB-INF/templates/template.xhtml">
 <ui:define name="title">Succes</ui:define>
 <ui:define name="content">
-
-<p>Thank you for booking! Your money will be well spend</p>
+<p:panel header="#{msgs['success.header']}">
+<h:outputText value="#{msgs['success.message']}"/>
 <br/>
-<p>Press the button to return to the home page. Have a wonderful day!</p>
-<h:commandButton value="Home" action="index.xhtml?faces-rediret=true"/>
+<h:outputText value="#{msgs['success.returnText']}"/>
+<h:form>
+<p:commandButton value="Home" action="index.xhtml?faces-redirect=true"/>
+</h:form>
+</p:panel>
 </ui:define>
 </ui:composition>
 
