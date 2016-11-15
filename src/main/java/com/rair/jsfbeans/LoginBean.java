@@ -147,6 +147,7 @@ public class LoginBean {
 			return "toIndex";
 		}
 		loginServiceBean.login(person.getEmailAddress());
+		loggedIn = true;
 		if (person instanceof Customer) {
 			System.out.println("Customer: " + person.getFirstName());
 			bookingServiceBean.setCustomer((Customer) person);
@@ -228,21 +229,16 @@ public class LoginBean {
 			return null;
 		}
 	}
-	
 
 	public String getLocaleString() {
 		return localeString;
 	}
 
-
-
 	public void setLocaleString(String localeString) {
 		this.localeString = localeString;
 		setLocale(new Locale(localeString));
 	}
-	
-	
-	
+
 	public Locale getLocale() {
 		return locale;
 	}
@@ -252,20 +248,19 @@ public class LoginBean {
 	}
 
 	public TimeZone getTimeZone() {
-	    return TimeZone.getDefault();
+		return TimeZone.getDefault();
 	}
-	
+
 	public void change() {
 		System.out.println(localeString);
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-	    try {
+		try {
 			ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    System.out.println(locale.toString());
+		System.out.println(locale.toString());
 	}
-	
 
 }

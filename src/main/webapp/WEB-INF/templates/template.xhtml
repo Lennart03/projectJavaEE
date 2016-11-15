@@ -13,11 +13,6 @@
 	<title><ui:insert name="title">RAIR TEMPLATE TITLE</ui:insert></title>
 </h:head>
 <h:body style="background:url(img/background.svg); no-repeat 0px 0px;">
-	<h1>
-		<h:outputText
-			rendered="#{loginServiceBean.isLoggedIn(loginBean.email)}"
-			value="Welcome #{loginBean.person.firstName}" />
-	</h1>
 	<h:form id="menubar">
 		<p:menubar>
 
