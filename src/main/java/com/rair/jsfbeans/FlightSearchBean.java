@@ -224,6 +224,7 @@ public class FlightSearchBean implements Serializable {
 			System.out.println(singleFlights);
 			if (!singleFlight) {
 				returnFlights = flightRepository.retrieveFlightsFromAndTo(arrivalAirport, departureAirport);
+				System.out.println("The returnflight = " + returnFlights.get(0).getFlightNumber());
 			}
 		}
 		return event.getNewStep();
