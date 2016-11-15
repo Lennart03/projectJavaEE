@@ -1,17 +1,22 @@
 package com.rair.jsfbeans;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -33,6 +38,9 @@ public class LoginBean {
 	private Person person;
 	private boolean loggedIn;
 	private PasswordConverter passwordConverter;
+	private Locale locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+	private TimeZone timeZone;
+	private String localeString;
 
 	@Inject
 	private PersonReposiroty personReposiroty;
@@ -215,5 +223,44 @@ public class LoginBean {
 			return null;
 		}
 	}
+	
+
+	public String getLocaleString() {
+		return localeString;
+	}
+
+
+
+	public void setLocaleString(String localeString) {
+		this.localeString = localeString;
+		setLocale(new Locale(localeString));
+	}
+	
+	
+	
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+
+	public TimeZone getTimeZone() {
+	    return TimeZone.getDefault();
+	}
+	
+	public void change() {
+		System.out.println(localeString);
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+	    try {
+			ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    System.out.println(locale.toString());
+	}
+	
 
 }

@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 
-<f:view locale="#{loginServiceBean.locale}" />
+<f:view locale="#{loginBean.locale}" />
 <h:head>
 	<h:graphicImage value="img/Airplane_airport_plane_ticket-512.png"
 		alt="Rair logo" width="100%" height="215" />
@@ -35,7 +35,7 @@
 				<p:commandButton value="#{msgs['template.LogoutText']}"
 					rendered="#{loginBean.loggedIn}"
 					action="#{loginBean.logout}" ajax="false" immediate="true"/>
-				<p:selectOneButton value="#{loginServiceBean.localeString}">
+				<p:selectOneButton value="#{loginBean.localeString}">
 					<p:ajax listener="#{loginServiceBean.change}" />
 					<f:selectItem itemLabel="EN" itemValue="en" />
 					<f:selectItem itemLabel="NL" itemValue="nl" />
