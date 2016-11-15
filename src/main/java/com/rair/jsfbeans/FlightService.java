@@ -57,14 +57,11 @@ public class FlightService {
 
 	@PostConstruct
 	public void init(){
-		System.out.println("I'm at the first step!");
 		airports = airportRepository.findAll();
 		Long id = loginBean.getAirlineId();
-		System.out.println("I'm at the second step!");
 		if (id != null){
 			futureFlightsByAirline = flightRepository.retrieveFutureFlightsByAirline(id);
 		}else{
-			System.out.println("I'm at the third step!");
 			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 			try {
 				ec.redirect(ec.getRequestContextPath() + "/index.xhtml");
