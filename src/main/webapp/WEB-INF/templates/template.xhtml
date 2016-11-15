@@ -27,14 +27,15 @@
 			</f:facet>
 			<f:facet name="options">
 				<p:commandButton value="#{msgs['template.RegisterButtonText']}"
-					action="register.xhtml?faces-redirect=true" />
+					action="register.xhtml?faces-redirect=true" ajax="false"
+					immediate="true" />
 				<p:commandButton style="margin-right:10px"
 					value="#{msgs['template.LoginText']}"
 					onclick="PF('loginDialog').show();"
 					rendered="#{!(loginBean.loggedIn)}" />
 				<p:commandButton value="#{msgs['template.LogoutText']}"
-					rendered="#{loginBean.loggedIn}"
-					action="#{loginBean.logout}" ajax="false" immediate="true"/>
+					rendered="#{loginBean.loggedIn}" action="#{loginBean.logout}"
+					ajax="false" immediate="true" />
 				<p:selectOneButton value="#{loginServiceBean.localeString}">
 					<p:ajax listener="#{loginServiceBean.change}" />
 					<f:selectItem itemLabel="EN" itemValue="en" />
@@ -44,29 +45,28 @@
 
 				<h:form id="loginFrom">
 					<p:growl id="loginGrowl" showDetail="true" life="2500" />
-					<p:dialog header="Login" widgetVar="loginDialog" resizable="false"
-						draggable="false" closable="true">
+					<p:dialog header="#{msgs['template.Logindialog.Header']}"
+						widgetVar="loginDialog" resizable="false" draggable="false"
+						closable="true">
 						<h:panelGrid columns="1" cellpadding="2">
 							<p:inputText id="userEmail" required="true" label="userEmail"
 								value="#{loginBean.email}"
-								validatorMessage="#{loginBean.email} is not valid">
+								validatorMessage="#{msgs['template.Logindialog.EmailNotValid']}">
 								<f:validateRegex
 									pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
 							</p:inputText>
-							<p:watermark value="Email" for="userEmail" />
+							<p:watermark value="" for="userEmail" />
 							<p:message for="userEmail" />
 
 							<p:password id="password" value="#{loginBean.password}"
-								required="true" label="true" placeholder="Password"
+								required="true" label="true"
+								placeholder="#{msgs['template.Logindialog.PasswordPlaceholder']}"
 								requiredMessage="Please enter your password" />
 							<p:message for="password" />
 
 							<f:facet name="footer">
-								<p:commandButton value="Login" update="loginGrowl menubar"
-									actionListener="#{loginBean.login}"
-									oncomplete="handleLoginRequest(xhr, status, args)">
-
-								</p:commandButton>
+								<p:commandButton value="Login" action="#{loginBean.doLogin}"
+									ajax="false" />
 							</f:facet>
 						</h:panelGrid>
 

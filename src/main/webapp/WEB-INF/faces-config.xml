@@ -12,30 +12,8 @@
 	<navigation-rule>
 		<from-view-id>/index.xhtml</from-view-id>
 		<navigation-case>
-			<from-outcome>toLogin</from-outcome>
-			<to-view-id>/login.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-		<navigation-case>
 			<from-outcome>toIndex</from-outcome>
 			<to-view-id>/index.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<from-view-id>/login.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>toFlightPage</from-outcome>
-			<to-view-id>/flight.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>toRegister</from-outcome>
-			<to-view-id>/register.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>loginFailed</from-outcome>
-			<to-view-id>/login.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
@@ -44,16 +22,16 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
-			<from-outcome>toIndex</from-outcome>
-			<to-view-id>/index.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-		<navigation-case>
 			<from-outcome>toAdmin</from-outcome>
 			<to-view-id>/admin.xhtml</to-view-id>
-			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>toFlightPage</from-outcome>
+			<to-view-id>/flight.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+
+	
 	<navigation-rule>
 		<from-view-id>/booking.xhtml</from-view-id>
 		<navigation-case>
@@ -66,7 +44,7 @@
 		<navigation-case>
 			<from-outcome>redirectAdmin</from-outcome>
 			<to-view-id>/admin.xhtml</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
 

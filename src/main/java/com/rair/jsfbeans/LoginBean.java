@@ -1,6 +1,5 @@
 package com.rair.jsfbeans;
 
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -128,16 +127,16 @@ public class LoginBean {
 	}
 
 	public String doLogin() {
+		loggedIn = false;
 		String encryptedPw;
-		if(passwordConverter !=null){
+		if (passwordConverter != null) {
 			encryptedPw = passwordConverter.encrypt(password);
-		}
-		else{
+		} else {
 			encryptedPw = password;
 		}
 		person = personReposiroty.retrievePerson(email, encryptedPw);
 		if (person == null) {
-			return "loginFailed";
+			return "toIndex";
 		}
 		loginServiceBean.login(person.getEmailAddress());
 		if (person instanceof Customer) {
@@ -181,22 +180,26 @@ public class LoginBean {
 	public String logout() {
 		System.out.println("Loggin out.");
 		loginServiceBean.logout(person.getEmailAddress());
+		person = null;
+		email = "";
+		firstName = "";
+		password = "";
 		loggedIn = false;
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout", "You have been logged out."));
 		return "index.xhtml?faces-redirect=true";
 	}
-	
+
 	public void openLoginDialog() {
-		Map<String,Object> options = new HashMap<String, Object>();
-        options.put("modal", true);
-        RequestContext.getCurrentInstance().openDialog("login", options, null);
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("modal", true);
+		RequestContext.getCurrentInstance().openDialog("login", options, null);
 	}
-	
+
 	public void closeLoginDialog() {
-        RequestContext.getCurrentInstance().closeDialog(Arrays.asList(firstName, person.getLastName()));
-    }
-	
+		RequestContext.getCurrentInstance().closeDialog(Arrays.asList(firstName, person.getLastName()));
+	}
+
 	public void onReturnFromLogin(SelectEvent event) {
 		RequestContext.getCurrentInstance().closeDialog(event.getObject());
 	}
