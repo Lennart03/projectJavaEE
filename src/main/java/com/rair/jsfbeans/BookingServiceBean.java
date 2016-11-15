@@ -88,6 +88,7 @@ public class BookingServiceBean {
 
 	public void setnSeatsWanted(int nSeatsWanted) {
 		this.nSeatsWanted = nSeatsWanted;
+		calculateBookingPrice();
 	}
 
 	public void calculateTotalPrice(double priceOfTicket) {
@@ -145,6 +146,8 @@ public class BookingServiceBean {
 
 	public void setnSeatsWantedReturn(int nSeatsWantedReturn) {
 		this.nSeatsWantedReturn = nSeatsWantedReturn;
+		calculateBookingPrice();
+		
 	}
 
 	public double getPriceOfReturnBooking() {
@@ -200,6 +203,10 @@ public class BookingServiceBean {
 		bookingRepository.createBooking(booking);
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "index.xhtml?faces-redirect=true";
+	}
+	
+	public void calculateBookingPrice(){
+		this.totalPrice = nSeatsWanted * flight.getTicketPriceByClass(selectedTravelClass.toString()) + nSeatsWantedReturn * returnFlight.getTicketPriceByClass(selectedReturnTravelClass.toString());
 	}
 
 }
