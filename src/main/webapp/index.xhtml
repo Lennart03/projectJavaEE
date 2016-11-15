@@ -201,7 +201,7 @@
 
 				<p:tab id="ticketChoice"
 					title="#{msgs['index.tab.ticketChoice.header']}">
-					<p:panel header="#{msgs['index.panel.outboundFlights.header']}"
+					<p:panel header="#{msgs['index.panel.outboundFlightTicket.header']}"
 						toggleable="true" toggleSpeed="750">
 						<p:panelGrid columns="2" cellPadding="5">
 
@@ -261,7 +261,7 @@
 								<f:selectItem
 									itemLabel="#{msgs['index.panel.outboundFlightTicket.flightClass.firstClass']}"
 									itemValue="FIRST_CLASS" />
-								<p:ajax update="priceOneTicket"
+								<p:ajax update="priceOneReturnTicket"
 									listener="#{flightSearchBean.changePriceReturnFlight}" />
 								<p:ajax update="totalPrice"
 									listener="#{bookingServiceBean.updateTotalPrice}"
@@ -277,6 +277,13 @@
 										listener="#{bookingServiceBean.updateTotalPrice}" />
 								</p:spinner>
 							</p:outputPanel>
+							
+							<h:outputText
+								value="#{msgs['index.panel.outboundFlightTicket.priceOneTicket']}" />
+							<h:outputText id="priceOneReturnTicket"
+								value="€ #{flightSearchBean.priceOfReturnTicket}">
+								<f:convertNumber type="currency" maxFractionDigits="2" />
+							</h:outputText>
 						</p:panelGrid>
 					</p:panel>
 
