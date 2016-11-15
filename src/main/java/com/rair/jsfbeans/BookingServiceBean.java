@@ -1,11 +1,10 @@
 package com.rair.jsfbeans;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.persistence.Version;
+import javax.mail.MessagingException;
 
 import com.rair.dao.BookingRepository;
 import com.rair.dao.FlightRepository;
@@ -15,6 +14,7 @@ import com.rair.domain.Customer;
 import com.rair.domain.Flight;
 import com.rair.domain.Payment;
 import com.rair.domain.TravelingClass;
+import com.rair.mail.MailSender;
 
 @ManagedBean(name = "bookingServiceBean")
 @SessionScoped
@@ -31,6 +31,8 @@ public class BookingServiceBean {
 	private TravelingClass selectedTravelClass;
 	private TravelingClass selectedReturnTravelClass;
 	private double totalPrice;
+	private String cardNumber;
+	private int cardType;
 
 	@Inject
 	private BookingRepository bookingRepository;
@@ -44,6 +46,22 @@ public class BookingServiceBean {
 
 	public void setFlightRepository(FlightRepository flightRepository) {
 		this.flightRepository = flightRepository;
+	}
+
+	public int getCardType() {
+		return cardType;
+	}
+
+	public void setCardType(int cardType) {
+		this.cardType = cardType;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
 	}
 
 	public Flight getFlight() {
@@ -201,7 +219,7 @@ public class BookingServiceBean {
 	}
 
 	public String makeBooking() {
-		flight.adjustAvailableSeats(selectedTravelClass, nSeatsWanted);
+		flight.adjustAvailableSeats(selectedTravelClass.toString(), nSeatsWanted);
 		flightRepository.update(flight, flight.getId());
 		Booking booking = new Booking();
 		System.out.println(customer);
@@ -215,10 +233,18 @@ public class BookingServiceBean {
 			booking.setStatus(BookingStatus.PAYMENT_SUCCES);
 		} else {
 			booking.setStatus(BookingStatus.PAYMENT_PENDING);
+			MailSender mailSender = new MailSender();
+			mailSender.setTextMessage("endorsment", priceOfBooking);
+			try {
+				mailSender.sendMail(customer.getEmailAddress());
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		bookingRepository.createBooking(booking);
 		if (containsReturnFlight()) {
-			returnFlight.adjustAvailableSeats(selectedReturnTravelClass, nSeatsWantedReturn);
+			returnFlight.adjustAvailableSeats(selectedReturnTravelClass.toString(), nSeatsWantedReturn);
 			flightRepository.update(returnFlight, returnFlight.getId());
 			booking = new Booking();
 			booking.setCustomer(customer);

@@ -247,9 +247,13 @@ public class Flight implements Serializable {
 		return ticketPrice;
 	}
 
-	public void adjustAvailableSeats(TravelingClass selectedTravelClass, int nSeatsWanted) {
-		Integer prevSeats = availableSeats.get(selectedTravelClass);
-		availableSeats.put(selectedTravelClass, prevSeats-nSeatsWanted);
+	public void adjustAvailableSeats(String selectedTravelClass, int nSeatsWanted) {
+		System.out.println(selectedTravelClass);
+		System.out.println("Als enum: " + TravelingClass.valueOf(selectedTravelClass));
+		System.out.println("Available seats: " + availableSeats.toString());
+		Integer prevSeats = availableSeats.get(TravelingClass.valueOf(selectedTravelClass));
+		System.out.println("prev seats:" + prevSeats);
+		availableSeats.put(TravelingClass.valueOf(selectedTravelClass), prevSeats-nSeatsWanted);
 	}
 
 }
