@@ -70,7 +70,7 @@ public class PartnerService {
 			FacesMessage msg = new FacesMessage("Added new partner", partner.getId().toString());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			System.out.println("Het decoded password is: " + passwordConverter.decrypt(partner.getPassword()));
-			mailSender.setTextMessage("partnerRegistration");
+			mailSender.setTextMessage("partnerRegistration",null);
 			try {
 				mailSender.sendMail(partner.getEmailAddress());
 			} catch (AddressException e) {

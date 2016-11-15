@@ -67,7 +67,7 @@ public class EmployeeService {
 			FacesMessage msg = new FacesMessage("Added new employee", employee.getId().toString());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			System.out.println("Het decoded password is: " + passwordConverter.decrypt(employee.getPassword()));
-			mailSender.setTextMessage("employeeRegistration");
+			mailSender.setTextMessage("employeeRegistration",null);
 			try {
 				mailSender.sendMail(employee.getEmailAddress());
 			} catch (AddressException e) {
