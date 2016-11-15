@@ -18,7 +18,7 @@
 			<p:growl id="growl" showDetail="true" />
 
 			<p:wizard flowListener="#{flightSearchBean.onFlowProcess}"
-				id="flightsearchWizard">
+				id="flightsearchWizard" nextLabel="#{msgs['index.wizard.next']}" backLabel="#{msgs['index.wizard.back']}">
 
 				<p:tab id="searchCriteria" title="#{msgs['index.tab.searchFlight']}">
 
