@@ -251,4 +251,9 @@ public class Flight implements Serializable {
 		return ticketPrice;
 	}
 
+	public void adjustAvailableSeats(TravelingClass selectedTravelClass, int nSeatsWanted) {
+		Integer prevSeats = availableSeats.get(selectedTravelClass);
+		availableSeats.put(selectedTravelClass, prevSeats-nSeatsWanted);
+	}
+
 }
