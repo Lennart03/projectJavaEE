@@ -129,6 +129,7 @@ public class Flight implements Serializable {
 
 	public Integer checkSeatsForTravelingClass(TravelingClass travelingClass) {
 		System.out.println(travelingClass + ": " + availableSeats.get(travelingClass));
+		System.out.println(availableSeats);
 		return availableSeats.get(travelingClass);
 	}
 

@@ -98,15 +98,15 @@ public class BookingServiceBean {
 	public Integer maxSeatsOutboundFlight() {
 		System.out.println("Flight: " + flight.getFlightNumber());
 		System.out.println("Selected travel class: " + selectedTravelClass);
-		System.out.println(flight.checkSeatsForTravelingClass(selectedTravelClass));
-		return flight.checkSeatsForTravelingClass(selectedTravelClass);
+		System.out.println(flight.checkNumberOfSeatsForTravelingClass(selectedTravelClass.toString()));
+		return flight.checkNumberOfSeatsForTravelingClass(selectedTravelClass.toString());
 	}
 	
 	public Integer maxNumberOfSeatsReturnFlight() {
 		System.out.println("Return flight: " + returnFlight.getFlightNumber());
 		System.out.println("Selected travel class: " + selectedReturnTravelClass);
-		System.out.println(returnFlight.checkSeatsForTravelingClass(selectedReturnTravelClass));
-		return returnFlight.checkSeatsForTravelingClass(selectedReturnTravelClass);
+		System.out.println(returnFlight.checkNumberOfSeatsForTravelingClass(selectedReturnTravelClass.toString()));
+		return returnFlight.checkNumberOfSeatsForTravelingClass(selectedReturnTravelClass.toString());
 	}
 
 	public TravelingClass getSelectedTravelClass() {

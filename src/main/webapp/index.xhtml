@@ -221,7 +221,6 @@
 								<p:ajax update="priceOneTicket"
 									listener="#{flightSearchBean.changePriceOutboundFlight}" />
 								<p:ajax update="totalPrice"
-									listener="#{bookingServiceBean.updateTotalPrice}"
 									process="@this" />
 							</p:selectOneRadio>
 
@@ -232,7 +231,7 @@
 									value="#{bookingServiceBean.nSeatsWanted}" min="1"
 									max="#{bookingServiceBean.maxSeatsOutboundFlight()}">
 									<p:ajax update="totalPrice"
-										listener="#{bookingServiceBean.updateTotalPrice}" />
+										process="@this" />
 								</p:spinner>
 							</p:outputPanel>
 
@@ -264,7 +263,6 @@
 								<p:ajax update="priceOneTicket"
 									listener="#{flightSearchBean.changePriceReturnFlight}" />
 								<p:ajax update="totalPrice"
-									listener="#{bookingServiceBean.updateTotalPrice}"
 									process="@this" />
 							</p:selectOneRadio>
 							<h:outputText for="numberOfReturTicket"
@@ -274,7 +272,7 @@
 									value="#{bookingServiceBean.nSeatsWantedReturn}" min="1"
 									max="#{bookingServiceBean.maxNumberOfSeatsReturnFlight()}">
 									<p:ajax update="totalPrice"
-										listener="#{bookingServiceBean.updateTotalPrice}" />
+										process="@this" />
 								</p:spinner>
 							</p:outputPanel>
 						</p:panelGrid>
