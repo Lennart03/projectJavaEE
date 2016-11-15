@@ -37,7 +37,7 @@
 					rendered="#{loginBean.loggedIn}"
 					action="#{loginBean.logout}" ajax="false" immediate="true"/>
 				<p:selectOneButton value="#{loginBean.localeString}">
-					<p:ajax listener="#{loginServiceBean.change}" />
+					<p:ajax listener="#{loginBean.change}" />
 					<f:selectItem itemLabel="EN" itemValue="en" />
 					<f:selectItem itemLabel="NL" itemValue="nl" />
 				</p:selectOneButton>

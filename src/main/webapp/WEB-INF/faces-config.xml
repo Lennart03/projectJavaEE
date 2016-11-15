@@ -24,10 +24,12 @@
 		<navigation-case>
 			<from-outcome>toAdmin</from-outcome>
 			<to-view-id>/admin.xhtml</to-view-id>
+			<redirect/>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>toFlightPage</from-outcome>
 			<to-view-id>/flight.xhtml</to-view-id>
+			<redirect/>
 		</navigation-case>
 	</navigation-rule>
 
