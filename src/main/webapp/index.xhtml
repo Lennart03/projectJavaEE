@@ -282,13 +282,14 @@
 						</p:panelGrid>
 
 					</p:panel>
-					<h:outputText
-						value="#{msgs['index.panel.ticketChoice.totalPrice']}" />
-					<h:outputText id="totalPrice"
-						value="€ #{bookingServiceBean.totalPrice}">
-						<f:convertNumber type="currency" maxFractionDigits="2" />
-					</h:outputText>
-
+					<p:panel header="#{msgs['index.panel.totalPriceMegaPanel']}">
+						<h:outputText
+							value="#{msgs['index.panel.ticketChoice.totalPrice']}" />
+						<h:outputText id="totalPrice"
+							value="€ #{bookingServiceBean.totalPrice}">
+							<f:convertNumber type="currency" maxFractionDigits="2" />
+						</h:outputText>
+					</p:panel>
 
 				</p:tab>
 
@@ -403,13 +404,14 @@
 					</p:panel>
 
 					<p:panel header="#{msgs['index.book.header']}">
-					
+
 						<h:outputText for="detailTabtotalPrice"
 							value="#{msgs['index.details.totalPriceOfFlight']}" />
 						<h:outputText id="detailTabtotalPrice"
 							value="#{bookingServiceBean.totalPrice}">
 							<f:convertNumber pattern="#0.00" />
-						</h:outputText><br/>
+						</h:outputText>
+						<br />
 
 						<p:commandButton value="#{msgs['index.book.button']}"
 							rendered="#{loginBean.loggedIn}"
