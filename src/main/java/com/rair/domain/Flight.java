@@ -67,7 +67,7 @@ public class Flight implements Serializable {
 	@JoinColumn(nullable = false)
 	private Airport arrivalDestination;
 	private Date departureTime;
-	
+
 	@Transient
 	private int economySeats = 0;
 	@Transient
@@ -211,23 +211,40 @@ public class Flight implements Serializable {
 		this.firstClassSeats = firstClassSeats;
 	}
 
-	public void initializeTransientFields(){
-		try{
+	public void initializeTransientFields() {
+		try {
 			economySeats = numberOfSeats.get(TravelingClass.ECONOMY);
-		}catch (NullPointerException e){
+		} catch (NullPointerException e) {
 			economySeats = 0;
 		}
-		try{
+		try {
 			businessSeats = numberOfSeats.get(TravelingClass.BUSINESS);
-		}catch (NullPointerException e){
+		} catch (NullPointerException e) {
 			businessSeats = 0;
 		}
-		try{
+		try {
 			firstClassSeats = numberOfSeats.get(TravelingClass.FIRST_CLASS);
-		}catch (NullPointerException e){
+		} catch (NullPointerException e) {
 			firstClassSeats = 0;
 		}
-		
+
 	}
-	
+
+	public double getTicketPriceByTravelclass(String travelclass) {
+		double ticketPrice = 0;
+		switch (travelclass) {
+		case "ECONOMY":
+			ticketPrice = basePrice * Employee.RAIR_PERCENTAGE;
+			break;
+		case "BUSINESS":
+			ticketPrice = basePrice * BUSINESSCLASS_MULTIPLIER * Employee.RAIR_PERCENTAGE;
+			break;
+		default:
+			ticketPrice = basePrice * FIRSTCLASS_MULTIPLIER * Employee.RAIR_PERCENTAGE;
+			break;
+
+		}
+		return ticketPrice;
+	}
+
 }
