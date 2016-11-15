@@ -54,7 +54,7 @@ public class LoginBean {
 	@PostConstruct
 	public void init() {
 		loggedIn = false;
-		localeString="en";
+		localeString=locale.getLanguage();
 		try {
 			passwordConverter = new PasswordConverter();
 		} catch (Exception e) {
