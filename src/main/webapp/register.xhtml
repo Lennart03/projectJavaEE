@@ -9,46 +9,43 @@
 	<ui:define name="title">Registration</ui:define>
 	<ui:define name="content">
 
-		<p>Please fill in the following field</p>
+
 		<h:form>
 
-			<p:panel header="Registration">
+			<p:panel header="#{msgs['registration.panel.header']}">
+				<p>Please fill in the following field</p>
 				<h:panelGrid columns="1" cellpadding="2">
 
 					<p:inputText id="firstName" value="#{registrationBean.firstName}"
 						required="true" />
-					<p:watermark value="First name" for="firstName" />
+					<p:watermark value="#{msgs['registration.watermark.firstname']}" for="firstName" />
 					<p:message for="firstName" />
 
 					<p:inputText id="lastName" value="#{registrationBean.lastName}"
 						required="true" />
-					<p:watermark value="Last name" for="lastName" />
+					<p:watermark value="#{msgs['registration.watermark.lastname']}" for="lastName" />
 					<p:message for="lastName" />
 
 					<p:inputText id="emailAddress"
 						value="#{registrationBean.emailAddress}" required="true"
-						validatorMessage="#{registrationBean.emailAddress} is not valid">
+						validatorMessage="#{msgs['registration.validation.email']}">
 						<f:validateRegex
 							pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
 					</p:inputText>
-					<p:watermark value="Email" for="emailAddress" />
+					<p:watermark value="#{msgs['registration.watermark.email']}" for="emailAddress" />
 					<p:message for="emailAddress" />
 
 					<p:password id="passWord" value="#{registrationBean.passWord}"
-						placeholder="Password" required="true"
-						requiredMessage="Pleas enter your password" />
+						placeholder="#{msgs['registration.placeholder.password']}" required="true"
+						requiredMessage="#{msgs['registration.validation.password']}" />
 					<p:message for="passWord" />
-					<p:commandButton value="Register"
+					<p:commandButton value="#{msgs['registration.button.register']}"
 						action="#{registrationBean.register()}" />
 
 
 				</h:panelGrid>
 			</p:panel>
-
-
 		</h:form>
-
-
 	</ui:define>
 </ui:composition>
 </html>

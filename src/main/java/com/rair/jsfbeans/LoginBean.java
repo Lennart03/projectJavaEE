@@ -135,6 +135,7 @@ public class LoginBean {
 	}
 
 	public String doLogin() {
+		loggedIn = false;
 		String encryptedPw;
 		if (passwordConverter != null) {
 			encryptedPw = passwordConverter.encrypt(password);
@@ -143,7 +144,7 @@ public class LoginBean {
 		}
 		person = personReposiroty.retrievePerson(email, encryptedPw);
 		if (person == null) {
-			return "loginFailed";
+			return "toIndex";
 		}
 		loginServiceBean.login(person.getEmailAddress());
 		if (person instanceof Customer) {
@@ -187,6 +188,10 @@ public class LoginBean {
 	public String logout() {
 		System.out.println("Loggin out.");
 		loginServiceBean.logout(person.getEmailAddress());
+		person = null;
+		email = "";
+		firstName = "";
+		password = "";
 		loggedIn = false;
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Logout", "You have been logged out."));
