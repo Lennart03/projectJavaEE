@@ -6,94 +6,95 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="WEB-INF/templates/template.xhtml">
-	<ui:define name="title">Booking details</ui:define>
+	<ui:define name="title"><h:outputText value="#{msgs['booking.title']}"/></ui:define>
 	<ui:define name="content">
 
-		<p:panel header="Details of your selected flight">
+		<p:panel header="#{msgs['booking.panel.header']}">
 
-			<p:panel header="Outbound flight">
+			<p:panel header="#{msgs['booking.panel.outBoundpanel.header']}">
 
 				<h:panelGrid columns="4" cellPading="10">
 
-					<h:outputText for="detailTabflightNumber" value="Flight number:" />
+					<h:outputText for="detailTabflightNumber" value="#{msgs['booking.flightnumber']}" />
 					<h:outputText id="detailTabflightNumber"
 						value="#{bookingServiceBean.flight.flightNumber}" />
 
-					<h:outputText for="detailTabdeparture" value="Departure:" />
+					<h:outputText for="detailTabdeparture" value="#{msgs['booking.departure']}" />
 					<h:outputText id="detailTabdeparture"
 						value="#{bookingServiceBean.flight.departureDestination.name}" />
 
-					<h:outputText for="detailTabarrival" value="Arrival:" />
+					<h:outputText for="detailTabarrival" value="#{msgs['booking.arrival']}" />
 					<h:outputText id="detailTabarrival"
 						value="#{bookingServiceBean.flight.arrivalDestination.name}" />
 
-					<h:outputText for="detailTabdepartureTime" value="Departure Time:" />
+					<h:outputText for="detailTabdepartureTime" value="#{msgs['booking.departureTime']}" />
 					<h:outputText id="detailTabdepartureTime"
 						value="#{bookingServiceBean.flight.departureTime}">
 						<f:convertDateTime type="both" timeZone="#{loginBean.timeZone}" />
 					</h:outputText>
 
-					<h:outputText for="detailTabairline" value="Airline: " />
+					<h:outputText for="detailTabairline" value="#{msgs['booking.airline']}" />
 					<h:outputText id="detailTabairline"
 						value="#{bookingServiceBean.flight.airline.name}" />
 
 					<h:outputText for="detailTabtravelingClass"
-						value="Traveling class:" />
+						value="#{msgs['booking.travelclass']}" />
 					<h:outputText id="detailTabtravelingClass"
 						value="#{bookingServiceBean.selectedTravelClass}" />
 
 					<h:outputText for="detailTabnumberOfTickets"
-						value="Number of Tickets:" />
+						value="#{msgs['booking.numberOfTickets']}" />
 					<h:outputText id="detailTabnumberOfTickets"
 						value="#{bookingServiceBean.nSeatsWanted}" />
 				</h:panelGrid>
-				
+
 			</p:panel>
 
-			<p:panel header="Return flight" rendered="#{bookingServiceBean.containsReturnFlight()}">
-			
+			<p:panel header="#{msgs['booking.panel.returnPanel.header']}"
+				rendered="#{bookingServiceBean.containsReturnFlight()}">
+
 				<h:panelGrid columns="4" cellPading="10">
 
 					<h:outputText for="detailTabflightNumberReturn"
-						value="Flight number:" />
+						value="#{msgs['booking.flightnumber']}" />
 					<h:outputText id="detailTabflightNumberReturn"
 						value="#{bookingServiceBean.returnFlight.flightNumber}" />
 
-					<h:outputText for="detailTabdepartureReturn" value="Departure:" />
+					<h:outputText for="detailTabdepartureReturn" value="#{msgs['booking.departure']}" />
 					<h:outputText id="detailTabdepartureReturn"
 						value="#{bookingServiceBean.returnFlight.departureDestination.name}" />
 
-					<h:outputText for="detailTabarrivalReturn" value="Arrival:" />
+					<h:outputText for="detailTabarrivalReturn" value="#{msgs['booking.arrival']}" />
 					<h:outputText id="detailTabarrivalReturn"
 						value="#{bookingServiceBean.returnFlight.arrivalDestination.name}" />
 
 					<h:outputText for="detailTabdepartureTimeReturn"
-						value="Departure Time:" />
+						value="#{msgs['booking.departureTime']}" />
 					<h:outputText id="detailTabdepartureTimeReturn"
 						value="#{bookingServiceBean.returnFlight.departureTime}">
 						<f:convertDateTime type="both" timeZone="#{loginBean.timeZone}" />
 					</h:outputText>
 
-					<h:outputText for="detailTabairlineReturn" value="Airline: " />
+					<h:outputText for="detailTabairlineReturn" value="#{msgs['booking.airline']}" />
 					<h:outputText id="detailTabairlineReturn"
 						value="#{bookingServiceBean.returnFlight.airline.name}" />
 
 					<h:outputText for="detailTabtravelingClassReturn"
-						value="Traveling class:" />
+						value="#{msgs['booking.travelclass']}" />
 					<h:outputText id="detailTabtravelingClassReturn"
 						value="#{bookingServiceBean.selectedReturnTravelClass}" />
 
 					<h:outputText for="detailTabnumberOfTicketsReturn"
-						value="Number of Tickets:" />
+						value="#{msgs['booking.numberOfTickets']}" />
 					<h:outputText id="detailTabnumberOfTicketsReturn"
 						value="#{bookingServiceBean.nSeatsWantedReturn}" />
 				</h:panelGrid>
-				
+
 			</p:panel>
 
 
 			<h:outputText for="detailTabtotalPrice"
-				value="Total price for flight:" />
+				value="#{msgs['booking.totalPrice']}" />
 			<h:outputText id="detailTabtotalPrice"
 				value="#{bookingServiceBean.totalPrice}">
 				<f:convertNumber pattern="#0.00" />
@@ -103,19 +104,18 @@
 
 			<h:form id="paymentForm">
 				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-					<p:outputLabel value="How do you want to pay your flight?" />
+					<p:outputLabel value="#{msgs['booking.paymentChoice']}" />
 					<p:selectOneRadio value="#{bookingServiceBean.paymentChoice}">
-						<f:selectItem itemLabel="Credit Card" itemValue="CREDITCARD" />
-						<f:selectItem itemLabel="Endorsment" itemValue="ENDORSMENT" />
+						<f:selectItem itemLabel="#{msgs['booking.paymentChoice.creditcard']}" itemValue="CREDITCARD" />
+						<f:selectItem itemLabel="#{msgs['booking.paymentChoice.endorsement']}" itemValue="ENDORSMENT" />
 						<p:ajax update="@form" />
 					</p:selectOneRadio>
 					<p:row>
 						<p:column colspan="2">
 							<p:inputText id="creditCardNumber"
 								rendered="#{bookingServiceBean.isCreditCardPayment()}">
-								<!-- 								<f:validateRegex pattern="^(?:4[0-9]{12}(?:[0-9]{3})? " /> -->
 							</p:inputText>
-							<p:watermark value="Credit card number"
+							<p:watermark value="#{msgs['booking.watermark.creditcardnumber']}"
 								rendered="#{bookingServiceBean.isCreditCardPayment()}"
 								for="creditCardNumber" />
 						</p:column>
@@ -125,13 +125,13 @@
 							<p:inputText
 								rendered="#{bookingServiceBean.isCreditCardPayment()}"
 								id="creditCardOwner" />
-							<p:watermark value="Owner name"
+							<p:watermark value="#{msgs['booking.watermark.ownername']}"
 								rendered="#{bookingServiceBean.isCreditCardPayment()}"
 								for="creditCardOwner" />
 						</p:column>
 					</p:row>
 				</h:panelGrid>
-				<p:commandButton value="Pay Flight"
+				<p:commandButton value="#{msgs['booking.bookbutton']}"
 					action="#{bookingServiceBean.makeBooking()}" ajax="false">
 					<h:link>
 						<f:param name="userEmail" value="#{loginBean.email}" />

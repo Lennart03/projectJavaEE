@@ -32,7 +32,6 @@ public class BookingServiceBean {
 	private TravelingClass selectedReturnTravelClass;
 	private double totalPrice;
 	private String cardNumber;
-	private int cardType;
 
 	@Inject
 	private BookingRepository bookingRepository;
@@ -46,14 +45,6 @@ public class BookingServiceBean {
 
 	public void setFlightRepository(FlightRepository flightRepository) {
 		this.flightRepository = flightRepository;
-	}
-
-	public int getCardType() {
-		return cardType;
-	}
-
-	public void setCardType(int cardType) {
-		this.cardType = cardType;
 	}
 
 	public String getCardNumber() {
@@ -263,10 +254,11 @@ public class BookingServiceBean {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "succes.xhtml?faces-redirect=true";
 	}
-	
-	public void calculateBookingPrice(){
+
+	public void calculateBookingPrice() {
 		this.priceOfBooking = nSeatsWanted * flight.getTicketPriceByTravelclass(selectedTravelClass.toString());
-		this.priceOfReturnBooking = nSeatsWantedReturn * returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
+		this.priceOfReturnBooking = nSeatsWantedReturn
+				* returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
 		this.totalPrice = priceOfBooking + priceOfReturnBooking;
 
 	}
