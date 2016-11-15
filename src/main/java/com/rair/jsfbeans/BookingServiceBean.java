@@ -5,8 +5,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.persistence.Version;
 
 import com.rair.dao.BookingRepository;
+import com.rair.dao.FlightRepository;
 import com.rair.domain.Booking;
 import com.rair.domain.BookingStatus;
 import com.rair.domain.Customer;
@@ -32,6 +34,17 @@ public class BookingServiceBean {
 
 	@Inject
 	private BookingRepository bookingRepository;
+
+	@Inject
+	private FlightRepository flightRepository;
+
+	public FlightRepository getFlightRepository() {
+		return flightRepository;
+	}
+
+	public void setFlightRepository(FlightRepository flightRepository) {
+		this.flightRepository = flightRepository;
+	}
 
 	public Flight getFlight() {
 		return flight;
@@ -188,6 +201,8 @@ public class BookingServiceBean {
 	}
 
 	public String makeBooking() {
+		flight.adjustAvailableSeats(selectedTravelClass, nSeatsWanted);
+		flightRepository.update(flight, flight.getId());
 		Booking booking = new Booking();
 		System.out.println(customer);
 		booking.setCustomer(customer);
@@ -202,14 +217,32 @@ public class BookingServiceBean {
 			booking.setStatus(BookingStatus.PAYMENT_PENDING);
 		}
 		bookingRepository.createBooking(booking);
+		if (containsReturnFlight()) {
+			returnFlight.adjustAvailableSeats(selectedReturnTravelClass, nSeatsWantedReturn);
+			flightRepository.update(returnFlight, returnFlight.getId());
+			booking = new Booking();
+			booking.setCustomer(customer);
+			booking.setFlight(returnFlight);
+			booking.setPrice(priceOfReturnBooking);
+			booking.setNumberOfSeats(nSeatsWantedReturn);
+			booking.setTravelingClass(selectedReturnTravelClass);
+			booking.setPaymentChoice(paymentChoice);
+			if (paymentChoice.equals(Payment.CREDITCARD)) {
+				booking.setStatus(BookingStatus.PAYMENT_SUCCES);
+			} else {
+				booking.setStatus(BookingStatus.PAYMENT_PENDING);
+			}
+			bookingRepository.createBooking(booking);
+		}
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-		return "index.xhtml?faces-redirect=true";
+		return "succes.xhtml?faces-redirect=true";
 	}
-	
-	public void calculateBookingPrice(){
-		this.totalPrice = nSeatsWanted * flight.getTicketPriceByTravelclass(selectedTravelClass.toString()) + nSeatsWantedReturn * returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
+
+	public void calculateBookingPrice() {
+		this.totalPrice = nSeatsWanted * flight.getTicketPriceByTravelclass(selectedTravelClass.toString())
+				+ nSeatsWantedReturn * returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
 	}
-	
+
 	public boolean containsReturnFlight() {
 		return returnFlight != null;
 	}

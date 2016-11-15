@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="WEB-INF/templates/template.xhtml">
+<ui:define name="title">Succes</ui:define>
+<ui:define name="content">
 
-<h:head>
-	SUCCES
-	</h:head>
-<h:body>
+<p>Thank you for booking! Your money will be well spend</p>
+<br/>
+<p>Press the button to return to the home page. Have a wonderful day!</p>
+<h:commandButton value="Home" action="index.xhtml?faces-rediret=true"/>
+</ui:define>
+</ui:composition>
 
-<h:outputText value="#{bookingServiceBean.flight.flightNumber}"/>
-</h:body>
 </html>
