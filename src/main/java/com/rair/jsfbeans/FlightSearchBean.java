@@ -250,7 +250,7 @@ public class FlightSearchBean implements Serializable {
 	public void onRowSelectReturn(SelectEvent event) {
 		Flight returnFlight = (Flight) event.getObject();
 		bookingServiceBean.setReturnFlight(returnFlight);
-		priceOfTicket = bookingServiceBean.getReturnFlight().getTicketPriceEconomyClass();
+		priceOfReturnTicket = bookingServiceBean.getReturnFlight().getTicketPriceEconomyClass();
 		bookingServiceBean.setSelectedReturnTravelClass(TravelingClass.ECONOMY);
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Return flight selected",
 				returnFlight.getFlightNumber());
@@ -290,6 +290,7 @@ public class FlightSearchBean implements Serializable {
 	}
 
 	public void changePriceReturnFlight() {
+		System.out.println("baseprice: " + bookingServiceBean.getReturnFlight().getBasePrice());
 		switch (bookingServiceBean.getSelectedReturnTravelClass()) {
 		case BUSINESS:
 			priceOfReturnTicket = bookingServiceBean.getReturnFlight().getTicketPriceBusinessClass();
