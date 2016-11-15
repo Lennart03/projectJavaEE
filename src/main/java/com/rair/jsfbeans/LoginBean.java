@@ -263,5 +263,10 @@ public class LoginBean {
 		}
 		System.out.println(locale.toString());
 	}
+	
+	public String firstRegister(){
+		System.out.println("Method call!");
+		return "toRegisterPage";
+	}
 
 }
