@@ -221,21 +221,21 @@ public class FlightSearchBean implements Serializable {
 			System.out.println("Departure airport: " + departureAirport);
 			System.out.println("Arrival airport: " + arrivalAirport);
 			singleFlights = flightRepository.retrieveFlightsFromAndTo(departureAirport, arrivalAirport);
-			singleFlights = filterFlights(singleFlights);
+			singleFlights = filterFlights(singleFlights, departureDate);
 			System.out.println(singleFlights);
 			if (!singleFlight) {
 				returnFlights = flightRepository.retrieveFlightsFromAndTo(arrivalAirport, departureAirport);
-				returnFlights = filterFlights(returnFlights);
+				returnFlights = filterFlights(returnFlights, departureDateReturnFlight);
 
 			}
 		}
 		return event.getNewStep();
 	}
 
-	private List<Flight> filterFlights(List<Flight> flightsToFilter) {
+	private List<Flight> filterFlights(List<Flight> flightsToFilter, Date date) {
 		List<Flight> flights = new ArrayList<>();
 		Calendar calForDeparture = Calendar.getInstance();
-		calForDeparture.setTime(departureDate);
+		calForDeparture.setTime(date);
 		Calendar calForFlight = Calendar.getInstance();
 		for (Flight flight : flightsToFilter) {
 			calForFlight.setTime(flight.getDepartureTime());
