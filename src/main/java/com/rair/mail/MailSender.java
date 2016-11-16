@@ -58,6 +58,10 @@ public class MailSender {
 			+ "Account number: " + ACCOUNT + "<br/>Amount: " + new DecimalFormat("####0.00").format(price) + " €<br/><br/>Kind regards, Rair Ticketservice" ;
 			this.subject = "Pending booking";
 			break;
+		case "creditcard":
+			this.textMessage = "Dead Sir/Madam,<br/><br/>Thank you for booking.<br/><br/>Your booking is complete and you will receive your tickets later.<br/><br/>Kind regards, Rair Ticketservice";
+			this.subject = "Thanks for booking";
+			break;
 		default:
 			break;
 		}

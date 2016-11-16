@@ -1,10 +1,14 @@
 package com.rair.jsfbeans;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.mail.MessagingException;
+import javax.persistence.OptimisticLockException;
+
+import org.hibernate.StaleObjectStateException;
 
 import com.rair.dao.BookingRepository;
 import com.rair.dao.FlightRepository;
@@ -211,7 +215,13 @@ public class BookingServiceBean {
 
 	public String makeBooking() {
 		flight.adjustAvailableSeats(selectedTravelClass.toString(), nSeatsWanted);
-		flightRepository.update(flight, flight.getId());
+		try {
+			flightRepository.update(flight, flight.getId());
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Update failed", "The update of the flight failed. Please refresh your browser and try again."));
+			return null;
+		}
 		Booking booking = new Booking();
 		System.out.println(customer);
 		booking.setCustomer(customer);
@@ -220,23 +230,33 @@ public class BookingServiceBean {
 		booking.setNumberOfSeats(nSeatsWanted);
 		booking.setTravelingClass(selectedTravelClass);
 		booking.setPaymentChoice(paymentChoice);
+
+		MailSender mailSender = new MailSender();
 		if (paymentChoice.equals(Payment.CREDITCARD)) {
 			booking.setStatus(BookingStatus.PAYMENT_SUCCES);
+			mailSender.setTextMessage("creditcard", priceOfBooking);
 		} else {
 			booking.setStatus(BookingStatus.PAYMENT_PENDING);
-			MailSender mailSender = new MailSender();
 			mailSender.setTextMessage("endorsement", priceOfBooking);
-			try {
-				mailSender.sendMail(customer.getEmailAddress());
-			} catch (MessagingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		bookingRepository.createBooking(booking);
+		try {
+			mailSender.sendMail(customer.getEmailAddress());
+		} catch (MessagingException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Mail fail",
+					"Something went wrong with our mailing service. We'll send you a mail later. Your booking is fine"));
+		}
+
 		if (containsReturnFlight()) {
 			returnFlight.adjustAvailableSeats(selectedReturnTravelClass.toString(), nSeatsWantedReturn);
-			flightRepository.update(returnFlight, returnFlight.getId());
+			try {
+				flightRepository.update(returnFlight, returnFlight.getId());
+			} catch (OptimisticLockException | StaleObjectStateException e) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Update failed",
+								"The update of the flight failed. Please refresh your browser and try again."));
+			}
 			booking = new Booking();
 			booking.setCustomer(customer);
 			booking.setFlight(returnFlight);
@@ -244,12 +264,25 @@ public class BookingServiceBean {
 			booking.setNumberOfSeats(nSeatsWantedReturn);
 			booking.setTravelingClass(selectedReturnTravelClass);
 			booking.setPaymentChoice(paymentChoice);
+
+			mailSender = new MailSender();
 			if (paymentChoice.equals(Payment.CREDITCARD)) {
 				booking.setStatus(BookingStatus.PAYMENT_SUCCES);
+				mailSender.setTextMessage("creditcard", priceOfReturnBooking);
 			} else {
 				booking.setStatus(BookingStatus.PAYMENT_PENDING);
+				mailSender.setTextMessage("endorsement", priceOfReturnBooking);
 			}
+
 			bookingRepository.createBooking(booking);
+			try {
+				mailSender.sendMail(customer.getEmailAddress());
+			} catch (MessagingException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Mail fail",
+						"Something went wrong with our mailing service. We'll send you a mail later. Your booking is fine"));
+			}
+
 		}
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "succes.xhtml?faces-redirect=true";
@@ -258,10 +291,11 @@ public class BookingServiceBean {
 	public void calculateBookingPrice() {
 		this.priceOfBooking = nSeatsWanted * flight.getTicketPriceByTravelclass(selectedTravelClass.toString());
 
-		if (returnFlight != null){
-			this.priceOfReturnBooking = nSeatsWantedReturn * returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
+		if (returnFlight != null) {
+			this.priceOfReturnBooking = nSeatsWantedReturn
+					* returnFlight.getTicketPriceByTravelclass(selectedReturnTravelClass.toString());
 			this.totalPrice = priceOfBooking + priceOfReturnBooking;
-		}else{
+		} else {
 			this.totalPrice = priceOfBooking;
 		}
 

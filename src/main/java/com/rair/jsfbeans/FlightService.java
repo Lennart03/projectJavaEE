@@ -11,8 +11,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
+import javax.persistence.OptimisticLockException;
 
+import org.hibernate.StaleObjectStateException;
 import org.primefaces.event.RowEditEvent;
 
 import com.rair.dao.AirlineRepository;
@@ -140,7 +141,11 @@ public class FlightService {
 			flight.setAvailableSeatsForClass(TravelingClass.FIRST_CLASS, 0);
 		}
 		if(flight.getId()!= null){
-			flight = flightRepository.update(flight, flight.getId());
+			try {
+				flight = flightRepository.update(flight, flight.getId());
+			} catch (OptimisticLockException | StaleObjectStateException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Update failed", "The update of the flight failed. Please refresh your browser and try again."));
+			}
 			FacesMessage msg = new FacesMessage("Flight Edited", flight.getId().toString());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
