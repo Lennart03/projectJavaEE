@@ -20,6 +20,7 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -75,11 +76,21 @@ public class Flight implements Serializable {
 	@Transient
 	private int firstClassSeats = 0;
 
+	@Version
+	private Integer version = 0;
+
 	public Flight() {
 		super();
 		numberOfSeats = new HashMap<>();
 		availableSeats = new HashMap<>();
+	}
 
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 
 	public Long getId() {
@@ -122,8 +133,8 @@ public class Flight implements Serializable {
 		System.out.println("New number of seats for " + travelingClass + " is: " + nunberOfSeats);
 		numberOfSeats.put(travelingClass, nunberOfSeats);
 	}
-	
-	public void setAvailableSeatsForClass(TravelingClass travelingClass, Integer numberOfSeats){
+
+	public void setAvailableSeatsForClass(TravelingClass travelingClass, Integer numberOfSeats) {
 		availableSeats.put(travelingClass, numberOfSeats);
 	}
 
@@ -257,7 +268,7 @@ public class Flight implements Serializable {
 		System.out.println("Available seats: " + availableSeats.toString());
 		Integer prevSeats = availableSeats.get(TravelingClass.valueOf(selectedTravelClass));
 		System.out.println("prev seats:" + prevSeats);
-		availableSeats.put(TravelingClass.valueOf(selectedTravelClass), prevSeats-nSeatsWanted);
+		availableSeats.put(TravelingClass.valueOf(selectedTravelClass), prevSeats - nSeatsWanted);
 	}
 
 }

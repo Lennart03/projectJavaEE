@@ -9,7 +9,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
+
+import org.hibernate.StaleStateException;
 
 import com.rair.domain.Airport;
 import com.rair.domain.Booking;
